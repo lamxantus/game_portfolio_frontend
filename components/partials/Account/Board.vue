@@ -2,7 +2,10 @@
   <div>
     <div class="flex space-x-4 items-center">
       <h4 class="widget-title">Account</h4>
-      <div class="flex items-center cursor-pointer border border-stone-500 bg-stone-600 space-x-2 rounded px-3 py-1">
+      <label>
+        <input class="px-3 py-1 border bg-stone-800 border-stone-700" v-model="input">
+      </label>
+      <div class="flex items-center cursor-pointer border border-stone-500 bg-green-600 space-x-2 px-3 py-2" @click="fetch()">
         <icon name="plus"></icon>
         <span class="text-xs">Add</span>
       </div>
@@ -12,21 +15,20 @@
       <tr class="text-gray-400 font-light uppercase text-xs leading-normal">
         <th class="py-2 text-left">Name</th>
         <th class="py-2 px-4 text-left">Address</th>
-        <th class="hidden md:table-cell py-2 w-48 px-4 text-left">SLP</th>
-        <th class="hidden md:table-cell py-2 w-1/6 px-4 text-right">Rank</th>
+        <th class="hidden md:table-cell py-2 w-48 px-4 text-left">Claimed</th>
+        <th class="hidden md:table-cell py-2 w-1/6 px-4 text-right">Elo</th>
       </tr>
       </thead>
       <tbody>
-      <template v-for="item in response.results">
-        <tr class="border-b border-dashed hover:bg-gray-100 duration-200" :key="item.id">
-          <td class="py-2 flex justify-center items-center">
+      <template v-for="item in results">
+        <tr class="border-b border-dashed hover:bg-gray-100 duration-200" :key="item.accountId">
+          <td class="py-2 flex justify-center items-center">{{ item.name }}
           </td>
-          <td class="py-2 px-4 text-left">
+          <td class="py-2 px-4 text-left">{{ item.addresses.ethereum }}
           </td>
-          <td class="hidden md:table-cell py-1 px-4 text-left -mx-1 flex flex-wrap">
+          <td class="hidden md:table-cell py-1 px-4 text-left -mx-1 flex flex-wrap">{{ item.claimed }}
           </td>
-          <td class="hidden md:table-cell py-2 px-4 text-right">
-          </td>
+          <td class="hidden md:table-cell py-2 px-4 text-right">{{ item.elo }}</td>
         </tr>
       </template>
       </tbody>
@@ -37,11 +39,21 @@
 <script>
 export default {
   name: "BoardAccount",
-  computed: {
-    response() {
-      return {
-        results: []
-      }
+  data() {
+    return {
+      input: null,
+      results: []
+    }
+  },
+  methods: {
+    fetch() {
+      this.$axios.$get("/getAccountOverview", {
+        params: {
+          userAddress: this.input
+        }
+      }).then(res => {
+        this.results.push(res);
+      })
     }
   }
 }
