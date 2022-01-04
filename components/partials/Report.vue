@@ -2,14 +2,14 @@
   <div>
     <div class="flex space-x-6">
       <div class="w-1/4">
-        <div class="grid grid-cols-1 gap-4">
+        <div v-if="wallets[0]" class="grid grid-cols-1 gap-4">
           <div class="border-b border-stone-800 pb-2 flex space-x-2 items-center">
             <div>
               <icon fill="#d6d3d1" class="lg" name="plus"></icon>
             </div>
             <div class="flex-1">
               <h4 class="label">Unclaimed SLP</h4>
-              <div class="value">123</div>
+              <div class="value">{{ wallets[0].claimed }}</div>
             </div>
           </div>
           <div class="border-b border-stone-800 pb-2 flex space-x-2 items-center">
@@ -73,11 +73,9 @@ Chart.register(...registerables);
 
 export default {
   name: "ReportBoard",
-  data() {
-    return {
-      response: {
-        results: []
-      }
+  computed: {
+    wallets() {
+      return this.$store.state.config.wallets
     }
   },
   mounted() {

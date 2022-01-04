@@ -24,7 +24,7 @@
         <tr class="border-b border-dashed hover:bg-gray-100 duration-200" :key="item.accountId">
           <td class="py-2 flex justify-center items-center">{{ item.name }}
           </td>
-          <td class="py-2 px-4 text-left">{{ item.addresses.ethereum }}
+          <td class="py-2 px-4 text-left">{{ item.address }}
           </td>
           <td class="hidden md:table-cell py-1 px-4 text-left -mx-1 flex flex-wrap">{{ item.claimed }}
           </td>
@@ -37,23 +37,24 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: "BoardAccount",
   data() {
     return {
       input: null,
-      results: []
     }
   },
   methods: {
+    ...mapActions("config", ["fetchAsset"]),
     fetch() {
-      this.$axios.$get("/getAccountOverview", {
-        params: {
-          userAddress: this.input
-        }
-      }).then(res => {
-        this.results.push(res);
-      })
+      this.fetchAsset(this.input);
+    }
+  },
+  computed: {
+    results() {
+      return this.$store.state.config.wallets;
     }
   }
 }

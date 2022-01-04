@@ -11,12 +11,12 @@
       </tr>
       </thead>
       <tbody>
-      <template v-for="item in response.results">
+      <template v-for="item in results">
         <tr class="border-b border-dashed hover:bg-gray-100 duration-200" :key="item.id">
           <td class="py-2 flex justify-center items-center">
+            <img :src="item.image" alt="">
           </td>
-          <td class="py-2 px-4 text-left">
-          </td>
+          <td class="py-2 px-4 text-left">{{item.name}}</td>
           <td class="py-2 px-4 text-left">
           </td>
           <td class="hidden md:table-cell py-1 px-4 text-left -mx-1 flex flex-wrap">
@@ -33,13 +33,11 @@
 <script>
 export default {
   name: "AssetBoard",
-  data() {
-    return {
-      response: {
-        results: []
-      }
+  computed: {
+    results() {
+      return this.$store.state.config.assets
     }
-  },
+  }
 }
 </script>
 
