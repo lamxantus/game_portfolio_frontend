@@ -76,6 +76,35 @@
         </div>
       </div>
     </div>
+    <div v-if="!game" class="fixed top-0 left-0 right-0 bottom-0">
+      <div class="fixed top-0 left-0 right-0 bottom-0 backdrop-blur bg-white/30"></div>
+      <div class="container my-12 relative top-10">
+        <div class="mb-10 text-center w-3/5 mx-auto bg-white p-8 shadow">
+          <h1 class="text-4xl font-bold mb-6">Select Game you want to track</h1>
+          <div class="grid grid-cols-2 mb-6 gap-6">
+            <div class="cursor-pointer" @click="game = true">
+              <div class="mb-2">
+                <img src="https://market.stephero.io/summon/gunfire_hero_collection.png" alt="">
+              </div>
+              <h4 class="font-bold text-lg">Gunfire</h4>
+            </div>
+            <div class="cursor-pointer" @click="game = true">
+              <div class="mb-2">
+                <img src="https://market.stephero.io/summon/gunfire_hero_collection.png" alt="">
+              </div>
+              <h4 class="font-bold text-lg">Stephero</h4>
+            </div>
+          </div>
+          <p>View full dashboard and track more game</p>
+          <div>
+            <div class="m-3 p-1.5 px-2 inline-flex space-x-2 items-center cursor-pointer bg-[#0F43F9] rounded text-white">
+              <icon class="md" name="user" fill="#d6d3d1"/>
+              <span>Connect Wallet</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -84,6 +113,11 @@ import Earning from "./Earning";
 import Ranking from "./Ranking";
 export default {
   name: "DashboardSingle",
+  data() {
+    return {
+      game: null
+    }
+  },
   components: {Ranking, Earning}
 }
 </script>
