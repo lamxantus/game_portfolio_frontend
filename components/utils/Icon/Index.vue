@@ -30,7 +30,7 @@ export default {
       type: Boolean
     },
     fill: {
-      default: '#FFF'
+      default: '#333'
     },
     vb: {
       default: 24

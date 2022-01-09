@@ -8,14 +8,23 @@
 
 <script>
 export default {
-  name: "DefaultLayout"
+  name: "DefaultLayout",
+  head: {
+    link: [
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css?family=Space+Grotesk:wght@300;400;600'
+      }
+    ]
+  }
 }
 </script>
 
 <style>
 .main-site {
-  @apply bg-neutral-900 text-white;
   min-height: 100vh;
+  font: 400 14px / 20px Space Grotesk;
+  letter-spacing: .0179em;
 }
 
 .zoom-enter-active, .zoom-leave-active {
@@ -69,5 +78,9 @@ blockquote p {
 }
 .text-xxs {
   font-size: 11px;
+}
+
+.bg-blue {
+  color: #FFF;
 }
 </style>
