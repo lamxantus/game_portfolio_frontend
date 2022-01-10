@@ -1,11 +1,11 @@
 <template>
-  <div class="mb-12 border bg-gray-100 rounded">
+  <div class="mb-6 md:mb-12 border bg-gray-100 rounded">
     <div class="-mt-2">
       <span class="ml-12 bg-[#0F43F9] py-1 p-4 text-white rounded-full">Game 1</span>
     </div>
     <div class="md:flex md:space-x-16 space-y-4 md:space-y-0 p-4">
       <div class="flex-1"></div>
-      <div class="flex-1 flex justify-center md:space-x-16">
+      <div class="flex-1 flex justify-center md:space-x-16 space-x-4">
         <div>
           <h4 class="font-extrabold text-4xl">620$</h4>
           <span>Earning</span>
@@ -19,7 +19,7 @@
           <span>Total</span>
         </div>
       </div>
-      <div class="flex-1 flex justify-end space-x-4">
+      <div class="flex-1 flex justify-center md:justify-end space-x-4">
         <div>Today</div>
         <div>Week</div>
         <div>Month</div>

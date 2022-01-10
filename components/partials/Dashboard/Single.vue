@@ -1,7 +1,7 @@
 <template>
-  <div class="my-6" :class="{container: !user}">
-    <div class="flex space-x-4">
-      <div class="flex-1 p-4 bg-blue-50 rounded">
+  <div class="my-4">
+    <div class="flex md:flex-row flex-col md:space-x-4">
+      <div class="mb-6 flex-1 p-4 bg-blue-50 rounded">
         <div v-if="!user" class="mb-6">
           <div class="md:inline-flex items-center md:space-x-3 space-y-2 md:space-y-0">
             <span class="text-lg font-bold">Tracker for </span>
@@ -15,7 +15,7 @@
             </nuxt-link>
           </div>
         </div>
-        <div class="mb-12">
+        <div class="md:mb-12 mb-6">
           <div class="mb-6 md:flex md:space-x-16 space-y-4 md:space-y-0">
             <div>
               <h4 class="font-extrabold text-4xl">620$</h4>
@@ -39,7 +39,7 @@
             <ranking/>
           </div>
         </div>
-        <div class="mb-12">
+        <div class="md:mb-12 mb-6">
           <div class="flex justify-between mb-4">
             <h2 class="font-bold">NFTs</h2>
             <div class="flex space-x-6">
@@ -79,7 +79,7 @@
           </div>
         </div>
       </div>
-      <div v-if="user" class="w-64">
+      <div v-if="user" class="md:w-64">
         <div class="wallet-select">
           <div>
             <span class="bg-[#0F43F9] py-1 p-4 text-white rounded-full">Wallet 1</span>
@@ -155,6 +155,6 @@ export default {
 }
 
 .wallet-select.active {
-  @apply -ml-4 pl-8 bg-blue-50 rounded-tl-none rounded-bl-none;
+  @apply md:-ml-4 md:pl-8 bg-blue-50 rounded-tl-none rounded-bl-none;
 }
 </style>

@@ -38,7 +38,7 @@ header .wrapper {
 }
 
 header .wrapper.container {
-  @apply px-0;
+  @apply md:px-0;
 }
 
 .site-title {
