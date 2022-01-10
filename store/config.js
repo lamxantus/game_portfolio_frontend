@@ -1,6 +1,7 @@
 export default {
   namespaced: true,
   state: () => ({
+    wallets: [],
     games: [
       {
         id: 1,
@@ -16,7 +17,6 @@ export default {
       }
     ],
     assets: [],
-    wallets: []
   }),
   mutations: {
     ["SET_GAMES"](state, payload) {
