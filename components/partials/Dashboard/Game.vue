@@ -1,5 +1,5 @@
 <template>
-  <div class="my-6 md:mb-12 border bg-gray-100 rounded p-6">
+  <div class="my-6 md:mb-12 border bg-gray-100 rounded p-4 md:p-6">
     <div class="-mt-10 mb-6">
       <div class="inline-flex rounded bg-gray-200 overflow-hidden">
         <span class="py-1 p-6 cursor-pointer text-white bg-[#0F43F9]">Game 1</span>
