@@ -1,7 +1,7 @@
 <template>
-  <div class="main-site">
+  <div class="main-site flex flex-col">
     <p-header/>
-    <nuxt/>
+    <nuxt class="flex-1"/>
     <p-footer/>
   </div>
 </template>

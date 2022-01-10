@@ -30,7 +30,7 @@ export default {
 
 <style>
 header {
-  @apply font-bold;
+  @apply font-bold relative z-10;
 }
 
 header .wrapper {

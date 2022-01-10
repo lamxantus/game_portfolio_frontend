@@ -1,7 +1,7 @@
 <template>
   <div class="mb-6 md:mb-12 border bg-gray-100 rounded">
     <div class="-mt-2">
-      <span class="ml-12 bg-[#0F43F9] py-1 p-4 text-white rounded-full">Game 1</span>
+      <span class="ml-6 bg-[#0F43F9] py-1 p-4 text-white rounded-full">Game 1</span>
     </div>
     <div class="md:flex md:space-x-16 space-y-4 md:space-y-0 p-4">
       <div class="flex-1"></div>

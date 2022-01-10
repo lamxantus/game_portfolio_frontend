@@ -47,8 +47,8 @@
               <span class="font-bold">10</span>
             </div>
           </div>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div v-for="i in 4" :key="i" class="">
+          <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+            <div v-for="i in 5" :key="i" class="">
               <video autoplay="autoplay" muted="muted" playsinline="" loop="loop" class="w-full">
                 <source :src="`https://cdn.stephero.io/heroes/720w/SH_${i}10.mp4`">
               </video>
