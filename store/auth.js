@@ -28,7 +28,7 @@ export default {
         const account = (await W3.eth.getAccounts()).pop();
         if (account) {
           const chain_id = "eth_mainnet";
-          const message = "KOIN_HUNT_AUTHENTICATION";
+          const message = `AUTHENTICATION_${(new Date()).getTime()}`;
           const signature = await W3.eth.personal.sign(
             message,
             account,
