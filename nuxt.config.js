@@ -22,7 +22,7 @@ export default {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@/components', '@/plugins/mixins'],
+  plugins: ['@/components', '@/plugins/mixins', '@/plugins/auth'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: false,
@@ -36,12 +36,13 @@ export default {
   modules: [// https://go.nuxtjs.dev/axios
     '@nuxtjs/axios', // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    ['cookie-universal-nuxt', { alias: 'ck' }],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'https://xanfut.pvnt.repl.co/',
+    baseURL: 'http://127.0.0.1:8000',
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa

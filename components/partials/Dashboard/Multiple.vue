@@ -65,7 +65,12 @@
 import GameReport from "../Game/Report";
 export default {
   name: "DashboardMultiple",
-  components: {GameReport}
+  components: {GameReport},
+  computed: {
+    data() {
+      return this.$store.state.config.dashboard
+    }
+  }
 }
 </script>
 

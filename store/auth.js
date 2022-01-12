@@ -22,34 +22,34 @@ export default {
   },
   actions: {
     async logIn({commit, store}) {
-      if (!window.ethereum) {
-        return
+      if (window.ethereum) {
+        const W3 = new Web3(window.ethereum)
+        await window.ethereum.enable();
+        const account = (await W3.eth.getAccounts()).pop();
+        if (account) {
+          const chain_id = "eth_mainnet";
+          const message = "KOIN_HUNT_AUTHENTICATION";
+          const signature = await W3.eth.personal.sign(
+            message,
+            account,
+            ''
+          ).catch((e) => {
+            return null
+          });
+          if (signature) {
+            const res = await this.$axios.$post('/connect', {
+              chain_id,
+              message,
+              signature: signature
+            }).catch(() => {
+              return null
+            })
+            if (res && res.address.toLowerCase() === account.toLowerCase()) {
+              await this.$auth.bcConnect(res.token);
+            }
+          }
+        }
       }
-      const W3 = new Web3(window.ethereum)
-      await window.ethereum.enable();
-      const account = (await W3.eth.getAccounts()).pop();
-      commit('SET_USER', {
-        username: "lam"
-      })
-      // if (account) {
-      //   const signature = await W3.eth.personal.sign(
-      //     "KOIN_HUNT_AUTHENTICATION",
-      //     account,
-      //     ''
-      //   ).catch((e) => {
-      //     return null
-      //   });
-      //   if (signature) {
-      //     const res = await this.$axios.$post('/auth/blockchain/', {
-      //       message: signature
-      //     }).catch(() => {
-      //       return null
-      //     })
-      //     if (res && res.address.toLowerCase() === account.toLowerCase()) {
-      //       await this.$auth.bcConnect(res.token);
-      //     }
-      //   }
-      // }
     }
   },
   getters: {

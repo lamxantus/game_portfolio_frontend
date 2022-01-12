@@ -1,4 +1,4 @@
-export const REPORT = {
+export const WALLET = {
   wallet: String,
   earning: Number,
   unclaimed: Number,

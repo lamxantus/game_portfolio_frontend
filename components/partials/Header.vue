@@ -11,7 +11,7 @@
       <div class="flex space-x-8 items-center">
         <div class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] rounded-sm text-white" @click="logIn">
           <icon class="md" name="user" fill="#d6d3d1"/>
-          <span>{{ user ? user.username : 'Connect Wallet' }}</span>
+          <span>{{ user ? getUserName : 'Connect Wallet' }}</span>
         </div>
       </div>
     </div>
@@ -19,11 +19,14 @@
 </template>
 
 <script>
-const {mapActions} = require("vuex");
+const {mapActions, mapGetters} = require("vuex");
 export default {
   name: "PHeader",
   methods: {
     ...mapActions("auth", ["logIn"])
+  },
+  computed: {
+    ...mapGetters("auth", ["getUserName"])
   }
 }
 </script>

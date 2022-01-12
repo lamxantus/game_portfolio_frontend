@@ -140,12 +140,17 @@ import Earning from "./Earning";
 import Ranking from "./Ranking";
 export default {
   name: "DashboardSingle",
+  components: {Ranking, Earning},
   data() {
     return {
       game: null
     }
   },
-  components: {Ranking, Earning}
+  computed: {
+    data() {
+      return this.$store.state.config.wallet
+    }
+  }
 }
 </script>
 

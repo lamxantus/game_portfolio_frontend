@@ -1,7 +1,7 @@
+const schemas = require("/plugins/schemas");
 export default {
   namespaced: true,
   state: () => ({
-    wallets: [],
     games: [
       {
         id: 1,
@@ -16,40 +16,28 @@ export default {
         image: "/axie.jpeg"
       }
     ],
-    assets: [],
+    dashboard: schemas.DASHBOARD,
+    wallet: schemas.WALLET
   }),
   mutations: {
     ["SET_GAMES"](state, payload) {
       state.games = payload;
     },
-    ["SET_ASSETS"](state, payload) {
-      state.assets = payload;
+    ["SET_DATA"](state, {data, wallet}) {
+      if (wallet === "dashboard") {
+        state.dashboard = data
+      } else {
+        state.wallet = data
+      }
     },
-    ["SET_WALLETS"](state, payload) {
-      state.wallets = payload;
-    },
-    ["PUSH_WALLET"](state, payload) {
-      state.wallets.unshift(payload);
-    }
   },
   actions: {
-    fetchAsset({state, commit}, input) {
-      if (!state.wallets.map(x => x.address).includes(input)) {
-        this.$axios.$get("/getAccountOverview", {
-          params: {
-            userAddress: input
-          }
-        }).then(res => {
-          if (res) commit('PUSH_WALLET', res);
-        })
-        this.$axios.$get("/getAxies", {
-          params: {
-            userAddress: input
-          }
-        }).then(res => {
-          if (res) {
-            commit('SET_ASSETS', state.assets.concat(res.data.axies.results));
-          }
+    async fetchData({commit, state}, wallet) {
+      const res = await this.$axios.$get(`/${wallet}`);
+      if (res) {
+        commit("SET_DATA", {
+          wallet: wallet,
+          data: res
         })
       }
     }

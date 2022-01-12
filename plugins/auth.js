@@ -7,7 +7,7 @@ export default function (context, inject) {
     await setUser(null)
   }
   const login = async (credential) => {
-    let res = await context.$axios.$post('/auth/rest-auth/login/', credential).catch(e => {
+    let res = await context.$axios.$post('/auth/login/', credential).catch(e => {
       console.log(e);
     })
     if (res) {
@@ -17,7 +17,7 @@ export default function (context, inject) {
     }
   }
   const connectBlockchain = async (credential) => {
-    let res = await context.$axios.$post('/auth/rest-auth/login/', credential).catch(e => {
+    let res = await context.$axios.$post('/auth/login/', credential).catch(e => {
       console.log(e);
     })
     if (res) {
@@ -28,7 +28,7 @@ export default function (context, inject) {
   }
   const getUser = async () => {
     try {
-      return await context.$axios.$get('/auth/users/me/')
+      return await context.$axios.$get('/auth/me')
     } catch (e) {
       if (e.response && e.response.status === 401) {
         await logout()

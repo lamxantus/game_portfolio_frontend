@@ -31,10 +31,12 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex';
 import DashboardMultiple from "../../components/partials/Dashboard/Multiple";
 import DashboardSingle from "../../components/partials/Dashboard/Single";
 import Game from "../../components/partials/Dashboard/Game";
 import Scholarship from "../../components/partials/Dashboard/Scholarship";
+
 export default {
   name: "PageWallet",
   components: {Scholarship, Game, DashboardSingle, DashboardMultiple},
@@ -42,6 +44,14 @@ export default {
     return {
       now: new Date
     }
+  },
+  fetch() {
+    this.fetchData(this.$route.params.wallet || "dashboard")
+  },
+  methods: {
+    ...mapActions('config', [
+      'fetchData'
+    ]),
   }
 }
 </script>
