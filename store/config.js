@@ -1,3 +1,4 @@
+import Vue from 'vue';
 const schemas = require("/plugins/schemas");
 export default {
   namespaced: true,
@@ -25,15 +26,19 @@ export default {
     },
     ["SET_DATA"](state, {data, wallet}) {
       if (wallet === "dashboard") {
-        state.dashboard = data
+        Vue.set(state, "dashboard", data)
       } else {
-        state.wallet = data
+        Vue.set(state, "wallet", data)
       }
     },
   },
   actions: {
     async fetchData({commit, state}, wallet) {
-      const res = await this.$axios.$get(`/${wallet}`);
+      const res = await this.$axios.$get(`/${wallet}`, {
+        params: {
+          game: 1
+        }
+      });
       if (res) {
         commit("SET_DATA", {
           wallet: wallet,

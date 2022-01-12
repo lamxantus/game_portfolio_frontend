@@ -1,76 +1,38 @@
 export const WALLET = {
-  wallet: String,
-  earning: Number,
-  unclaimed: Number,
-  total: Number,
-  next_claim_date: Date,
-  featured_nft: [
-    {id: Number, img: String}
-    //........
-  ],
-  report: {
-    earning: {
-      type: String,
-      data: [
-        {date: Date, value: Number}
-        //........
-      ]
+  "wallet": 0x00,
+  "totalEarning": 0,
+  "totalNFT": 0,
+  "unclaimed": 0,
+  "nextClaimDate": null,
+  "featured_nft": [{"id": 0, "img": ""}],
+  "report": {
+    "earning": {
+      "type": "",
+      "data": [{"date": null, "value": 0}]
     },
-    ranking: {
-      type: "date",
-      data: [
-        {date: Date, value: Number}
-        //........
-      ]
+    "ranking": {
+      "type": "date",
+      "data": [{"date": null, "value": 0}]
     }
   }
 }
 
-export const DASHBOARD = {
-  overview: {
-    earning: Number,
-    unclaimed: Number,
-    total: Number,
-  },
-  portfolio: {
-    game: Number,
-    nft: Number,
-    scholarship: Number,
-  },
-  performance: {
-    roi: Number,
-    invest: Number
-  },
-  games: [
-    {
-      game: {
-        id: Number,
-        name: String,
-        options: {
-          tableField: [
-            {
-              name: String, field: String
-            }
-          ]
-          //.......
-        },
-        earning: Number,
-        unclaimed: Number,
-        total: Number,
-        investor: Number,
-        scholarship: Number,
-        wallets: [
-          {
-            name: String,
-            earning: Number,
-            nft: Number,
-            next_claim_date: Date,
-            terms: [
-              {type: String, name: String, value: String}
-            ]
-          }
-        ]
-      }
-    }
-  ]
-}
+export const DASHBOARD = [
+  {
+    "id": 0,
+    "name": "",
+    "options": {
+      "tableField": [{"name": "", "field": ""}]
+    },
+    "scholarship": 0,
+    "wallets": [{
+      "name": "",
+      "totalEarning": 0,
+      "totalNFT": 0,
+      "rank": 0,
+      "elo": 0,
+      "unclaimed": 0,
+      "nextClaimDate": null,
+    }]
+  }
+]

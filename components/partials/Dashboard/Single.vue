@@ -1,5 +1,5 @@
 <template>
-  <div class="my-4">
+  <div class="my-2">
     <div class="flex md:flex-row flex-col md:space-x-4">
       <div class="mb-6 flex-1 p-4 bg-blue-50 rounded">
         <div v-if="!user" class="mb-6">
@@ -8,8 +8,11 @@
             <label>
               <input class="p-1.5 px-2 border border-gray-200 rounded" type="text" placeholder="Wallet Address">
             </label>
-            <button class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded">Get Started</button>
-            <nuxt-link class="text-sm inline-flex items-center space-x-2" to="/dashboard/0x9aF493BC3deFCe2933E8f08B4dB8E4BfD63e25b4">
+            <button class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded">Get
+              Started
+            </button>
+            <nuxt-link class="text-sm inline-flex items-center space-x-2"
+                       to="/dashboard/0x9aF493BC3deFCe2933E8f08B4dB8E4BfD63e25b4">
               <span>View random wallet</span>
               <icon name="chv-right"></icon>
             </nuxt-link>
@@ -18,19 +21,19 @@
         <div class="md:mb-12 mb-6">
           <div class="mb-6 md:flex md:space-x-16 space-y-4 md:space-y-0">
             <div>
-              <h4 class="font-extrabold text-4xl">620$</h4>
+              <h4 class="font-extrabold text-4xl">{{ data.totalEarning || "0" }}</h4>
               <span>Earning</span>
             </div>
             <div>
-              <h4 class="font-extrabold text-4xl">330$</h4>
+              <h4 class="font-extrabold text-4xl">{{ data.unclaimed || "0" }}</h4>
               <span>Unclaimed</span>
             </div>
             <div>
-              <h4 class="font-extrabold text-4xl">9k</h4>
-              <span>Total</span>
+              <h4 class="font-extrabold text-4xl">{{ data.totalNFT || "0" }}</h4>
+              <span>Total NFT</span>
             </div>
             <div>
-              <h4 class="font-extrabold text-4xl">8days</h4>
+              <h4 class="font-extrabold text-4xl">Now</h4>
               <span>Next Claim</span>
             </div>
           </div>
@@ -44,21 +47,21 @@
             <h2 class="font-bold">NFTs</h2>
             <div class="flex space-x-6">
               <span>Quantity:</span>
-              <span class="font-bold">10</span>
+              <span class="font-bold">{{ data.totalNFT }}</span>
             </div>
           </div>
           <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
-            <div v-for="i in 5" :key="i" class="">
-              <video autoplay="autoplay" muted="muted" playsinline="" loop="loop" class="w-full">
-                <source :src="`https://cdn.stephero.io/heroes/720w/SH_${i}10.mp4`">
-              </video>
+            <div v-for="(item, i) in data.featured_nft" :key="i" class="">
+              <img :src="item.media_url" alt="">
             </div>
           </div>
         </div>
         <div v-if="!user" class="mb-12 text-center">
           <h2 class="text-2xl">View full dashboard and track more game</h2>
           <div>
-            <nuxt-link class="m-3 p-1.5 px-2 inline-flex space-x-2 items-center cursor-pointer bg-[#0F43F9] rounded text-white" to="/dashboard">
+            <nuxt-link
+              class="m-3 p-1.5 px-2 inline-flex space-x-2 items-center cursor-pointer bg-[#0F43F9] rounded text-white"
+              to="/dashboard">
               <icon class="md" name="user" fill="#d6d3d1"/>
               <span>Connect Wallet</span>
             </nuxt-link>
@@ -124,7 +127,8 @@
           </div>
           <p>View full dashboard and track more game</p>
           <div>
-            <div class="m-3 p-1.5 px-2 inline-flex space-x-2 items-center cursor-pointer bg-[#0F43F9] rounded text-white">
+            <div
+              class="m-3 p-1.5 px-2 inline-flex space-x-2 items-center cursor-pointer bg-[#0F43F9] rounded text-white">
               <icon class="md" name="user" fill="#d6d3d1"/>
               <span>Connect Wallet</span>
             </div>
@@ -138,17 +142,19 @@
 <script>
 import Earning from "./Earning";
 import Ranking from "./Ranking";
+
+const schemas = require("/plugins/schemas");
 export default {
   name: "DashboardSingle",
   components: {Ranking, Earning},
   data() {
     return {
-      game: null
+      game: 1
     }
   },
   computed: {
     data() {
-      return this.$store.state.config.wallet
+      return this.$store.state.config.wallet || schemas.WALLET
     }
   }
 }

@@ -57,18 +57,19 @@
         </div>
       </div>
     </div>
-    <game-report v-for="i in 2" :key="i"/>
+    <game-report v-for="(item, i) in games" :key="i" :value="item"/>
   </div>
 </template>
 
 <script>
+const schemas = require("/plugins/schemas");
 import GameReport from "../Game/Report";
 export default {
   name: "DashboardMultiple",
   components: {GameReport},
   computed: {
-    data() {
-      return this.$store.state.config.dashboard
+    games() {
+      return this.$store.state.config.dashboard || schemas.DASHBOARD
     }
   }
 }

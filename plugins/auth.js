@@ -63,11 +63,11 @@ export default function (context, inject) {
     await context.store.commit('auth/SET_USER', user);
   }
   const init = async () => {
-    let token = await getToken()
-    await setToken(token)
+    let token = await getToken();
+    await setToken(token);
     if (token) {
-      let user = await getUser()
-      await setUser(user)
+      let user = await getUser();
+      await setUser(user);
     }
   }
   const bcConnect = async (token) => {

@@ -1,22 +1,22 @@
 <template>
-  <div class="mb-6 md:mb-12 border bg-gray-100 rounded">
+  <div v-if="value" class="mb-6 md:mb-12 border bg-gray-100 rounded">
     <div class="-mt-2">
-      <span class="ml-6 bg-[#0F43F9] py-1 p-4 text-white rounded-full">Game 1</span>
+      <span class="ml-6 bg-[#0F43F9] py-1 p-4 text-white rounded-full">{{ value.name }}</span>
     </div>
     <div class="md:flex md:space-x-16 space-y-4 md:space-y-0 p-4">
       <div class="flex-1"></div>
       <div class="flex-1 flex justify-center md:space-x-16 space-x-4">
         <div>
-          <h4 class="font-extrabold text-4xl">620$</h4>
+          <h4 class="font-extrabold text-4xl">{{ analytic.earning }}</h4>
           <span>Earning</span>
         </div>
         <div>
-          <h4 class="font-extrabold text-4xl">330$</h4>
+          <h4 class="font-extrabold text-4xl">{{ analytic.unclaimed }}</h4>
           <span>Unclaimed</span>
         </div>
         <div>
-          <h4 class="font-extrabold text-4xl">9k</h4>
-          <span>Total</span>
+          <h4 class="font-extrabold text-4xl">{{ analytic.totalNFT }}</h4>
+          <span>Total NFT</span>
         </div>
       </div>
       <div class="flex-1 flex justify-center md:justify-end space-x-4">
@@ -40,15 +40,15 @@
         </thead>
         <tbody>
         <template>
-          <tr class="hover:bg-gray-100 duration-200">
+          <tr v-for="(item, i) in value.wallets" :key="i" class="hover:bg-gray-100 duration-200">
             <td class="py-2 px-4 text-left">
-              <nuxt-link class="text-[#0F43F9]" to="/dashboard/random">0x00...b4</nuxt-link>
+              <nuxt-link class="text-[#0F43F9]" :to="`/dashboard/${item.address}`">{{ shortAddress(item.name) }}</nuxt-link>
             </td>
-            <td class="py-2 px-4 text-left">1</td>
-            <td class="py-2 px-4 text-left">2</td>
-            <td class="py-2 px-4 text-left">3</td>
+            <td class="py-2 px-4 text-left">{{ item.todayEarning }}</td>
+            <td class="py-2 px-4 text-left">{{ item.elo }}</td>
+            <td class="py-2 px-4 text-left">{{ item.rank }}</td>
             <td class="py-2 px-4 text-left">4</td>
-            <td class="py-2 px-4 text-left">5</td>
+            <td class="py-2 px-4 text-left">{{ item.totalNFT }}</td>
             <td class="py-2 px-4 text-right">6</td>
           </tr>
         </template>
@@ -66,7 +66,32 @@
 
 <script>
 export default {
-  name: "GameReport"
+  name: "GameReport",
+  props: {
+    value: {
+      type: Object,
+      default: null
+    }
+  },
+  computed: {
+    analytic() {
+      let earning = 0;
+      let unclaimed = 0;
+      let totalNFT = 0;
+      if (this.value.wallets) {
+        this.value.wallets.forEach(item => {
+          earning = item.totalEarning + earning;
+          unclaimed = item.todayEarning + unclaimed;
+          totalNFT = totalNFT + item.totalNFT
+        })
+      }
+      return {
+        earning,
+        unclaimed,
+        totalNFT
+      }
+    }
+  }
 }
 </script>
 
