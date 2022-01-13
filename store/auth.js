@@ -21,8 +21,8 @@ export default {
     }
   },
   actions: {
-    async logIn({commit, store}) {
-      if (window.ethereum) {
+    async logIn({commit, state}) {
+      if (window.ethereum && !state.user) {
         const W3 = new Web3(window.ethereum)
         await window.ethereum.enable();
         const account = (await W3.eth.getAccounts()).pop();

@@ -6,16 +6,19 @@
           <div class="md:inline-flex items-center md:space-x-3 space-y-2 md:space-y-0">
             <span class="text-lg font-bold">Tracker for </span>
             <label>
-              <input class="p-1.5 px-2 border border-gray-200 rounded" type="text" placeholder="Wallet Address">
+              <input v-model="search" class="p-1.5 px-2 border border-gray-200 rounded" type="text" placeholder="Wallet Address">
             </label>
-            <button class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded">Get
-              Started
-            </button>
-            <nuxt-link class="text-sm inline-flex items-center space-x-2"
-                       to="/dashboard/0x9aF493BC3deFCe2933E8f08B4dB8E4BfD63e25b4">
+            <button
+              class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded"
+              @click="fetchData(search)"
+            >Search</button>
+            <div
+              class="text-sm inline-flex items-center space-x-2 cursor-pointer"
+              @click="random"
+            >
               <span>View random wallet</span>
               <icon name="chv-right"></icon>
-            </nuxt-link>
+            </div>
           </div>
         </div>
         <div class="md:mb-12 mb-6">
@@ -51,8 +54,9 @@
             </div>
           </div>
           <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
-            <div v-for="(item, i) in data.featured_nft" :key="i" class="">
+            <div v-for="(item, i) in data.featured_nft" :key="i" class="relative">
               <img :src="item.media_url" alt="">
+              <div v-if="item.price" class="absolute top-2 right-2">{{ item.price.toFixed(3)}}</div>
             </div>
           </div>
         </div>
@@ -142,6 +146,7 @@
 <script>
 import Earning from "./Earning";
 import Ranking from "./Ranking";
+import {mapActions} from "vuex";
 
 const schemas = require("/plugins/schemas");
 export default {
@@ -149,12 +154,24 @@ export default {
   components: {Ranking, Earning},
   data() {
     return {
-      game: 1
+      game: 1,
+      search: null
     }
   },
   computed: {
     data() {
       return this.$store.state.config.wallet || schemas.WALLET
+    }
+  },
+  methods: {
+    ...mapActions('config', [
+      'fetchData'
+    ]),
+    random() {
+      if (this.$route.params.wallet !== "random") {
+        this.$route.params.wallet = "random"
+      }
+      this.fetchData("random");
     }
   }
 }
