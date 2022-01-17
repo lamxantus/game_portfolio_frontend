@@ -36,7 +36,7 @@
               <span>Total NFT</span>
             </div>
             <div>
-              <h4 class="font-extrabold text-4xl">{{ data.lastClaimedDate || "0"}}</h4>
+              <h4 class="font-extrabold text-4xl">{{ getRelativeTime(data.lastClaimedDate) }}</h4>
               <span>Last Claim</span>
             </div>
           </div>
@@ -147,6 +147,8 @@
 import Earning from "./Earning";
 import Ranking from "./Ranking";
 import {mapActions} from "vuex";
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en.json';
 
 const schemas = require("/plugins/schemas");
 export default {
@@ -177,6 +179,16 @@ export default {
       if (this.search) {
         const x = this.search.replace("ronin:", "0x")
         this.$router.push(`/dashboard/${x}`);
+      }
+    },
+    getRelativeTime(timeStr) {
+      if (timeStr) {
+        TimeAgo.addLocale(en)
+        const timeAgo = new TimeAgo('en-US')
+        const lastDate = new Date(parseInt(timeStr) * 1000)
+        return timeAgo.format(lastDate)
+      } else {
+        return ''
       }
     }
   }
