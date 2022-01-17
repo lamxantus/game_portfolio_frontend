@@ -10,7 +10,7 @@
             </label>
             <button
               class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded"
-              @click="fetchData(search)"
+              @click="trackWallet()"
             >Search</button>
             <div
               class="text-sm inline-flex items-center space-x-2 cursor-pointer"
@@ -172,6 +172,12 @@ export default {
         this.$route.params.wallet = "random"
       }
       this.fetchData("random");
+    },
+    trackWallet() {
+      if (this.search) {
+        const x = this.search.replace("ronin:", "0x")
+        this.$router.push(`/dashboard/${x}`);
+      }
     }
   }
 }
