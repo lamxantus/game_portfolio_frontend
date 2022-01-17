@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded border bg-blue-50 p-4">
+  <div v-if="data.id" class="rounded border bg-blue-50 p-4">
     <div class="mb-4 flex justify-between">
       <h4 class="font-bold">Earning</h4>
       <div class="flex space-x-4">
@@ -13,8 +13,12 @@
            :style="{width: `${(10 - i) * 10}%`, opacity: `${(10 - i) * 10}%`}"></div>
     </div>
     <div class="flex justify-between">
+      <h4 class="font-bold">Ranking</h4>
+      <span class="font-bold">{{ data.rank }}</span>
+    </div>
+    <div class="flex justify-between">
       <h4 class="font-bold">Elo</h4>
-      <span class="font-bold">0</span>
+      <span class="font-bold">{{ data.elo }}</span>
     </div>
   </div>
 </template>
@@ -26,7 +30,12 @@ export default {
     RD(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min)
     }
-  }
+  },
+  computed: {
+    data() {
+      return this.$store.state.config.wallet || schemas.WALLET
+    }
+  },
 }
 </script>
 
