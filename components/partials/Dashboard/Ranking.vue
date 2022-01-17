@@ -1,5 +1,5 @@
 <template>
-  <div v-if="data.id" class="rounded border bg-blue-50 p-4">
+  <div class="rounded border bg-blue-50 p-4">
     <div class="mb-4 flex justify-between">
       <h4 class="font-bold">Earning</h4>
       <div class="flex space-x-4">
