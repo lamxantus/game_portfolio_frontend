@@ -6,9 +6,15 @@
       <div class="mb-12">
         <div class="inline-flex items-center space-x-3">
           <label>
-            <input class="p-1.5 px-2 border border-gray-200 rounded" type="text" placeholder="Wallet Address">
+            <input
+              v-model="wallet"
+              class="p-1.5 px-2 border border-gray-200 rounded" type="text" placeholder="Wallet Address"
+            >
           </label>
-          <button class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded">Get Started</button>
+          <button
+            class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded"
+            @click="trackWallet"
+          >Get Started</button>
         </div>
       </div>
       <nuxt-link v-if="!user" class="text-sm inline-flex items-center space-x-2" to="/dashboard/random">
@@ -52,7 +58,19 @@
 
 <script>
 export default {
-  name: "PageIndex"
+  name: "PageIndex",
+  data() {
+    return {
+      wallet: null
+    }
+  },
+  methods: {
+    trackWallet() {
+      if (this.wallet) {
+        this.$router.push(`/dashboard/${this.wallet}`);
+      }
+    }
+  }
 }
 </script>
 
