@@ -36,8 +36,8 @@
               <span>Total NFT</span>
             </div>
             <div>
-              <h4 class="font-extrabold text-4xl">Now</h4>
-              <span>Next Claim</span>
+              <h4 class="font-extrabold text-4xl">{{ data.lastClaimedDate || "0"}}</h4>
+              <span>Last Claim</span>
             </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
