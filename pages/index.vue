@@ -67,7 +67,8 @@ export default {
   methods: {
     trackWallet() {
       if (this.wallet) {
-        this.$router.push(`/dashboard/${this.wallet}`);
+        const x = this.wallet.replace("ronin:", "0x")
+        this.$router.push(`/dashboard/${x}`);
       }
     }
   }
