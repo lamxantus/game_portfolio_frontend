@@ -13,7 +13,7 @@ export default {
     link: [
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css?family=Space+Grotesk:wght@300;400;600'
+        href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap'
       }
     ]
   }
@@ -23,7 +23,9 @@ export default {
 <style>
 .main-site {
   min-height: 100vh;
-  font: 400 14px / 20px Space Grotesk;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 20px;
   letter-spacing: .0179em;
 }
 
@@ -57,7 +59,7 @@ export default {
 
 .container {
   @apply mx-auto px-6 md:px-0;
-  max-width: 1000px;
+  max-width: 1120px;
 }
 
 .container.sm {

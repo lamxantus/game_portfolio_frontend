@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header class="bg-black">
     <div class="wrapper" :class="{'container': !$route.path.includes('dashboard') || !user}">
       <div class="flex space-x-2 items-center">
         <div class="site-title" @click="$router.push('/')">
@@ -37,7 +37,7 @@ header {
 }
 
 header .wrapper {
-  @apply flex justify-between space-x-8 px-6 h-14 px-6;
+  @apply flex justify-between space-x-8 px-6 h-10 px-6;
 }
 
 header .wrapper.container {

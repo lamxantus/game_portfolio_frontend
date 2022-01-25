@@ -1,49 +1,103 @@
 <template>
-  <div class="my-2">
+  <div class="my-4">
+    <div v-if="!user" class="w-full mb-6 md:inline-flex items-center space-y-2 md:space-y-0">
+      <span class="text-lg font-bold mr-4">Tracker for </span>
+      <label class="mr-4">
+        <input v-model="search" class="p-1.5 px-2 border border-gray-200 rounded" type="text" placeholder="Wallet Address">
+      </label>
+      <button
+        class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded"
+        @click="trackWallet()"
+      >Search</button>
+      <div
+        class="text-sm inline-flex items-center space-x-2 cursor-pointer ml-auto"
+        @click="random"
+      >
+        <span>View random wallet</span>
+        <icon name="chv-right"></icon>
+      </div>
+    </div>
     <div class="flex md:flex-row flex-col md:space-x-4">
-      <div class="mb-6 flex-1 p-4 bg-blue-50 rounded">
-        <div v-if="!user" class="mb-6">
-          <div class="md:inline-flex items-center md:space-x-3 space-y-2 md:space-y-0">
-            <span class="text-lg font-bold">Tracker for </span>
-            <label>
-              <input v-model="search" class="p-1.5 px-2 border border-gray-200 rounded" type="text" placeholder="Wallet Address">
-            </label>
-            <button
-              class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded"
-              @click="trackWallet()"
-            >Search</button>
-            <div
-              class="text-sm inline-flex items-center space-x-2 cursor-pointer"
-              @click="random"
-            >
-              <span>View random wallet</span>
-              <icon name="chv-right"></icon>
+      <div class="mb-6 flex-1 p-4 bg-[#F6F8FF] rounded-xl">
+        <div class="md:mb-12 mb-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="flex flex-col">
+              <div class="flex items-center space-x-2 mb-3">
+                <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
+                  <img src="/icon/earning.png" alt="">
+                </div>
+                <h2 class="font-bold text-lg">Total Earning</h2>
+              </div>
+              <div class="flex-1 grid grid-cols-4 gap-3">
+                <div class="hover:shadow bg-white p-3 rounded-lg">
+                  <h4>Unclaimed</h4>
+                  <div class="font-bold text-4xl">413</div>
+                  <div>SLP</div>
+                  <span class="text-gray-500">22$</span>
+                </div>
+                <div class="hover:shadow bg-white p-3 rounded-lg">
+                  <h4>Claimed</h4>
+                  <div class="font-bold text-4xl">22</div>
+                  <div>SLP</div>
+                  <span class="text-gray-500">22$</span>
+                </div>
+                <div class="hover:shadow bg-white p-3 rounded-lg">
+                  <h4>Total Earning</h4>
+                  <div class="font-bold text-4xl">31</div>
+                  <div>SLP</div>
+                  <span class="text-gray-500">22$</span>
+                </div>
+                <div class="hover:shadow bg-white p-3 rounded-lg">
+                  <h4>Next Claim</h4>
+                  <div class="font-bold text-4xl">112</div>
+                  <div>SLP</div>
+                  <span class="text-gray-500">22$</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="flex items-center space-x-2 mb-3">
+                <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
+                  <img src="/icon/wallet.png" alt="">
+                </div>
+                <h2 class="font-bold text-lg">Lifetime</h2>
+              </div>
+              <div class="flex-1 grid grid-cols-4 gap-3">
+                <div class="hover:shadow bg-white p-3 rounded-lg">
+                  <h4>Investment</h4>
+                  <div class="font-bold text-4xl">311</div>
+                  <div>USDT</div>
+                </div>
+                <div class="hover:shadow bg-white p-3 rounded-lg">
+                  <h4>Revenue</h4>
+                  <div class="font-bold text-4xl">315</div>
+                  <div>USDT</div>
+                </div>
+                <div class="hover:shadow bg-white p-3 rounded-lg">
+                  <h4>Profit</h4>
+                  <div class="font-bold text-4xl">672</div>
+                  <div>USDT</div>
+                </div>
+                <div class="hover:shadow bg-white p-3 rounded-lg">
+                  <h4>ROI</h4>
+                  <div class="font-bold text-4xl">1666</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div class="md:mb-12 mb-6">
-          <div class="mb-6 md:flex md:space-x-16 space-y-4 md:space-y-0">
-            <div>
-              <h4 class="font-extrabold text-4xl">{{ data.totalEarning || "0" }}</h4>
-              <span>Earning</span>
+          <div class="flex space-x-4">
+            <div class="w-2/3">
+              <earning/>
             </div>
-            <div>
-              <h4 class="font-extrabold text-4xl">{{ data.unclaimed || "0" }}</h4>
-              <span>Unclaimed</span>
-            </div>
-            <div>
-              <h4 class="font-extrabold text-4xl">{{ data.totalNFT || "0" }}</h4>
-              <span>Total NFT</span>
-            </div>
-            <div>
-              <h4 class="font-extrabold text-4xl">{{ data.lastClaimedDate || "0"}}</h4>
-              <span>Last Claim</span>
+            <div class="flex-1">
+              <statistic/>
             </div>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-            <earning/>
-            <ranking/>
-          </div>
+        </div>
+        <div class="md:mb-12 mb-6">
+          <battle-log/>
         </div>
         <div class="md:mb-12 mb-6">
           <div class="flex justify-between mb-4">
@@ -53,10 +107,18 @@
               <span class="font-bold">{{ data.totalNFT }}</span>
             </div>
           </div>
-          <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
-            <div v-for="(item, i) in data.featured_nft" :key="i" class="relative">
+          <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+            <div v-for="(item, i) in data.featured_nft" :key="i" class="bg-white rounded-lg duration-300 hover:shadow-xl p-3">
               <img :src="item.media_url" alt="">
-              <div v-if="item.price" class="absolute top-2 right-2">{{ item.price.toFixed(3)}}</div>
+              <h3 class="text-lg font-bold">Axie #</h3>
+              <div class="flex justify-between" v-if="item.price">
+                <span>Last Price</span>
+                <span>{{ item.price.toFixed(3)}}</span>
+              </div>
+              <hr class="my-2 border-gray-100">
+              <div class="text-xs flex space-x-2 items-center">
+                View on marketplace <icon name="chv-right" class="sm"></icon>
+              </div>
             </div>
           </div>
         </div>
@@ -147,11 +209,13 @@
 import Earning from "./Earning";
 import Ranking from "./Ranking";
 import {mapActions} from "vuex";
+import Statistic from "./Statistic";
+import BattleLog from "./BattleLog";
 
 const schemas = require("/plugins/schemas");
 export default {
   name: "DashboardSingle",
-  components: {Ranking, Earning},
+  components: {BattleLog, Statistic, Ranking, Earning},
   data() {
     return {
       game: 1,
