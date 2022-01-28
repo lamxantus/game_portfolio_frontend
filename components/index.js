@@ -8,6 +8,7 @@ import AssetBoard from "./partials/Asset/Board"
 import AssetCard from "./partials/Asset/Card"
 import ReportBoard from "./partials/Report";
 import AccountBoard from "./partials/Account/Board";
+import ModalAdapter from "./utils/modal/Adapter"
 
 Vue.component('p-header', Header);
 Vue.component('p-footer', Footer);
@@ -18,3 +19,4 @@ Vue.component('board-asset', AssetBoard);
 Vue.component('board-report', ReportBoard);
 Vue.component('board-account', AccountBoard);
 Vue.component('icon', Icon);
+Vue.component('modal-adapter', ModalAdapter);

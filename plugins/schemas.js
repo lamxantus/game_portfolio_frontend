@@ -14,6 +14,14 @@ export const WALLET = {
       "type": "date",
       "data": [{"date": null, "value": 0}]
     }
+  },
+  "battle_logs": [],
+  "premium": {
+    "top_ranking": null,
+    "lifetime_invest": 0.0,
+    "lifetime_revenue": 0.0,
+    "lifetime_profit": 0.0,
+    "lifetime_roi": 0
   }
 }
 

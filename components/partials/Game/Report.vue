@@ -1,63 +1,84 @@
 <template>
-  <div v-if="value" class="mb-6 md:mb-12 border bg-gray-100 rounded">
-    <div class="-mt-2">
-      <span class="ml-6 bg-[#0F43F9] py-1 p-4 text-white rounded-full">{{ value.name }}</span>
-    </div>
-    <div class="md:flex md:space-x-16 space-y-4 md:space-y-0 p-4">
-      <div class="flex-1"></div>
-      <div class="flex-1 flex justify-center md:space-x-16 space-x-4">
-        <div>
-          <h4 class="font-extrabold text-4xl">{{ analytic.earning }}</h4>
-          <span>Earning</span>
+  <div v-if="value" class="mb-6">
+    <div class="mb-4">
+      <div class="flex items-center space-x-2 mb-3">
+        <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
+          <img src="/icon/game.png" alt="">
         </div>
-        <div>
-          <h4 class="font-extrabold text-4xl">{{ analytic.unclaimed }}</h4>
-          <span>Unclaimed</span>
-        </div>
-        <div>
-          <h4 class="font-extrabold text-4xl">{{ analytic.totalNFT }}</h4>
-          <span>Total NFT</span>
-        </div>
-      </div>
-      <div class="flex-1 flex justify-center md:justify-end space-x-4">
-        <div>Today</div>
-        <div>Week</div>
-        <div>Month</div>
+        <h2 class="font-bold text-lg">{{ value.name }}</h2>
       </div>
     </div>
-    <div class="m-4 border bg-white rounded">
-      <table class="w-full table-fixed text-sm font-medium mb-4 mt-2">
-        <thead>
-        <tr class="text-gray-400 font-light uppercase text-xs leading-normal">
-          <th class="py-2 px-4 text-left">Name</th>
-          <th class="py-2 px-4 text-left">Today</th>
-          <th class="py-2 px-4 text-left">Elo</th>
-          <th class="py-2 px-4 text-left">Rank</th>
-          <th class="py-2 px-4 text-left">Range of Rank</th>
-          <th class="py-2 px-4 text-left">NFTs</th>
-          <th class="py-2 px-4 text-right">Next Claim</th>
-        </tr>
-        </thead>
-        <tbody>
-        <template>
-          <tr v-for="(item, i) in value.wallets" :key="i" class="hover:bg-gray-100 duration-200">
-            <td class="py-2 px-4 text-left">
-              <nuxt-link class="text-[#0F43F9]" :to="`/dashboard/${item.address}`">{{ shortAddress(item.name) }}</nuxt-link>
-            </td>
-            <td class="py-2 px-4 text-left">{{ item.todayEarning }}</td>
-            <td class="py-2 px-4 text-left">{{ item.elo }}</td>
-            <td class="py-2 px-4 text-left">{{ item.rank }}</td>
-            <td class="py-2 px-4 text-left">4</td>
-            <td class="py-2 px-4 text-left">{{ item.totalNFT }}</td>
-            <td class="py-2 px-4 text-right">6</td>
+    <div class="flex rounded-xl bg-white hover:shadow-xl duration-300 overflow-hidden">
+      <div class="w-1/3">
+        <div class="quick-report">
+          <div class="bg" :style="{backgroundImage: `url(${bgURL})`}"></div>
+          <div class="absolute top-0 left-0 right-0 bottom-0 p-4 flex flex-col">
+            <div class="flex-1 flex justify-center items-center">
+              <img src="/logo/logo_axie.png" alt="">
+            </div>
+            <div class="grid grid-cols-2 gap-4 text-sm">
+              <div class="shadow bg-white p-3 rounded-lg">
+                <span>Earning</span>
+                <h4 class="font-extrabold text-xl">{{ analytic.earning.toLocaleString() }}</h4>
+                <div class="font-bold">{{value.options['token_in_game']}}</div>
+                <span class="text-gray-500">{{ (priceRate * analytic.earning).toLocaleString() }}$</span>
+              </div>
+              <div class="shadow bg-white p-3 rounded-lg">
+                <span>Roi</span>
+                <h4 class="font-extrabold text-xl">{{ analytic.unclaimed.toLocaleString() }}</h4>
+                <div class="font-bold">{{value.options['token_in_game']}}</div>
+                <span class="text-gray-500">{{ (priceRate * analytic.unclaimed).toLocaleString() }}$</span>
+              </div>
+              <div class="shadow bg-white p-3 rounded-lg">
+                <span>Me</span>
+                <h4 class="font-extrabold text-xl">{{ analytic.totalNFT }}</h4>
+                <div class="font-bold">AXIES</div>
+              </div>
+              <div class="shadow bg-white p-3 rounded-lg">
+                <span>Scholar</span>
+                <h4 class="font-extrabold text-xl">{{ 0 }}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white flex-1 p-4">
+        <table class="w-full table-auto text-sm">
+          <thead>
+          <tr class="text-gray-400 font-bold bg-[#F7F8FF] uppercase text-xs leading-normal rounded">
+            <th class="py-3 px-4 text-left">Name</th>
+            <th class="py-3 px-4 text-left">Earning</th>
+            <th class="py-3 px-4 text-left">Share</th>
+            <th class="py-3 px-4 text-left">Elo</th>
+            <th class="py-3 px-4 text-left">Win Rate</th>
+            <th class="py-3 px-4 text-right">NFTs</th>
           </tr>
-        </template>
-        </tbody>
-      </table>
-      <div class="mb-4 text-center">
-        <div class="inline-flex border-[#0F43F9] px-4 py-1.5 rounded space-x-2 border">
-          <icon name="plus"></icon>
-          <span>Add more</span>
+          </thead>
+          <tbody>
+          <template>
+            <tr v-for="(item, i) in value.wallets" :key="i">
+              <td class="py-3 px-4 text-left">
+                <nuxt-link class="text-[#0F43F9]" :to="`/dashboard/${item.address}`">{{
+                    shortAddress(item.name)
+                  }}
+                </nuxt-link>
+              </td>
+              <td class="py-3 px-4 text-left">{{ item.todayEarning }}</td>
+              <td class="py-3 px-4 text-left">{{ item.elo }}</td>
+              <td class="py-3 px-4 text-left">4</td>
+              <td class="py-3 px-4 text-left">{{ item.totalNFT }}</td>
+              <td class="py-3 px-4 text-right">6</td>
+            </tr>
+          </template>
+          </tbody>
+        </table>
+        <div class="mt-4 text-center">
+          <div
+            class="inline-flex border-[#0F43F9] px-4 py-1.5 rounded space-x-2 border cursor-pointer"
+            @click="openForm">
+            <icon name="plus"></icon>
+            <span>Add more</span>
+          </div>
         </div>
       </div>
     </div>
@@ -74,14 +95,17 @@ export default {
     }
   },
   computed: {
+    bgURL() {
+      return "/bg/gunfire.png"
+    },
     analytic() {
       let earning = 0;
       let unclaimed = 0;
       let totalNFT = 0;
       if (this.value.wallets) {
         this.value.wallets.forEach(item => {
-          earning = item.totalEarning + earning;
-          unclaimed = item.todayEarning + unclaimed;
+          earning = +item.totalEarning + +earning;
+          unclaimed = +item.todayEarning + +unclaimed;
           totalNFT = totalNFT + item.totalNFT
         })
       }
@@ -90,11 +114,58 @@ export default {
         unclaimed,
         totalNFT
       }
+    },
+    priceRate() {
+      const obj = this.$store.getters["config/getPriceRate"](this.value.options["token_in_game"])
+      if (obj) {
+        return obj.price
+      }
+      return 0
+    }
+  },
+  methods: {
+    openForm() {
+      this.$store.commit('config/SET_MODAL', {
+        type: "add_wallet",
+        data: {
+          game: this.value
+        }
+      })
     }
   }
 }
 </script>
 
 <style scoped>
+.quick-report {
+  @apply relative overflow-hidden;
+  padding-top: 120%;
+}
 
+.quick-report .bg {
+  @apply absolute top-0 left-0 bottom-0 right-0;
+  background-position: center;
+  background-size: cover;
+  filter: blur(3px);
+}
+
+
+tr {
+  position: relative;
+}
+
+tr * {
+  position: relative;
+  z-index: 2;
+}
+
+tr:after {
+  @apply border border-white absolute top-0 left-0 bottom-0 right-0 rounded-lg;
+  content: "";
+  z-index: 1;
+}
+
+tr:hover:after {
+  border-color: #0F43F9;
+}
 </style>

@@ -16,22 +16,26 @@
         <div>Month</div>
       </div>
     </div>
-    <div class="mb-4 flex space-x-4 items-end h-52">
-      <div class="flex-1 bg-gray-300 rounded-full" v-for="i in 21" :key="i" :style="{height: `${RD(20, 100)}%`}"></div>
+    <div class="mb-4 flex space-x-4 items-end justify-between h-52">
+      <div
+        v-for="i in 14" :key="i"
+        class="bg-gray-300 chart-elm w-6" :style="{height: `${RD(20, 100)}%`}">
+        <span>{{ RD(20, 100) }}</span>
+      </div>
     </div>
     <div class="mb-2 grid grid-cols-2 gap-4">
       <div class="flex justify-between">
         <h4 class="font-bold">Today</h4>
         <div>
-          <div>1929</div>
-          <span>22$</span>
+          <div>{{ data.daily_earnings }} (<span class="text-green-400">+23</span>)</div>
+          <span>{{getCurrentPriceRate * data.daily_earnings}}$</span>
         </div>
       </div>
       <div class="flex justify-between">
         <h4 class="font-bold">Average</h4>
         <div>
-          <div>1929</div>
-          <span>22$</span>
+          <div>{{ data.average_earnings }} (<span class="text-green-400">+23</span>)</div>
+          <span>{{ data.average_earnings * getCurrentPriceRate }}$</span>
         </div>
       </div>
     </div>
@@ -39,12 +43,22 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
+const schemas = require("/plugins/schemas");
+
 export default {
   name: "Earning",
   methods: {
     RD(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min)
     }
+  },
+  computed: {
+    data() {
+      return this.$store.state.config.wallet || schemas.WALLET
+    },
+    ...mapGetters("config", ["getCurrentPriceRate"]),
   }
 }
 </script>

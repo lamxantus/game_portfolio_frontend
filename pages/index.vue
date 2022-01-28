@@ -68,7 +68,7 @@ export default {
     trackWallet() {
       if (this.wallet) {
         const x = this.wallet.replace("ronin:", "0x")
-        this.$router.push(`/dashboard/${x}`);
+        this.$router.push(`/dashboard/${x}?game=1`);
       }
     }
   }

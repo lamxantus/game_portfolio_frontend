@@ -11,11 +11,11 @@
     <div class="">
       <div class="flex justify-between">
         <h4 class="font-bold">ELO</h4>
-        <span class="font-bold">1929</span>
+        <span class="font-bold">{{ data.elo }}</span>
       </div>
       <div class="flex justify-between">
         <h4 class="font-bold">Rank</h4>
-        <span class="font-bold">342</span>
+        <span class="font-bold">{{ data.rank }}</span>
       </div>
       <hr class="my-4 border-gray-100"/>
       <div>
@@ -40,11 +40,11 @@
         <div class="flex-1">
           <div class="flex justify-between">
             <span>Win</span>
-            <span>293</span>
+            <span>{{ win }}</span>
           </div>
           <div class="flex justify-between">
             <span>Lose</span>
-            <span>293</span>
+            <span>{{ data.battle_logs.length - win }}</span>
           </div>
         </div>
         <div class="w-1/3">
@@ -84,6 +84,8 @@ import {
   SubTitle
 } from 'chart.js';
 
+const schemas = require("/plugins/schemas");
+
 Chart.register(
   ArcElement,
   LineElement,
@@ -111,40 +113,61 @@ Chart.register(
   SubTitle
 );
 
+let chart;
+
 export default {
   name: "Statistic",
-  mounted() {
-    const data = {
-      labels: [
-        'Red',
-        'Blue',
-        'Yellow'
-      ],
-      datasets: [{
-        label: 'My First Dataset',
-        data: [300, 50, 100],
-        backgroundColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)',
-          'rgb(255, 205, 86)'
+  computed: {
+    data() {
+      return this.$store.state.config.wallet || schemas.WALLET
+    },
+    win() {
+      if (this.data.battle_logs) {
+        return this.data.battle_logs.filter(x => x.is_winner).length
+      }
+      return 0
+    }
+  },
+  methods: {
+    draw() {
+      if (chart) chart.destroy();
+      const data = {
+        labels: [
+          'Red',
+          'Blue',
         ],
-        hoverOffset: 4
-      }]
-    };
-    new Chart(
-      document.getElementById('myChart'),
-      {
-        type: 'doughnut',
-        data: data,
-        options: {
-          plugins: {
-            legend: {
-              display: false
-            },
+        datasets: [{
+          data: [this.data.battle_logs.length - this.win, this.win],
+          backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+          ],
+          hoverOffset: 4
+        }]
+      };
+      chart = new Chart(
+        document.getElementById('myChart'),
+        {
+          type: 'doughnut',
+          data: data,
+          options: {
+            plugins: {
+              legend: {
+                display: false
+              },
+            }
           }
         }
-      }
-    );
+      );
+    }
+  },
+  watch: {
+    data() {
+      this.draw()
+    }
+  },
+  mounted() {
+    this.draw()
   }
 }
 </script>

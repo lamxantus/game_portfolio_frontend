@@ -6,19 +6,20 @@ export default {
     games: [
       {
         id: 1,
-        title: "StepHero",
-        description: "step hero MULTIVERSE. The one-stop shop for P2E gamers which brings you extraordinary. gaming experience & lucrative earning opportunities.",
-        image: "/stephero.jpeg"
-      },
-      {
-        id: 2,
         title: "Axie Infinity",
         description: "Build up a collection and use them across an ever expanding universe of games! Axie Infinity uses cutting edge technology called Blockchain to reward players",
-        image: "/axie.jpeg"
+        image: "/axie.jpeg",
+        bg: "/bg/axs.png",
+        meta: {
+          token_in_game: "SLP"
+        }
       }
     ],
     dashboard: schemas.DASHBOARD,
-    wallet: schemas.WALLET
+    wallet: schemas.WALLET,
+    modal: null,
+    priceRates: [],
+    activeGame: 0
   }),
   mutations: {
     ["SET_GAMES"](state, payload) {
@@ -31,13 +32,19 @@ export default {
         Vue.set(state, "wallet", data)
       }
     },
+    ["SET_MODAL"](state, payload) {
+      state.modal = payload;
+    },
+    ["SET_PRICE"](state, payload) {
+      state.priceRates = payload;
+    }
   },
   actions: {
-    async fetchData({commit, state}, wallet) {
+    async fetchData({commit, state}, wallet, game_id = 1) {
       wallet = wallet.replace("ronin:", "0x");
       const res = await this.$axios.$get(`/${wallet}`, {
         params: {
-          game: 1
+          game: game_id
         }
       });
       if (res) {
@@ -49,5 +56,17 @@ export default {
 
     }
   },
-  getters: {},
+  getters: {
+    getPriceRate: (state) => (symbol) => {
+      return state.priceRates.find(todo => todo.pair === `${symbol}/USDT`)
+    },
+    getCurrentPriceRate: (state) => {
+      const currentToken = state.games[state.activeGame].meta.token_in_game;
+      const price = state.priceRates.find(item => item.pair === `${currentToken}/USDT`);
+      if (price) {
+        return price.price
+      }
+      return 0
+    }
+  },
 };

@@ -1,8 +1,48 @@
 <template>
-  <div class="main-site flex flex-col">
-    <p-header/>
-    <nuxt class="flex-1"/>
-    <p-footer/>
+  <div class="flex">
+    <div v-if="user && $route.path !== '/'" class="sidebar">
+      <div>
+        <n-link to="/">
+          <img src="/logo.png" alt="">
+        </n-link>
+      </div>
+      <div class="flex-1 flex flex-col justify-center">
+        <nuxt-link to="/dashboard" class="menu-item">
+          <div>
+            <icon name="home"></icon>
+          </div>
+          <div>Dashboard</div>
+        </nuxt-link>
+        <nuxt-link to="/dashboard/game" class="menu-item">
+          <div>
+            <icon name="target"></icon>
+          </div>
+          <div>NFTs</div>
+        </nuxt-link>
+        <nuxt-link to="/dashboard/scholarship" class="menu-item">
+          <div>
+            <icon name="user"></icon>
+          </div>
+          <div>Wallet Management</div>
+        </nuxt-link>
+      </div>
+      <div>
+        <div class="bg-[#0F43F9] rounded-xl p-6 py-16 text-center text-white space-y-2">
+          <div>
+            <img class="mx-auto" src="/icon/wallet.svg" alt="">
+          </div>
+          <h4 class="font-bold">Xantus Wallet</h4>
+          <p>The wallet of People</p>
+          <a class="inline-flex border text-gray-300 py-1.5 rounded-xl p-3 cursor-pointer">Read more</a>
+        </div>
+      </div>
+    </div>
+    <div class="flex-1 main-site flex flex-col">
+      <p-header/>
+      <nuxt class="flex-1"/>
+      <p-footer/>
+      <modal-adapter/>
+    </div>
   </div>
 </template>
 
@@ -22,11 +62,18 @@ export default {
 
 <style>
 .main-site {
-  min-height: 100vh;
+  height: 100vh;
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   line-height: 20px;
   letter-spacing: .0179em;
+  overflow-y: auto;
+  background: #F7F8FF;
+}
+
+.sidebar {
+  @apply bg-white h-screen flex flex-col p-4;
+  width: 240px;
 }
 
 .zoom-enter-active, .zoom-leave-active {
@@ -59,7 +106,7 @@ export default {
 
 .container {
   @apply mx-auto px-6 md:px-0;
-  max-width: 1120px;
+  max-width: 1010px;
 }
 
 .container.sm {
@@ -95,5 +142,26 @@ blockquote p {
 
 .bg-blue {
   color: #FFF;
+}
+
+.menu-item {
+  @apply items-center py-2 p-4 duration-300 cursor-pointer flex space-x-4 rounded-xl mb-1;
+}
+
+.menu-item:hover,
+.menu-item.nuxt-link-exact-active {
+  background: #F6F8FF;
+  color: #0F43F9;
+}
+
+.menu-item:hover svg,
+.menu-item.nuxt-link-exact-active svg {
+  fill: #0F43F9;
+}
+
+.chart-elm {
+  @apply rounded-full text-sm flex flex-col justify-center items-end py-2 text-center;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
 }
 </style>

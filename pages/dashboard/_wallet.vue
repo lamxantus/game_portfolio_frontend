@@ -1,39 +1,35 @@
 <template>
-  <div class="axs">
-    <div class="py-0 p-6 flex md:flex-row flex-col" :class="{container: !user}">
-      <div v-if="user" class="md:fixed top-0 left-4 bottom-0 flex-col items-center justify-center flex">
-        <div class="md:w-28 mb-6 bg-[#F6F8FF] rounded shadow flex md:flex-col space-x-0 w-full">
-          <nuxt-link to="/dashboard" class="menu-item">
-            <div><icon name="home"></icon></div>
-            <div>Dashboard</div>
-          </nuxt-link>
-          <nuxt-link to="/dashboard/game" class="menu-item">
-            <div><icon name="target"></icon></div>
-            <div>NFTs</div>
-          </nuxt-link>
-          <nuxt-link to="/dashboard/scholarship" class="menu-item">
-            <div><icon name="user"></icon></div>
-            <div>Scholarship</div>
-          </nuxt-link>
+  <div class="container my-4">
+    <div class="mb-4 flex justify-between">
+      <template v-if="!user">
+        <div class="flex space-x-2 items-center">
+          <div class="site-title" @click="$router.push('/')">
+            <n-link class="" to="/">
+              <img src="/logo.png" alt="Xantus Tracker">
+            </n-link>
+          </div>
         </div>
-      </div>
-      <div class="flex-1" :class="{'md:ml-32': user}">
-        <div v-if="user" class="flex flex-wrap text-[#0F43F9] -mx-2">
-          <div class="px-2 text-gray-500">{{now.toLocaleDateString()}} {{now.toLocaleTimeString()}}</div>
-          <div class="px-2">AXS/USDt: 70</div>
-          <div class="px-2">SLP/USDt: 0.02</div>
+        <div class="flex space-x-8 items-center">
+          <div class="p-1.5 px-4 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] rounded-xl text-white" @click="logIn">
+            <icon class="md" name="user" fill="#d6d3d1"/>
+            <span>{{ user ? getUserName : 'Connect Wallet' }}</span>
+          </div>
         </div>
-        <dashboard-multiple v-if="!$route.params.wallet"/>
-        <game v-else-if="$route.params.wallet === 'game'"/>
-        <scholarship v-else-if="$route.params.wallet === 'scholarship'"/>
-        <dashboard-single v-else/>
+      </template>
+      <div v-else>
+        <h4 class="font-bold text-lg">Hello Son,</h4>
+        <p class="text-gray-500">Next claimed is about 3 days. Here is sumary of your porfolio</p>
       </div>
     </div>
+    <dashboard-multiple v-if="!$route.params.wallet"/>
+    <game v-else-if="$route.params.wallet === 'game'"/>
+    <scholarship v-else-if="$route.params.wallet === 'scholarship'"/>
+    <dashboard-single v-else/>
   </div>
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import {mapActions, mapGetters} from 'vuex';
 import DashboardMultiple from "../../components/partials/Dashboard/Multiple";
 import DashboardSingle from "../../components/partials/Dashboard/Single";
 import Game from "../../components/partials/Dashboard/Game";
@@ -47,34 +43,19 @@ export default {
       now: new Date
     }
   },
+  computed: {
+    ...mapGetters("auth", ["getUserName"]),
+  },
   fetch() {
-    this.fetchData(this.$route.params.wallet || "dashboard")
+    this.fetchData(this.$route.params.wallet || "dashboard", 1)
   },
   methods: {
-    ...mapActions('config', [
-      'fetchData'
-    ]),
+    ...mapActions("auth", ["logIn"]),
+    ...mapActions('config', ['fetchData']),
   }
 }
 </script>
 
 <style>
-.menu-item {
-  @apply text-center text-white justify-center p-4 duration-300 cursor-pointer flex-1;
-}
 
-.menu-item svg {
-  fill: #FFFFFF;
-}
-
-.menu-item:hover,
-.menu-item.nuxt-link-exact-active {
-  @apply bg-white;
-  color: #0F43F9;
-}
-
-.menu-item:hover svg,
-.menu-item.nuxt-link-exact-active svg {
-  fill: #0F43F9;
-}
 </style>

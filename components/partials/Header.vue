@@ -1,17 +1,11 @@
 <template>
-  <header class="bg-black">
+  <header class="bg-black text-white">
     <div class="wrapper" :class="{'container': !$route.path.includes('dashboard') || !user}">
-      <div class="flex space-x-2 items-center">
-        <div class="site-title" @click="$router.push('/')">
-          <n-link class="bg-[#0F43F9] p-1.5 px-2 text-xs uppercase text-white font-bold my-2 rounded-sm shadow" to="/">
-            Xantus
-          </n-link>
-        </div>
-      </div>
-      <div class="flex space-x-8 items-center">
-        <div class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] rounded-sm text-white" @click="logIn">
-          <icon class="md" name="user" fill="#d6d3d1"/>
-          <span>{{ user ? getUserName : 'Connect Wallet' }}</span>
+      <div class="flex space-x-4 my-2 text-xs items-center">
+        <div class="p-1 px-3 bg-[#555555] rounded">{{now.toISOString()}}</div>
+        <div v-for="item in priceRates" :key="item.pair">
+          <span class="text-[#C4C4C4]">{{ item.pair }}</span>
+          <span class="text-green-400">{{ item.price }}</span>
         </div>
       </div>
     </div>
@@ -22,18 +16,27 @@
 const {mapActions, mapGetters} = require("vuex");
 export default {
   name: "PHeader",
-  methods: {
-    ...mapActions("auth", ["logIn"])
+  data() {
+    return {
+      now: new Date(),
+    }
   },
   computed: {
-    ...mapGetters("auth", ["getUserName"])
+    priceRates() {
+      return this.$store.state.config.priceRates
+    }
+  },
+  created() {
+    this.$axios.$get("/prices").then(res => {
+      this.$store.commit('config/SET_PRICE', res);
+    })
   }
 }
 </script>
 
 <style>
 header {
-  @apply font-bold relative z-10;
+  @apply relative z-10;
 }
 
 header .wrapper {
