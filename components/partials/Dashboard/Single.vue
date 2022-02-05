@@ -22,7 +22,7 @@
     <div class="flex md:flex-row flex-col md:space-x-4">
       <div class="mb-6 flex-1 rounded-xl">
         <div class="md:mb-12 mb-6">
-          <div class="flex space-x-4">
+          <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
             <div class="md:w-2/3 flex flex-col">
               <div class="flex items-center space-x-2 mb-3">
                 <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
@@ -30,7 +30,7 @@
                 </div>
                 <h2 class="font-bold text-lg">Total Earning</h2>
               </div>
-              <div class="hover:shadow bg-white p-3 rounded-lg flex-1 grid grid-cols-4 gap-3">
+              <div class="hover:shadow-xl bg-white p-3 rounded-lg flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
                 <div class="">
                   <h4 class="text-[#0F43F9]">Unclaimed</h4>
                   <div v-if="data.unclaimed" class="font-bold text-4xl">{{ Number(data.unclaimed).toLocaleString() }}</div>
@@ -64,7 +64,7 @@
                 </div>
                 <h2 class="font-bold text-lg">Wallet Sumary</h2>
               </div>
-              <div v-if="data.premium" class="hover:shadow bg-white p-3 rounded-lg">
+              <div v-if="data.premium" class="hover:shadow-xl bg-white p-3 rounded-lg">
                 <div class="flex justify-between items-center mb-1">
                   <h4>Investment</h4>
                   <div class="font-bold">{{data.premium.lifetime_invest.toLocaleString()}}$</div>
@@ -87,8 +87,8 @@
           </div>
         </div>
         <div class="md:mb-12 mb-6">
-          <div class="flex space-x-4">
-            <div class="w-2/3">
+          <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+            <div class="md:w-2/3">
               <earning/>
             </div>
             <div class="flex-1">
