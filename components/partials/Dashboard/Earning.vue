@@ -54,7 +54,8 @@ export default {
   },
   methods: {
     draw() {
-      const now = new Date();
+      let now = new Date();
+      now = new Date(now.setDate(now.getDate() + 1));
       const ctx = document.getElementById('myChartEarning').getContext('2d');
       if (this.chart) {
         this.chart.destroy();
