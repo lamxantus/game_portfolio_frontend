@@ -33,21 +33,21 @@
               <div class="hover:shadow bg-white p-3 rounded-lg flex-1 grid grid-cols-4 gap-3">
                 <div class="">
                   <h4 class="text-[#0F43F9]">Unclaimed</h4>
-                  <div class="font-bold text-4xl">{{ data.unclaimed }}</div>
+                  <div v-if="data.unclaimed" class="font-bold text-4xl">{{ Number(data.unclaimed).toLocaleString() }}</div>
                   <div>SLP</div>
-                  <span class="text-gray-500">{{ getCurrentPriceRate * data.unclaimed }}$</span>
+                  <span v-if="data.unclaimed" class="text-gray-500">{{ (getCurrentPriceRate * data.unclaimed).toLocaleString() }}$</span>
                 </div>
                 <div class="">
                   <h4 class="text-[#10CE00]">Claimed</h4>
-                  <div class="font-bold text-4xl">{{ data.claimed_token }}</div>
+                  <div class="font-bold text-4xl">{{ (data.claimed_token || 0).toLocaleString() }}</div>
                   <div>SLP</div>
-                  <span class="text-gray-500">{{ getCurrentPriceRate * data.claimed_token }}$</span>
+                  <span class="text-gray-500">{{ (getCurrentPriceRate * data.claimed_token).toLocaleString() }}$</span>
                 </div>
                 <div class="">
                   <h4 class="text-[#FFA800]">Total Earning</h4>
-                  <div class="font-bold text-4xl">{{ data.totalEarning }}</div>
+                  <div v-if="data.totalEarning" class="font-bold text-4xl">{{ Number(data.totalEarning).toLocaleString() }}</div>
                   <div>SLP</div>
-                  <span class="text-gray-500">{{ getCurrentPriceRate * data.totalEarning }}$</span>
+                  <span v-if="data.totalEarning" class="text-gray-500">{{ (getCurrentPriceRate * data.totalEarning).toLocaleString() }}$</span>
                 </div>
                 <div class="">
                   <h4 class="text-[#00A3FF]">Next Claim</h4>
@@ -67,16 +67,16 @@
               <div v-if="data.premium" class="hover:shadow bg-white p-3 rounded-lg">
                 <div class="flex justify-between items-center mb-1">
                   <h4>Investment</h4>
-                  <div class="font-bold">{{data.premium.lifetime_invest}}$</div>
+                  <div class="font-bold">{{data.premium.lifetime_invest.toLocaleString()}}$</div>
                 </div>
                 <div class="flex justify-between items-center">
                   <h4>Expenses</h4>
-                  <div class="font-bold">{{data.premium.lifetime_revenue}}$</div>
+                  <div class="font-bold">{{data.premium.lifetime_revenue.toLocaleString()}}$</div>
                 </div>
                 <hr class="my-2 border-gray-100">
                 <div class="flex justify-between items-center mb-1">
                   <h4>Return</h4>
-                  <div class="font-bold">{{data.premium.lifetime_profit}}$</div>
+                  <div class="font-bold">{{data.premium.lifetime_profit.toLocaleString()}}$</div>
                 </div>
                 <div class="flex justify-between items-center">
                   <h4>ROI</h4>

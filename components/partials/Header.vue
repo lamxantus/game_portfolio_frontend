@@ -5,7 +5,7 @@
         <div class="p-1 px-3 bg-[#555555] rounded">{{now.toISOString()}}</div>
         <div v-for="item in priceRates" :key="item.pair">
           <span class="text-[#C4C4C4]">{{ item.pair }}</span>
-          <span class="text-green-400">{{ item.price }}</span>
+          <span class="text-green-400">{{ item.price.toLocaleString() }}</span>
         </div>
       </div>
     </div>

@@ -16,19 +16,15 @@
         <div>Month</div>
       </div>
     </div>
-    <div class="mb-4 flex space-x-4 items-end justify-between h-52">
-      <div
-        v-for="i in 14" :key="i"
-        class="bg-gray-300 chart-elm w-6" :style="{height: `${RD(20, 100)}%`}">
-        <span>{{ RD(20, 100) }}</span>
-      </div>
+    <div class="mb-4 flex space-x-4 items-end justify-between" style="height: 208px">
+      <canvas class="w-full" style="height: 208px" id="myChartEarning"></canvas>
     </div>
     <div class="mb-2 grid grid-cols-2 gap-4">
       <div class="flex justify-between">
         <h4 class="font-bold">Today</h4>
         <div>
           <div>{{ data.daily_earnings }} (<span class="text-green-400">+23</span>)</div>
-          <span>{{getCurrentPriceRate * data.daily_earnings}}$</span>
+          <span>{{ getCurrentPriceRate * data.daily_earnings }}$</span>
         </div>
       </div>
       <div class="flex justify-between">
@@ -44,14 +40,108 @@
 
 <script>
 import {mapGetters} from "vuex";
+import {Chart, registerables} from 'chart.js';
 
+Chart.register(...registerables);
 const schemas = require("/plugins/schemas");
 
 export default {
   name: "Earning",
+  data() {
+    return {
+      chart: null,
+    }
+  },
   methods: {
-    RD(min, max) {
-      return Math.floor(Math.random() * (max - min + 1) + min)
+    draw() {
+      const now = new Date();
+      const ctx = document.getElementById('myChartEarning').getContext('2d');
+      if (this.chart) {
+        this.chart.destroy();
+      }
+      let arrElo = {};
+      let arrEarn = {};
+      for (let i = 0; i < 14; i++) {
+        const d = new Date(now.setDate(now.getDate() - 1));
+        arrEarn[d.toISOString().split("T")[0]] = 0;
+        arrElo[d.toISOString().split("T")[0]] = 0;
+      }
+      this.data.report.earning.data.forEach(item => {
+        const key = item.date.split("T")[0];
+        arrEarn[key] = Number(item.value);
+      })
+      this.data.report.elo.data.forEach(item => {
+        const key = item.date.split("T")[0];
+        arrElo[key] = Number(item.value);
+      })
+      this.chart = new Chart(ctx, {
+        type: 'bar',
+        interaction: {
+          intersect: false,
+        },
+        data: {
+          labels: Object.keys(arrEarn).map((x, i) => {
+            const arr = x.split("-");
+            arr.shift();
+            if (i % 2) {
+              return ''
+            } else {
+              return arr.join("-")
+            }
+          }).reverse(),
+          datasets: [{
+            barPercentage: 0.6,
+            label: '# of Votes',
+            data: Object.values(arrEarn).reverse(),
+            backgroundColor: ['#DDDDDD'],
+            borderRadius: Number.MAX_VALUE,
+            borderSkipped: false,
+            order: 2
+          }, {
+            barPercentage: 0.6,
+            data: Object.values(arrElo).reverse(),
+            backgroundColor: ['#FFA800'],
+            borderColor: '#FFA800',
+            type: 'line',
+            order: 1,
+            lineTension: 0.5
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              grid: {
+                display: false,
+                drawBorder: false,
+                drawOnChartArea: false,
+                drawTicks: false,
+              }
+            },
+            y: {
+              ticks: {
+                display: false
+              },
+              beginAtZero: true,
+              grid: {
+                display: false,
+                drawBorder: false,
+                drawOnChartArea: false,
+                drawTicks: false,
+              },
+            },
+          },
+          plugins: {
+            legend: {
+              display: false,
+            },
+            title: {
+              display: false,
+            }
+          },
+        }
+      });
     }
   },
   computed: {
@@ -59,6 +149,14 @@ export default {
       return this.$store.state.config.wallet || schemas.WALLET
     },
     ...mapGetters("config", ["getCurrentPriceRate"]),
+  },
+  mounted() {
+    this.draw();
+  },
+  watch: {
+    data() {
+      this.draw();
+    }
   }
 }
 </script>

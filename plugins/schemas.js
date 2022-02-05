@@ -8,11 +8,15 @@ export const WALLET = {
   "report": {
     "earning": {
       "type": "",
-      "data": [{"date": null, "value": 0}]
+      "data": []
+    },
+    "elo": {
+      "type": "date",
+      "data": []
     },
     "ranking": {
       "type": "date",
-      "data": [{"date": null, "value": 0}]
+      "data": []
     }
   },
   "battle_logs": [],

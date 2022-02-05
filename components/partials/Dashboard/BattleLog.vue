@@ -24,7 +24,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="item in data.battle_logs" :key="item.battle_id">
+        <tr v-for="item in battle_logs" :key="item.battle_id">
           <td class="p-3">
             <p>
               <b>{{new Date(item.time_start).toLocaleDateString()}}</b>
@@ -79,7 +79,9 @@ export default {
     data() {
       return this.$store.state.config.wallet || schemas.WALLET
     },
-
+    battle_logs() {
+      return this.data.battle_logs.slice(0, 6)
+    }
   }
 }
 </script>

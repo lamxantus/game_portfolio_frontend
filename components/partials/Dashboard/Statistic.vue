@@ -11,11 +11,11 @@
     <div class="">
       <div class="flex justify-between">
         <h4 class="font-bold">ELO</h4>
-        <span class="font-bold">{{ data.elo }}</span>
+        <span class="font-bold">{{ Number(data.elo).toLocaleString() }}</span>
       </div>
       <div class="flex justify-between">
         <h4 class="font-bold">Rank</h4>
-        <span class="font-bold">{{ data.rank }}</span>
+        <span class="font-bold">{{ Number(data.rank).toLocaleString() }}</span>
       </div>
       <hr class="my-4 border-gray-100"/>
       <div>
