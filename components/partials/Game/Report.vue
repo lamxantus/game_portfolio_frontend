@@ -45,7 +45,7 @@
       <div class="bg-white flex-1 p-4">
         <table class="w-full table-auto text-sm">
           <thead>
-          <tr class="text-gray-400 font-bold bg-[#F7F8FF] uppercase text-xs leading-normal rounded">
+          <tr class="text-black font-bold uppercase text-xs leading-normal rounded">
             <th class="py-3 px-4 text-left">Name</th>
             <th class="py-3 px-4 text-left">Earning</th>
             <th class="py-3 px-4 text-left">Share</th>
@@ -139,7 +139,7 @@ export default {
 <style scoped>
 .quick-report {
   @apply relative overflow-hidden;
-  padding-top: 120%;
+  padding-top: 110%;
 }
 
 .quick-report .bg {
@@ -147,25 +147,5 @@ export default {
   background-position: center;
   background-size: cover;
   filter: blur(3px);
-}
-
-
-tr {
-  position: relative;
-}
-
-tr * {
-  position: relative;
-  z-index: 2;
-}
-
-tr:after {
-  @apply border border-white absolute top-0 left-0 bottom-0 right-0 rounded-lg;
-  content: "";
-  z-index: 1;
-}
-
-tr:hover:after {
-  border-color: #0F43F9;
 }
 </style>

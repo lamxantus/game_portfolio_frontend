@@ -50,7 +50,7 @@
         <span v-else-if="!done">Save</span>
         <span v-else>View your dashboard</span>
       </div>
-      <div v-if="form.id && !done" class="border border-[#0F43F9] p-2 px-4 rounded-xl">
+      <div v-if="form.id && !done" class="border border-[#0F43F9] p-2 px-4 rounded-xl" @click="skip">
         <span>Skip</span>
       </div>
     </div>
@@ -83,6 +83,10 @@ export default {
   },
   methods: {
     ...mapActions('config', ['fetchData']),
+    skip() {
+      this.fetchData("dashboard", 1);
+      this.$store.commit('config/SET_MODAL', null);
+    },
     action() {
       if (!this.form.id) {
         if (!this.form.wallet) return;
@@ -91,9 +95,11 @@ export default {
           game: this.game.id
         }).then((res) => {
           this.form.id = res.id;
-          this.fetchData("dashboard", 1);
-          this.$store.commit('config/SET_MODAL', null);
         })
+      } else if (!this.done) {
+
+      } else {
+
       }
     }
   }

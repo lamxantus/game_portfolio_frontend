@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+tr {
+  position: relative;
+}
+
+tr * {
+  position: relative;
+  z-index: 2;
+}
+
+tr:after {
+  @apply border border-white absolute top-0 left-0 bottom-0 right-0 rounded-lg;
+  content: "";
+  z-index: 1;
+}
+
+thead tr:after {
+  background: #F7F8FF;
+}
+
+tr:hover:after {
+  border-color: #0F43F9;
+}

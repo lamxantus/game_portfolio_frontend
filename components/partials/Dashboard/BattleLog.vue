@@ -14,7 +14,7 @@
     <div class="bg-white rounded-xl p-4 duration-300 hover:shadow-xl">
       <table class="table-fixed w-full">
         <thead>
-        <tr class="font-bold bg-[#F7F8FF]">
+        <tr class="font-bold rounded">
           <td class="p-3 w-1/4 text-left">Date</td>
           <td class="p-3">Mode</td>
           <td class="p-3">My Team</td>

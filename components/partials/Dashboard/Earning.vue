@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded bg-white rounded-xl duration-300 hover:shadow-xl p-4">
+  <div class="rounded-2xl bg-white duration-300 hover:shadow-xl p-4">
     <div class="mb-4 flex justify-between">
       <div class="flex items-center space-x-2 mb-3">
         <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
@@ -22,16 +22,16 @@
     <div class="mb-2 grid grid-cols-2 gap-4">
       <div class="flex justify-between">
         <h4 class="font-bold">Today</h4>
-        <div>
-          <div>{{ data.daily_earnings }} (<span class="text-green-400">+23</span>)</div>
-          <span>{{ getCurrentPriceRate * data.daily_earnings }}$</span>
+        <div v-if="data.daily_earnings">
+          <div>{{ data.daily_earnings.toLocaleString() }} (<span class="text-green-400">+23</span>)</div>
+          <span>{{ (getCurrentPriceRate * data.daily_earnings).toLocaleString() }}$</span>
         </div>
       </div>
       <div class="flex justify-between">
         <h4 class="font-bold">Average</h4>
-        <div>
-          <div>{{ data.average_earnings }} (<span class="text-green-400">+23</span>)</div>
-          <span>{{ data.average_earnings * getCurrentPriceRate }}$</span>
+        <div v-if="data.average_earnings">
+          <div>{{ data.average_earnings.toLocaleString() }} (<span class="text-green-400">+23</span>)</div>
+          <span>{{ (data.average_earnings * getCurrentPriceRate).toLocaleString() }}$</span>
         </div>
       </div>
     </div>
@@ -74,6 +74,21 @@ export default {
       this.data.report.elo.data.forEach(item => {
         const key = item.date.split("T")[0];
         arrElo[key] = Number(item.value);
+      })
+      let mm = 0;
+      Object.keys(arrEarn).forEach(key => {
+        if (!arrEarn[key]) {
+          arrEarn[key] = mm
+        } else {
+          mm = arrEarn[key]
+        }
+      })
+      Object.keys(arrElo).forEach(key => {
+        if (!arrElo[key]) {
+          arrElo[key] = mm
+        } else {
+          mm = arrElo[key]
+        }
       })
       this.chart = new Chart(ctx, {
         type: 'bar',
