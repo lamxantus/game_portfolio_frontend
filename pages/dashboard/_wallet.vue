@@ -81,7 +81,7 @@
             <div class="text-4xl bg-[#ACB9FF] p-1.5 w-12 h-12 rounded-full mx-auto mb-3">🤨</div>
             <p class="one-line">Unnamed</p>
           </div>
-          <div class="p-2 py-4 border border-dashed rounded-xl cursor-pointer text-center">
+          <div class="p-2 py-4 border border-dashed rounded-xl cursor-pointer text-center" @click="openForm()">
             <icon name="plus"></icon>
             <p>Add more wallet</p>
           </div>
@@ -110,7 +110,7 @@ export default {
     ...mapGetters("auth", ["getUserName"]),
   },
   fetch() {
-    this.fetchData(this.$route.params.wallet || "dashboard", 1)
+    this.fetchData(this.$route.params.wallet || "dashboard", this.$route.query.game)
   },
   methods: {
     ...mapActions("auth", ["logIn"]),
@@ -118,6 +118,16 @@ export default {
     edit() {
       this.$store.commit('config/SET_MODAL', {
         type: "update_wallet"
+      })
+    },
+    openForm() {
+      this.$store.commit('config/SET_MODAL', {
+        type: "add_wallet",
+        data: {
+          game: {
+            id: this.$route.query.game
+          }
+        }
       })
     }
   }

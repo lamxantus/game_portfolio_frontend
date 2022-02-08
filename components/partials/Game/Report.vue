@@ -58,9 +58,8 @@
           <template>
             <tr v-for="(item, i) in value.wallets" :key="i">
               <td class="py-3 px-4 text-left">
-                <nuxt-link class="text-[#0F43F9]" :to="`/dashboard/${item.address}`">{{
-                    shortAddress(item.name)
-                  }}
+                <nuxt-link class="text-[#0F43F9]" :to="`/dashboard/${item.address}?game=${value.id}`">
+                  {{ shortAddress(item.name) }}
                 </nuxt-link>
               </td>
               <td class="py-3 px-4 text-left">{{ item.todayEarning }}</td>

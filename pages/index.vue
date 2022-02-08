@@ -45,7 +45,7 @@
                 >Get Started</button>
               </div>
             </div>
-            <nuxt-link class="text-xs inline-flex items-center space-x-2" to="/dashboard/random">
+            <nuxt-link class="text-xs inline-flex items-center space-x-2" to="/dashboard/random?game=1">
               <span class="text-[#0F43F9]">View random wallet</span>
               <icon name="chv-right" class="sm" fill="#0F43F9"></icon>
             </nuxt-link>
