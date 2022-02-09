@@ -1,5 +1,6 @@
 <template>
   <div class="my-4">
+    <p v-if="!data.wallet" class="mb-4 bg-green-300 p-3 border rounded">This wallet data on the road, please be patient!</p>
     <div v-if="!user" class="w-full mb-6 md:inline-flex items-center space-y-2 md:space-y-0">
       <span class="text-lg font-bold mr-4">Tracker for </span>
       <label class="mr-4">
@@ -30,12 +31,14 @@
                 </div>
                 <h2 class="font-bold text-lg">Total Earning</h2>
               </div>
-              <div class="hover:shadow-xl duration-300 bg-white p-3 rounded-2xl flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div
+                class="hover:shadow-xl duration-300 bg-white p-3 rounded-2xl flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
                 <div class="">
                   <h4 class="text-[#0F43F9]">Unclaimed</h4>
-                  <div v-if="data.unclaimed" class="font-bold text-4xl">{{ Number(data.unclaimed).toLocaleString() }}</div>
+                  <div class="font-bold text-4xl">{{ Number(data.unclaimed || "0").toLocaleString() }}</div>
                   <div>SLP</div>
-                  <span v-if="data.unclaimed" class="text-gray-500">{{ (getCurrentPriceRate * data.unclaimed).toLocaleString() }}$</span>
+                  <span v-if="data.unclaimed"
+                        class="text-gray-500">{{ (getCurrentPriceRate * data.unclaimed).toLocaleString() }}$</span>
                 </div>
                 <div class="">
                   <h4 class="text-[#10CE00]">Claimed</h4>
@@ -45,9 +48,9 @@
                 </div>
                 <div class="">
                   <h4 class="text-[#FFA800]">Total Earning</h4>
-                  <div v-if="data.totalEarning" class="font-bold text-4xl">{{ Number(data.totalEarning).toLocaleString() }}</div>
+                  <div class="font-bold text-4xl">{{ Number(data.totalEarning || "0").toLocaleString() }}</div>
                   <div>SLP</div>
-                  <span v-if="data.totalEarning" class="text-gray-500">{{ (getCurrentPriceRate * data.totalEarning).toLocaleString() }}$</span>
+                  <span class="text-gray-500">{{ (getCurrentPriceRate * data.totalEarning).toLocaleString() }}$</span>
                 </div>
                 <div class="">
                   <h4 class="text-[#00A3FF]">Next Claim</h4>
@@ -67,20 +70,20 @@
               <div v-if="data.premium" class="hover:shadow-xl duration-300 bg-white p-3 rounded-2xl">
                 <div class="flex justify-between items-center mb-1">
                   <h4>Investment</h4>
-                  <div class="font-bold">{{data.premium.lifetime_invest.toLocaleString()}}$</div>
+                  <div class="font-bold">{{ data.premium.lifetime_invest.toLocaleString() }}$</div>
                 </div>
                 <div class="flex justify-between items-center">
                   <h4>Expenses</h4>
-                  <div class="font-bold">{{data.premium.lifetime_revenue.toLocaleString()}}$</div>
+                  <div class="font-bold">{{ data.premium.lifetime_revenue.toLocaleString() }}$</div>
                 </div>
                 <hr class="my-2 border-gray-100">
                 <div class="flex justify-between items-center mb-1">
                   <h4>Return</h4>
-                  <div class="font-bold">{{data.premium.lifetime_profit.toLocaleString()}}$</div>
+                  <div class="font-bold">{{ data.premium.lifetime_profit.toLocaleString() }}$</div>
                 </div>
                 <div class="flex justify-between items-center">
                   <h4>ROI</h4>
-                  <div class="font-bold">{{data.premium.roi}}$</div>
+                  <div class="font-bold">{{ data.premium.roi }}$</div>
                 </div>
               </div>
             </div>
@@ -117,10 +120,13 @@
                 <span>{{ item.price.toFixed(3) }}</span>
               </div>
               <hr class="my-2 border-gray-100">
-              <div class="text-xs flex space-x-2 items-center">
+              <a
+                :href="`https://marketplace.axieinfinity.com/axie/${item.id}/`"
+                target="_blank"
+                class="text-xs flex space-x-2 items-center">
                 View on marketplace
                 <icon name="chv-right" class="sm"></icon>
-              </div>
+              </a>
             </div>
           </div>
         </div>

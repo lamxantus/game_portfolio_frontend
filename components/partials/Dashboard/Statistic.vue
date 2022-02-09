@@ -11,11 +11,11 @@
     <div class="">
       <div class="flex justify-between">
         <h4 class="font-bold">ELO</h4>
-        <span class="font-bold">{{ Number(data.elo).toLocaleString() }}</span>
+        <span class="font-bold">{{ Number(data.elo || "0").toLocaleString() }}</span>
       </div>
       <div class="flex justify-between">
         <h4 class="font-bold">Rank</h4>
-        <span class="font-bold">{{ Number(data.rank).toLocaleString() }}</span>
+        <span class="font-bold">{{ Number(data.rank || "0").toLocaleString() }}</span>
       </div>
       <hr class="my-4 border-gray-100"/>
       <div>
@@ -133,8 +133,8 @@ export default {
       if (chart) chart.destroy();
       const data = {
         labels: [
-          'Red',
-          'Blue',
+          'Lose',
+          'Win',
         ],
         datasets: [{
           data: [this.data.battle_logs.length - this.win, this.win],

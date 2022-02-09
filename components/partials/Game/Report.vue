@@ -62,8 +62,8 @@
                 </nuxt-link>
               </td>
               <td class="py-3 px-4 text-left">{{ item.todayEarning }}</td>
+              <td class="py-3 px-4 text-left">{{(item.earning_rate || 1) * 100}}%</td>
               <td class="py-3 px-4 text-left">{{ item.elo }}</td>
-              <td class="py-3 px-4 text-left">4</td>
               <td v-if="item.win_rate" class="py-3 px-4 text-left">{{ (item.win_rate * 100).toLocaleString() }}%</td>
               <td class="py-3 px-4 text-right">{{item.totalNFT}}</td>
             </tr>

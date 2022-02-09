@@ -45,8 +45,8 @@
                 >Get Started</button>
               </div>
             </div>
-            <nuxt-link class="text-xs inline-flex items-center space-x-2" to="/dashboard/random?game=1">
-              <span class="text-[#0F43F9]">View random wallet</span>
+            <nuxt-link class="text-sm inline-flex items-center space-x-1" :to="`/dashboard/${user ? '': 'random?game=1'}`">
+              <span class="text-[#0F43F9]">{{user ? 'Dashboard' : 'View random wallet'}}</span>
               <icon name="chv-right" class="sm" fill="#0F43F9"></icon>
             </nuxt-link>
           </div>
@@ -119,7 +119,7 @@ export default {
   },
   methods: {
     trackWallet() {
-      if (this.wallet) {
+      if (this.wl) {
         const x = this.wl.replace("ronin:", "0x")
         this.$router.push(`/dashboard/${x}?game=1`);
       }

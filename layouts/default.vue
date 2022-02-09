@@ -2,9 +2,9 @@
   <div class="flex">
     <div v-if="user && $route.path !== '/'" class="sidebar">
       <div>
-        <n-link to="/">
+        <nuxt-link to="/">
           <img src="/logo.png" alt="">
-        </n-link>
+        </nuxt-link>
       </div>
       <div class="flex-1 flex flex-col justify-center">
         <nuxt-link to="/dashboard" class="menu-item">
@@ -72,7 +72,7 @@ export default {
 }
 
 .sidebar {
-  @apply bg-white h-screen flex flex-col p-4;
+  @apply bg-white h-screen flex flex-col p-4 shadow;
   width: 240px;
 }
 
