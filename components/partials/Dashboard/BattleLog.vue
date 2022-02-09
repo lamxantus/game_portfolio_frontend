@@ -1,7 +1,7 @@
 <template>
   <div v-if="data && data.battle_logs">
-    <div class="mb-4 flex justify-between">
-      <div class="flex items-center space-x-2 mb-3">
+    <div class="mb-3 flex justify-between">
+      <div class="flex items-center space-x-2">
         <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
           <img src="/icon/battle-log.png" alt="">
         </div>

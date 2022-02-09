@@ -55,7 +55,7 @@
         <div class="rounded-xl bg-white hover:shadow-xl duration-300 p-4">
           <div class="flex">
             <div class="flex-1">
-              <div class="text-2xl font-bold">25</div>
+              <div class="text-2xl font-bold">{{ totalNFT }}</div>
               <div>NFT</div>
             </div>
             <div class="w-3/5">
@@ -76,8 +76,8 @@
           <hr class="border-gray-100 my-4">
           <div class="flex">
             <div class="flex-1">
-              <div class="text-2xl font-bold">25</div>
-              <div>NFT</div>
+              <div class="text-2xl font-bold">{{ totalScholar }}</div>
+              <div>Scholar</div>
             </div>
             <div class="w-3/5">
               <div class="flex justify-between items-center">
@@ -89,7 +89,7 @@
                 <span class="font-bold">0$</span>
               </div>
               <div class="flex justify-between items-center">
-                <span>Best Earning</span>
+                <span>Most Invest</span>
                 <span class="font-bold">0$</span>
               </div>
             </div>
@@ -112,7 +112,9 @@ export default {
     return {
       total: 0,
       claimed: 0,
-      unClaimed: 0
+      unClaimed: 0,
+      totalNFT: 0,
+      totalScholar: 0
     }
   },
   computed: {
@@ -138,12 +140,16 @@ export default {
       this.unClaimed = 0;
       this.games.forEach(game => {
         const rate = this.$store.getters["config/getPriceRate"](game.options["token_in_game"]);
-        const rateValue = rate ? rate.price : 0
+        const rateValue = rate ? rate.price : 0;
         game.wallets.forEach(wallet => {
           this.total = this.total + wallet.totalEarning * rateValue;
           this.claimed = this.claimed + wallet.claimed * rateValue;
           this.unClaimed = this.unClaimed + wallet.unclaimed * rateValue;
+          this.totalNFT = this.totalNFT + wallet.totalNFT
         })
+        if (game.wallets.length) {
+          this.totalScholar ++
+        }
       })
     }
   }

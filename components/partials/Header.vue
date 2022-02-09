@@ -1,6 +1,6 @@
 <template>
   <header class="bg-black text-white">
-    <div class="wrapper" :class="{'container': !$route.path.includes('dashboard') || !user}">
+    <div class="wrapper">
       <div class="flex space-x-4 my-2 text-xs items-center">
         <div class="p-1 px-3 bg-[#555555] rounded">{{now.toISOString()}}</div>
         <div v-for="item in priceRates" :key="item.pair">

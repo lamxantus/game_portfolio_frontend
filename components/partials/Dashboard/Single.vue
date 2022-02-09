@@ -150,29 +150,6 @@
           </div>
         </div>
       </div>
-      <div v-if="false" class="md:w-64">
-        <div class="wallet-select">
-          <div>
-            <span class="bg-[#0F43F9] py-1 p-4 text-white rounded-full">Wallet 1</span>
-          </div>
-        </div>
-        <div class="wallet-select active">
-          <div>
-            <span class="bg-[#0F43F9] py-1 p-4 text-white rounded-full">Wallet 2</span>
-          </div>
-          <div class="mt-2">Name: Mai Anh</div>
-        </div>
-        <div class="wallet-select">
-          <div>
-            <span class="bg-[#0F43F9] py-1 p-4 text-white rounded-full">Wallet 3</span>
-          </div>
-        </div>
-        <div class="wallet-select">
-          <div>
-            <span class="bg-[#0F43F9] py-1 p-4 text-white rounded-full">Wallet 4</span>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>

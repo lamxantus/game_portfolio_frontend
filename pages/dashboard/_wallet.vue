@@ -29,7 +29,7 @@
         <dashboard-single v-else/>
       </div>
     </div>
-    <div v-if="user && $route.params.wallet" class="bg-[#DDE0F64D] w-72 p-4 py-8">
+    <div v-if="user && isWallet && $route.params.wallet !== 'random'" class="bg-[#DDE0F64D] w-72 p-4 py-8">
       <div class="flex items-center space-x-3">
         <div class="text-4xl bg-[#ACB9FF] p-1.5 w-12 h-12 rounded-full">🤨</div>
         <div class="flex-1">
@@ -108,9 +108,15 @@ export default {
   },
   computed: {
     ...mapGetters("auth", ["getUserName"]),
+    isWallet() {
+      return !["game", "scholarship"].includes(this.$route.params.wallet)
+    }
   },
   fetch() {
-    this.fetchData(this.$route.params.wallet || "dashboard", this.$route.query.game)
+    if (this.isWallet) {
+      this.fetchData(this.$route.params.wallet || "dashboard", this.$route.query.game)
+    }
+
   },
   methods: {
     ...mapActions("auth", ["logIn"]),

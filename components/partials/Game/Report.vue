@@ -25,9 +25,8 @@
               </div>
               <div class="shadow bg-white p-3 rounded-lg">
                 <span>Roi</span>
-                <h4 class="font-extrabold text-xl">{{ analytic.unclaimed.toLocaleString() }}</h4>
-                <div class="font-bold">{{value.options['token_in_game']}}</div>
-                <span class="text-gray-500">{{ (priceRate * analytic.unclaimed).toLocaleString() }}$</span>
+                <h4 class="font-extrabold text-xl">{{ (analytic.roi * 100).toLocaleString() }}</h4>
+                <div class="font-bold">%</div>
               </div>
               <div class="shadow bg-white p-3 rounded-lg">
                 <span>Me</span>
@@ -65,8 +64,8 @@
               <td class="py-3 px-4 text-left">{{ item.todayEarning }}</td>
               <td class="py-3 px-4 text-left">{{ item.elo }}</td>
               <td class="py-3 px-4 text-left">4</td>
-              <td class="py-3 px-4 text-left">{{ item.totalNFT }}</td>
-              <td class="py-3 px-4 text-right">6</td>
+              <td v-if="item.win_rate" class="py-3 px-4 text-left">{{ (item.win_rate * 100).toLocaleString() }}%</td>
+              <td class="py-3 px-4 text-right">{{item.totalNFT}}</td>
             </tr>
           </template>
           </tbody>
@@ -101,17 +100,24 @@ export default {
       let earning = 0;
       let unclaimed = 0;
       let totalNFT = 0;
+      let rv = 0;
+      let iv = 0;
       if (this.value.wallets) {
         this.value.wallets.forEach(item => {
           earning = +item.totalEarning + +earning;
           unclaimed = +item.todayEarning + +unclaimed;
-          totalNFT = totalNFT + item.totalNFT
+          totalNFT = totalNFT + item.totalNFT;
+          if (item.premium) {
+            rv = rv + item.premium.lifetime_profit;
+            iv = iv + item.premium.lifetime_invest;
+          }
         })
       }
       return {
         earning,
         unclaimed,
-        totalNFT
+        totalNFT,
+        roi: iv ? rv / iv : 0
       }
     },
     priceRate() {

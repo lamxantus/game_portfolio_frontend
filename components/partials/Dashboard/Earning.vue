@@ -107,7 +107,7 @@ export default {
           }).reverse(),
           datasets: [{
             barPercentage: 0.6,
-            label: '# of Votes',
+            label: 'SLPs',
             data: Object.values(arrEarn).reverse(),
             backgroundColor: ['#DDDDDD'],
             borderRadius: Number.MAX_VALUE,
@@ -115,6 +115,7 @@ export default {
             order: 2
           }, {
             barPercentage: 0.6,
+            label: 'ELOs',
             data: Object.values(arrElo).reverse(),
             backgroundColor: ['#FFA800'],
             borderColor: '#FFA800',
