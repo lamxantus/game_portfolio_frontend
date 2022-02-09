@@ -125,7 +125,7 @@ export default {
     }
   },
   fetch() {
-    if (this.isWallet) {
+    if (this.isWallet || !this.$route.params.wallet) {
       this.fetchData(this.$route.params.wallet || "dashboard", this.$route.query.game)
     }
   },
