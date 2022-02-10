@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container py-6 mt-6 border-t border-[#ACB9FF20] text-sm">
-      <div class="flex justify-between items-center">
+      <div class="flex flex-col md:flex-row justify-between items-center">
         <div class="w-full mb-6 md:inline-flex items-center space-y-2 md:space-y-0">
           <span class="text-lg font-bold mr-4">Keep in touch</span>
           <label class="mr-4">
@@ -25,7 +25,7 @@
           </a>
         </div>
       </div>
-      <div class="flex justify-between">
+      <div class="flex flex-col md:flex-row justify-between">
         <p class="text-[#808080]">© 2022 Copyright by Xantus, .JSC. All rights reserved</p>
         <div class="flex space-x-6 text-[#0F43F9]">
           <a href="">White paper</a>

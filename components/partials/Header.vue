@@ -1,11 +1,15 @@
 <template>
   <header class="bg-black text-white">
-    <div class="wrapper">
-      <div class="flex space-x-4 my-2 text-xs items-center">
-        <div class="p-1 px-3 bg-[#555555] rounded">{{now.toISOString()}}</div>
-        <div v-for="item in priceRates" :key="item.pair">
-          <span class="text-[#C4C4C4]">{{ item.pair }}</span>
-          <span class="text-green-400">{{ item.price.toLocaleString() }}</span>
+    <div class="flex space-x-6 m-2 text-xs items-center">
+      <div class="p-1 px-3 bg-[#555555] rounded">{{now.toISOString()}}</div>
+      <div class="relative flex-1 h-4">
+        <div class="absolute top-0 left-0 right-0 bottom-0 overflow-x-auto overflow-y-hidden disable-scrollbar">
+          <div class="flex space-x-4 items-center " style="white-space: nowrap;">
+            <div class="space-x-2 inline-flex" v-for="item in priceRates" :key="item.pair">
+              <span class="text-[#C4C4C4]">{{ item.pair }}</span>
+              <span class="text-green-400">{{ item.price.toLocaleString() }}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -49,5 +53,15 @@ header .wrapper.container {
 
 .site-title {
   @apply flex space-x-2;
+}
+
+.disable-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.disable-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 </style>

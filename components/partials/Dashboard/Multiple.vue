@@ -1,6 +1,6 @@
 <template>
   <div class="my-4">
-    <div class="mb-6 flex space-x-4">
+    <div class="mb-6 md:flex md:space-x-4 space-y-4 md:space-y-0">
       <div class="flex-1">
         <div class="flex items-center space-x-2 mb-3">
           <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
@@ -45,7 +45,7 @@
           </div>
         </div>
       </div>
-      <div class="w-1/3">
+      <div class="md:w-1/3">
         <div class="flex items-center space-x-2 mb-3">
           <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
             <img src="/icon/bookmark.png" alt="">

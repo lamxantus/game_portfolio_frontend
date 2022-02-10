@@ -72,7 +72,7 @@ export default {
 }
 
 .sidebar {
-  @apply bg-white h-screen flex flex-col p-4 shadow;
+  @apply bg-white h-screen hidden md:flex flex-col p-4 shadow;
   width: 240px;
 }
 
