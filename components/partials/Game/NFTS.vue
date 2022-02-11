@@ -5,7 +5,7 @@
         <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
           <img src="/icon/earning.png" alt="">
         </div>
-        <h2 class="font-bold text-lg">Total Earning</h2>
+        <h2 class="font-bold text-lg">Axies Infinity</h2>
       </div>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
