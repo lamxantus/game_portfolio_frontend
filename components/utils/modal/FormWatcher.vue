@@ -121,12 +121,15 @@ export default {
       if (!this.form.id) {
         if (!this.form.wallet) return;
         this.$axios.$post('/watch', {
-          address: this.form.wallet
+          address: this.form.wallet,
+          game: this.form.game
         }).then((res) => {
           this.form.id = res.id;
         })
       } else if (!this.done && this.form.id) {
-        this.$axios.$post('/save-watcher', this.form)
+        this.$axios.$post('/save-watcher', this.form).then(() => {
+          this.done = true;
+        })
       } else {
         this.skip()
       }
