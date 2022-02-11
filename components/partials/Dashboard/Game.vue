@@ -1,21 +1,20 @@
 <template>
-  <div class="my-6 md:my-12 border bg-white hover:shadow-xl rounded-lg p-4">
-    <div class="-mt-8 mb-6">
-      <div class="inline-flex rounded bg-gray-200 overflow-hidden">
-        <span class="py-1 p-6 cursor-pointer text-white bg-[#0F43F9]">Game 1</span>
-        <span class="py-1 p-6 cursor-pointer">Game 1</span>
-        <span class="py-1 p-6 cursor-pointer">Game 1</span>
-      </div>
+  <div class="">
+    <div class="mb-4">
+      <h4 class="font-bold text-lg">Hello Son,</h4>
+      <p class="text-gray-500">Next claimed is about 3 days. Here is sumary of your porfolio</p>
     </div>
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-
-    </div>
+    <n-f-t-s :id="1"/>
   </div>
 </template>
 
 <script>
+import NFTS from "../Game/NFTS";
+
 export default {
-  name: "Game"
+  name: "Game",
+  components: {NFTS}
+
 }
 </script>
 

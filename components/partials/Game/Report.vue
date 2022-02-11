@@ -8,8 +8,8 @@
         <h2 class="font-bold text-lg">{{ value.name }}</h2>
       </div>
     </div>
-    <div class="flex rounded-xl bg-white hover:shadow-xl duration-300 overflow-hidden">
-      <div class="w-1/3">
+    <div class="md:flex rounded-xl bg-white hover:shadow-xl duration-300 overflow-hidden">
+      <div class="md:w-1/3">
         <div class="quick-report">
           <div class="bg" :style="{backgroundImage: `url(${bgURL})`}"></div>
           <div class="absolute top-0 left-0 right-0 bottom-0 p-4 flex flex-col">
@@ -48,9 +48,9 @@
             <th class="py-3 px-4 text-left">Name</th>
             <th class="py-3 px-4 text-left">Earning</th>
             <th class="py-3 px-4 text-left">Share</th>
-            <th class="py-3 px-4 text-left">Elo</th>
-            <th class="py-3 px-4 text-left">Win Rate</th>
-            <th class="py-3 px-4 text-right">NFTs</th>
+            <th class="py-3 px-4 text-left hidden md:table-cell">Elo</th>
+            <th class="py-3 px-4 text-left hidden md:table-cell">Win Rate</th>
+            <th class="py-3 px-4 text-right hidden md:table-cell">NFTs</th>
           </tr>
           </thead>
           <tbody>
@@ -63,9 +63,9 @@
               </td>
               <td class="py-3 px-4 text-left">{{ item.todayEarning }}</td>
               <td class="py-3 px-4 text-left">{{(item.earning_rate || 1) * 100}}%</td>
-              <td class="py-3 px-4 text-left">{{ item.elo }}</td>
-              <td v-if="item.win_rate" class="py-3 px-4 text-left">{{ (item.win_rate * 100).toLocaleString() }}%</td>
-              <td class="py-3 px-4 text-right">{{item.totalNFT}}</td>
+              <td class="py-3 px-4 text-left hidden md:table-cell">{{ item.elo }}</td>
+              <td class="py-3 px-4 text-left hidden md:table-cell">{{ ((item.win_rate || 0) * 100).toLocaleString() }}%</td>
+              <td class="py-3 px-4 text-right hidden md:table-cell">{{item.totalNFT}}</td>
             </tr>
           </template>
           </tbody>

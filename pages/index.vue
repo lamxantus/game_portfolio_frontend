@@ -18,37 +18,39 @@
           </div>
         </div>
       </div>
-      <div class="container">
-        <div class="text-center md:w-3/5 mx-auto text-5xl font-bold leading-10">
+      <div class="container relative z-20 text-center">
+        <div class="md:w-3/5 mx-auto text-5xl font-bold leading-10">
           <div class="mb-3">Easily Track your</div>
           <div>GameFI Portfolio</div>
         </div>
+        <div class="mt-6">
+          <h2 class="mb-4 font-bold text-lg">Enter your  wallet address</h2>
+          <div class="mb-4 flex justify-center">
+            <div class="inline-flex items-center space-x-3">
+              <label>
+                <input
+                  v-model="wl"
+                  class="p-1.5 px-2 border border-gray-200 rounded" type="text" placeholder="Wallet Address"
+                >
+              </label>
+              <button
+                class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded"
+                @click="trackWallet"
+              >Get Started</button>
+            </div>
+          </div>
+          <nuxt-link class="text-sm inline-flex items-center space-x-1" :to="`/dashboard/${user ? '': 'random?game=1'}`">
+            <span class="text-white">{{user ? 'Dashboard' : 'View random wallet'}}</span>
+            <icon name="chv-right" class="sm" fill="white"></icon>
+          </nuxt-link>
+        </div>
       </div>
     </section>
-    <section style="margin-top: -45vh;">
+    <section style="margin-top: -32.5vh;">
       <div class="container">
         <div class="relative">
           <img class="mx-auto" src="/bg/macbook.png" alt="">
           <div class="absolute top-12 pb-6 left-0 right-0 text-center">
-            <h2 class="mb-4 font-bold text-lg">Enter your  wallet address</h2>
-            <div class="mb-4 flex justify-center">
-              <div class="inline-flex items-center space-x-3">
-                <label>
-                  <input
-                    v-model="wl"
-                    class="p-1.5 px-2 border border-gray-200 rounded" type="text" placeholder="Wallet Address"
-                  >
-                </label>
-                <button
-                  class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded"
-                  @click="trackWallet"
-                >Get Started</button>
-              </div>
-            </div>
-            <nuxt-link class="text-sm inline-flex items-center space-x-1" :to="`/dashboard/${user ? '': 'random?game=1'}`">
-              <span class="text-[#0F43F9]">{{user ? 'Dashboard' : 'View random wallet'}}</span>
-              <icon name="chv-right" class="sm" fill="#0F43F9"></icon>
-            </nuxt-link>
           </div>
         </div>
         <div class="my-10 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6 -mx-4 md:mx-0">
