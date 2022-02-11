@@ -82,6 +82,7 @@
 
 <script>
 import {mapActions} from "vuex";
+import {cloneDeep} from "lodash";
 
 export default {
   name: "FormWatcher",
@@ -142,7 +143,7 @@ export default {
           this.form.id = data.watcher.id;
           this.form.earn_ratio = data.watcher.earn_ratio;
           this.form.wallet = data.watcher.wallet;
-          this.form.meta = data.watcher.meta ? data.watcher.meta : {
+          this.form.meta = data.watcher.meta ? cloneDeep(data.watcher.meta) : {
             name: null,
             phone: null,
             address: null,
