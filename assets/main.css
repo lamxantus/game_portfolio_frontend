@@ -25,3 +25,43 @@ thead tr:after {
 tr:hover:after {
   border-color: #0F43F9;
 }
+
+
+.notification {
+  @apply fixed bottom-6 right-6 left-6 md:left-auto;
+  z-index: 21;
+}
+
+.notification .item {
+  @apply w-full md:w-80 p-2 pl-4 rounded bg-green-500 text-white flex justify-between shadow;
+  animation-duration: 0.25s;
+  animation-name: slideIn;
+}
+
+.notification .item.error {
+  @apply bg-red-500;
+}
+
+.notification .item:not(:last-child) {
+  @apply mb-2;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translate(0, -1rem);
+  }
+
+  to {
+    transform: translate(0, 0);
+  }
+}
+
+.waitingForConnection1 {
+  animation: blinker1 1.7s cubic-bezier(.5, 0, 1, 1) infinite alternate;
+}
+
+@keyframes blinker1 {
+  to {
+    opacity: 0;
+  }
+}

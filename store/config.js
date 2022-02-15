@@ -1,4 +1,5 @@
 import Vue from 'vue';
+
 const schemas = require("/plugins/schemas");
 export default {
   namespaced: true,
@@ -19,7 +20,8 @@ export default {
     wallet: schemas.WALLET,
     modal: null,
     priceRates: [],
-    activeGame: 0
+    activeGame: 0,
+    ns: []
   }),
   mutations: {
     ["SET_GAMES"](state, payload) {
@@ -37,6 +39,16 @@ export default {
     },
     ["SET_PRICE"](state, payload) {
       state.priceRates = payload;
+    },
+    ["PUSH_NOTIFY"](state, payload) {
+      state.ns.unshift(payload)
+    },
+    ["REMOVE_NOTIFY"](state, index) {
+      if (index) {
+        state.ns.splice(index, 1)
+      } else {
+        state.ns.pop()
+      }
     }
   },
   actions: {
@@ -52,8 +64,12 @@ export default {
           wallet: wallet,
           data: res
         })
+      } else {
+        commit("SET_DATA", {
+          wallet: wallet,
+          data: schemas.WALLET
+        })
       }
-
     }
   },
   getters: {

@@ -3,8 +3,9 @@ const cookie_parser = process['server'] ? require('cookieparser') : undefined
 export default function (context, inject) {
   const $auth = {}
   const logout = async () => {
-    await setToken(null)
-    await setUser(null)
+    await setToken(null);
+    await setUser(null);
+    context.redirect("/");
   }
   const login = async (credential) => {
     let res = await context.$axios.$post('/auth/login/', credential).catch(e => {

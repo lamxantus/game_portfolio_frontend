@@ -42,6 +42,19 @@
       <nuxt class="flex-1"/>
       <p-footer/>
       <modal-adapter/>
+      <div v-if="$store.state.config.ns.length" class="notification">
+        <transition v-for="(n, index) in $store.state.config.ns" :key="index" name="fade">
+          <div :class="`item ${n.type}`">
+            <span class="text-sm">{{ n.msg }}</span>
+            <icon
+              class="cursor-pointer px-1 hover:bg-green-700"
+              fill="#EEE"
+              name="close"
+              @click.native="$store.commit('config/REMOVE_NOTIFY', index)"
+            />
+          </div>
+        </transition>
+      </div>
     </div>
   </div>
 </template>

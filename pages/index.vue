@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section id="s1" class="bg-black text-white py-4" style="height: 70vh">
+    <section class="bg-black text-white">
       <div class="container mb-10">
         <div class="mb-4 flex justify-between">
           <div class="flex space-x-2 items-center">
@@ -23,14 +23,14 @@
           <div class="mb-3">Easily Track your</div>
           <div>GameFI Portfolio</div>
         </div>
-        <div class="mt-6">
+        <div class="my-6">
           <h2 class="mb-4 font-bold text-lg">Enter your  wallet address</h2>
-          <div class="mb-4 flex justify-center">
+          <div class="mb-4 flex justify-center" @keyup.enter="trackWallet">
             <div class="inline-flex items-center space-x-3">
               <label>
                 <input
                   v-model="wl"
-                  class="p-1.5 px-2 border border-gray-200 rounded" type="text" placeholder="Wallet Address"
+                  class="p-1.5 px-2 border text-black border-gray-200 rounded" type="text" placeholder="Wallet Address"
                 >
               </label>
               <button
@@ -45,14 +45,19 @@
           </nuxt-link>
         </div>
       </div>
-    </section>
-    <section style="margin-top: -32.5vh;">
-      <div class="container">
-        <div class="relative">
-          <img class="mx-auto" src="/bg/macbook.png" alt="">
-          <div class="absolute top-12 pb-6 left-0 right-0 text-center">
+      <div class="bg-[#F7F8FF] relative">
+        <div id="s1" class="absolute bg-black top-0 left-0 right-0 bottom-1/2"></div>
+        <div class="container">
+          <div class="relative z-10">
+            <img class="mx-auto" src="/bg/macbook.png" alt="">
+            <div class="absolute top-12 pb-6 left-0 right-0 text-center">
+            </div>
           </div>
         </div>
+      </div>
+    </section>
+    <section>
+      <div class="container">
         <div class="my-10 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6 -mx-4 md:mx-0">
           <div class="p-6 bg-white rounded-2xl duration-300 hover:shadow-xl">
             <h3 class="mb-2 text-xl font-bold flex space-x-2 items-center">
@@ -111,6 +116,8 @@
 <script>
 import Adapter from "../components/utils/modal/Adapter";
 import {mapActions, mapGetters} from "vuex";
+import Web3 from "web3";
+
 export default {
   name: "PageIndex",
   components: {Adapter},
@@ -123,7 +130,14 @@ export default {
     trackWallet() {
       if (this.wl) {
         const x = this.wl.replace("ronin:", "0x")
-        this.$router.push(`/dashboard/${x}?game=1`);
+        if (Web3.utils.isAddress(x)) {
+          this.$router.push(`/dashboard/${x}?game=1`);
+        } else {
+          this.$store.commit('config/PUSH_NOTIFY', {
+            msg: "Please input a valid address",
+            type: "error"
+          })
+        }
       }
     },
     ...mapActions("auth", ["logIn"]),
@@ -136,20 +150,19 @@ export default {
 </script>
 
 <style>
-#s1 {
-  @apply relative;
-  overflow: hidden;
-}
+#s1 {}
 
 #s1:before {
   position: absolute;
-  width: 45vw;
-  height: 60vh;
+  width: 40vw;
+  top: 0;
   content: "";
-  bottom: -20vh;
-  left: 27.5vw;
+  bottom: 0;
+  left: 30vw;
   border-radius: 100%;
-  box-shadow: 0px -14px 70px 45px #0f43f9;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: 0 -14px 70px 45px #0f43f9;
   background: #0F43F9;
 }
 

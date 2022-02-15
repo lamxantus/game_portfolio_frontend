@@ -166,6 +166,7 @@ import Ranking from "./Ranking";
 import {mapActions, mapGetters} from "vuex";
 import Statistic from "./Statistic";
 import BattleLog from "./BattleLog";
+import Web3 from "web3";
 
 const schemas = require("/plugins/schemas");
 export default {
@@ -195,7 +196,14 @@ export default {
     trackWallet() {
       if (this.search) {
         const x = this.search.replace("ronin:", "0x")
-        this.$router.push(`/dashboard/${x}?game=1`);
+        if (Web3.utils.isAddress(x)) {
+          this.$router.push(`/dashboard/${x}?game=1`);
+        } else {
+          this.$store.commit('config/PUSH_NOTIFY', {
+            msg: "Please input a valid address",
+            type: "error"
+          })
+        }
       }
     }
   }

@@ -46,9 +46,14 @@ export default {
             })
             if (res && res.address.toLowerCase() === account.toLowerCase()) {
               await this.$auth.bcConnect(res.token);
+              this.$router.push('/dashboard')
             }
           }
         }
+      } else {
+        commit('config/SET_MODAL', {
+          type: 'metamask_install'
+        }, { root: true })
       }
     }
   },

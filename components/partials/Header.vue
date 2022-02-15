@@ -1,7 +1,7 @@
 <template>
   <header class="bg-black text-white">
     <div class="flex space-x-6 m-2 text-xs items-center">
-      <div class="p-1 px-3 bg-[#555555] rounded">{{now.toISOString()}}</div>
+      <div class="p-1 px-3 bg-[#555555] rounded">{{now.toLocaleDateString()}} {{now.toLocaleTimeString()}}</div>
       <div class="relative flex-1 h-4">
         <div class="absolute top-0 left-0 right-0 bottom-0 overflow-x-auto overflow-y-hidden disable-scrollbar">
           <div class="flex space-x-4 items-center " style="white-space: nowrap;">
@@ -11,6 +11,9 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="p-1 px-3 cursor-pointer" @click="$auth.logout()">
+        <icon name="logout" fill="#F9F9F9"></icon>
       </div>
     </div>
   </header>
@@ -33,6 +36,9 @@ export default {
   created() {
     this.$axios.$get("/prices").then(res => {
       this.$store.commit('config/SET_PRICE', res);
+    })
+    setInterval(() => {
+      this.now = new Date();
     })
   }
 }

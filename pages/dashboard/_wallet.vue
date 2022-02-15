@@ -20,8 +20,8 @@
             </div>
           </template>
           <div v-else-if="!$route.params.wallet">
-            <h4 class="font-bold text-lg">Hello Son,</h4>
-            <p class="text-gray-500">Next claimed is about 3 days. Here is sumary of your porfolio</p>
+            <h4 class="font-bold text-lg">Hello {{ user.last_name || "Unnamed" }},</h4>
+            <p class="text-gray-500">Next claimed is about 3 days. Here is summary of your portfolio</p>
           </div>
         </div>
         <dashboard-multiple v-if="!$route.params.wallet"/>
