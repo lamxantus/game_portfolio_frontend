@@ -52,7 +52,7 @@ export default {
     }
   },
   actions: {
-    async fetchData({commit, state}, wallet, game_id = 1) {
+    async fetchData({commit, state}, wallet, game_id = 4) {
       wallet = wallet.replace("ronin:", "0x");
       const res = await this.$axios.$get(`/${wallet}`, {
         params: {
