@@ -36,7 +36,7 @@
           <span class="font-bold">PVP</span>
         </div>
       </div>
-      <div class="flex items-center space-x-16">
+      <div v-if="data.win_rate" class="flex items-center space-x-16">
         <div class="flex-1">
           <div class="flex justify-between">
             <span>Win</span>
@@ -131,34 +131,36 @@ export default {
   methods: {
     draw() {
       if (chart) chart.destroy();
-      const data = {
-        labels: [
-          'Lose',
-          'Win',
-        ],
-        datasets: [{
-          data: [this.data.win_rate.result * this.data.win_rate.win, this.data.win_rate.win],
-          backgroundColor: [
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)',
+      if (this.data.win_rate) {
+        const data = {
+          labels: [
+            'Lose',
+            'Win',
           ],
-          hoverOffset: 4
-        }]
-      };
-      chart = new Chart(
-        document.getElementById('myChart'),
-        {
-          type: 'doughnut',
-          data: data,
-          options: {
-            plugins: {
-              legend: {
-                display: false
-              },
+          datasets: [{
+            data: [this.data.win_rate.result * this.data.win_rate.win, this.data.win_rate.win],
+            backgroundColor: [
+              'rgb(255, 99, 132)',
+              'rgb(54, 162, 235)',
+            ],
+            hoverOffset: 4
+          }]
+        };
+        chart = new Chart(
+          document.getElementById('myChart'),
+          {
+            type: 'doughnut',
+            data: data,
+            options: {
+              plugins: {
+                legend: {
+                  display: false
+                },
+              }
             }
           }
-        }
-      );
+        );
+      }
     }
   },
   watch: {
