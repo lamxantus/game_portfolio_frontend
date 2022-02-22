@@ -35,7 +35,7 @@ export default {
   name: "NFTS",
   props: {
     game: {
-      default: 1,
+      default: 4,
       type: Number
     }
   },
