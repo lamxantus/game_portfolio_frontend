@@ -36,15 +36,15 @@
           <span class="font-bold">PVP</span>
         </div>
       </div>
-      <div v-if="data.win_rate" class="flex items-center space-x-16">
-        <div class="flex-1">
+      <div class="flex items-center space-x-16">
+        <div v-if="data.win_rate" class="flex-1">
           <div class="flex justify-between">
             <span>Win</span>
-            <span>{{ data.win_rate.win }}</span>
+            <span>{{ data.win_rate.win.toLocaleString() }}</span>
           </div>
           <div class="flex justify-between">
             <span>Lose</span>
-            <span>{{ data.win_rate.win * data.win_rate.result }}</span>
+            <span>{{ (data.win_rate.win * data.win_rate.result).toLocaleString() }}</span>
           </div>
         </div>
         <div class="w-1/3">
