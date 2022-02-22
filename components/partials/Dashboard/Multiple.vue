@@ -12,7 +12,7 @@
           <div class="p-4 flex flex-col">
             <div class="flex-1">
               <div class="text-2xl font-bold ">${{ total.toLocaleString() }}</div>
-              <span class="text-[#10CE00]">(+23 Today)</span>
+              <span v-if="false" class="text-[#10CE00]">(+23 Today)</span>
             </div>
             <div>
               <div class="flex justify-between">
@@ -36,11 +36,14 @@
               <div>Month</div>
             </div>
             <div class="flex space-x-4 items-end h-40">
-              <div
-                class="flex-1 bg-white chart-elm bg-opacity-20 hover:bg-opacity-100 hover:text-black duration-200"
-                v-for="i in 7" :key="i" :style="{height: `${RD(20, 100)}%`}">
-                <span>{{ RD(20, 100) }}</span>
-              </div>
+              <template v-for="i in 7">
+                <div
+                  :key="i"
+                  class="flex-1 bg-white chart-elm bg-opacity-20 hover:bg-opacity-100 hover:text-black duration-200"
+                  :style="{height: `${reports[i - 1] ? reports[i - 1].h : 0}%`}">
+                  <span>{{ reports[i - 1] ? reports[i - 1].v : '|' }}</span>
+                </div>
+              </template>
             </div>
           </div>
         </div>
@@ -114,13 +117,18 @@ export default {
       claimed: 0,
       unClaimed: 0,
       totalNFT: 0,
-      totalScholar: 0
+      totalScholar: 0,
+      range: 7,
+      reports: []
     }
   },
   computed: {
     games() {
-      return this.$store.state.config.dashboard || schemas.DASHBOARD
-    }
+      return this.$store.state.config.dashboard || []
+    },
+    rates() {
+      return this.$store.state.config.priceRates
+    },
   },
   watch: {
     games: {
@@ -128,6 +136,15 @@ export default {
       handler: function () {
         this.compute()
       }
+    },
+    rates: {
+      deep: true,
+      handler: function () {
+        this.compute()
+      }
+    },
+    range() {
+      this.loadReport()
     }
   },
   methods: {
@@ -138,20 +155,41 @@ export default {
       this.total = 0;
       this.claimed = 0;
       this.unClaimed = 0;
-      this.games.forEach(game => {
+      for (let i = 0; i < this.games.length; i++) {
+        let game = this.games[i];
         const rate = this.$store.getters["config/getPriceRate"](game.options["token_in_game"]);
         const rateValue = rate ? rate.price : 0;
-        game.wallets.forEach(wallet => {
-          this.total = this.total + wallet.totalEarning * rateValue;
-          this.claimed = this.claimed + wallet.claimed * rateValue;
-          this.unClaimed = this.unClaimed + wallet.unclaimed * rateValue;
-          this.totalNFT = this.totalNFT + wallet.totalNFT
-        })
-        if (game.wallets.length) {
-          this.totalScholar ++
+        for (let j = 0; j < game.wallets.length; j++) {
+          const wallet = game.wallets[j];
+          this.total = this.total + +wallet.totalEarning * rateValue;
+          this.claimed = this.claimed + +wallet.claimed * rateValue;
+          this.unClaimed = this.unClaimed + +wallet.unclaimed * rateValue;
+          this.totalNFT = this.totalNFT + +wallet.totalNFT
         }
+        if (game.wallets.length) {
+          this.totalScholar++
+        }
+      }
+    },
+    loadReport() {
+      this.$axios.$get("/report", {
+        params: {
+          range: this.range
+        }
+      }).then(res => {
+        const max = Math.max(res.map(x => +x.value)) * 1.2;
+        this.reports = res.map(x => ({
+          v: +x.value,
+          h: (+x.value / max) * 100,
+          d: x.date
+        }))
       })
+
     }
+  },
+  mounted() {
+    this.compute();
+    this.loadReport()
   }
 }
 </script>

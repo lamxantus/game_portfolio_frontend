@@ -16,7 +16,7 @@ export default {
         }
       }
     ],
-    dashboard: schemas.DASHBOARD,
+    dashboard: [],
     wallet: schemas.WALLET,
     modal: null,
     priceRates: [],

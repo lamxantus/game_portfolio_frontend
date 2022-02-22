@@ -64,7 +64,7 @@
               <td class="py-3 px-4 text-left">{{ item.todayEarning }}</td>
               <td class="py-3 px-4 text-left">{{(item.earning_rate || 1) * 100}}%</td>
               <td class="py-3 px-4 text-left hidden md:table-cell">{{ item.elo }}</td>
-              <td class="py-3 px-4 text-left hidden md:table-cell">{{ ((item.win_rate || 0) * 100).toLocaleString() }}%</td>
+              <td class="py-3 px-4 text-left hidden md:table-cell">{{ (item.win_rate.result * 100).toLocaleString() }}%</td>
               <td class="py-3 px-4 text-right hidden md:table-cell">{{item.totalNFT}}</td>
             </tr>
           </template>

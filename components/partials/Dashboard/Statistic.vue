@@ -40,11 +40,11 @@
         <div class="flex-1">
           <div class="flex justify-between">
             <span>Win</span>
-            <span>{{ win }}</span>
+            <span>{{ data.win_rate.win }}</span>
           </div>
           <div class="flex justify-between">
             <span>Lose</span>
-            <span>{{ data.battle_logs.length - win }}</span>
+            <span>{{ data.win_rate.win * data.win_rate.result }}</span>
           </div>
         </div>
         <div class="w-1/3">
@@ -137,7 +137,7 @@ export default {
           'Win',
         ],
         datasets: [{
-          data: [this.data.battle_logs.length - this.win, this.win],
+          data: [this.data.win_rate.result * this.data.win_rate.win, this.data.win_rate.win],
           backgroundColor: [
             'rgb(255, 99, 132)',
             'rgb(54, 162, 235)',

@@ -23,7 +23,10 @@
       <div class="flex justify-between">
         <h4 class="font-bold">Today</h4>
         <div v-if="data.daily_earnings">
-          <div>{{ data.daily_earnings.toLocaleString() }} (<span class="text-green-400">+23</span>)</div>
+          <div>
+            {{ data.daily_earnings.toLocaleString() }}
+<!--            (<span class="text-green-400">+23</span>)-->
+          </div>
           <span>{{ (getCurrentPriceRate * data.daily_earnings).toLocaleString() }}$</span>
         </div>
       </div>
