@@ -67,23 +67,27 @@
                 </div>
                 <h2 class="font-bold text-lg">Wallet Sumary</h2>
               </div>
-              <div v-if="data.premium" class="hover:shadow-xl duration-300 bg-white p-3 rounded-2xl">
+              <div class="hover:shadow-xl duration-300 bg-white p-3 rounded-2xl">
                 <div class="flex justify-between items-center mb-1">
                   <h4>Investment</h4>
-                  <div class="font-bold">{{ data.premium.lifetime_invest.toLocaleString() }}$</div>
+                  <div v-if="data.premium.lifetime_invest" class="font-bold">{{ data.premium.lifetime_invest.toLocaleString() }}$</div>
+                  <div v-else>_</div>
                 </div>
                 <div class="flex justify-between items-center">
                   <h4>Expenses</h4>
-                  <div class="font-bold">{{ data.premium.lifetime_revenue.toLocaleString() }}$</div>
+                  <div v-if="data.premium.lifetime_revenue" class="font-bold">{{ data.premium.lifetime_revenue.toLocaleString() }}$</div>
+                  <div v-else>_</div>
                 </div>
                 <hr class="my-2 border-gray-100">
                 <div class="flex justify-between items-center mb-1">
                   <h4>Return</h4>
-                  <div class="font-bold">{{ data.premium.lifetime_profit.toLocaleString() }}$</div>
+                  <div v-if="data.premium.lifetime_profit" class="font-bold">{{ data.premium.lifetime_profit.toLocaleString() }}$</div>
+                  <div v-else>_</div>
                 </div>
                 <div class="flex justify-between items-center">
                   <h4>ROI</h4>
-                  <div class="font-bold">{{ data.premium.roi }}$</div>
+                  <div v-if="data.premium.roi" class="font-bold">{{ data.premium.roi }}$</div>
+                  <div v-else>_</div>
                 </div>
               </div>
             </div>
@@ -110,7 +114,7 @@
               <span class="font-bold">{{ data.totalNFT }}</span>
             </div>
           </div>
-          <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <div v-if="data.featured_nft.length" class="grid grid-cols-2 md:grid-cols-5 gap-4">
             <div v-for="(item, i) in data.featured_nft" :key="i"
                  class="bg-white rounded-lg duration-300 hover:shadow-xl p-3">
               <img :src="item.media_url" alt="">
@@ -128,6 +132,12 @@
                 <icon name="chv-right" class="sm"></icon>
               </a>
             </div>
+          </div>
+          <div class="p-8 text-center" v-else>
+            <div class="w-28 mx-auto mb-3">
+              <img src="/bg/empty.svg" alt="Empty">
+            </div>
+            <p class="text-gray-500">Empty data!</p>
           </div>
         </div>
         <div v-if="!user" class="mb-12 text-center">
@@ -195,7 +205,8 @@ export default {
     },
     trackWallet() {
       if (this.search) {
-        const x = this.search.replace("ronin:", "0x")
+        const x = this.search.replace("ronin:", "0x");
+        this.search = x;
         if (Web3.utils.isAddress(x)) {
           this.$router.push(`/dashboard/${x}?game=1`);
         } else {
@@ -204,6 +215,13 @@ export default {
             type: "error"
           })
         }
+      }
+    }
+  },
+  watch: {
+    data() {
+      if (this.data) {
+        this.search = this.data.wallet
       }
     }
   }

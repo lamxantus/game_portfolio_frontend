@@ -11,10 +11,10 @@
     <div class="md:flex rounded-xl bg-white hover:shadow-xl duration-300 overflow-hidden">
       <div class="md:w-1/3">
         <div class="quick-report">
-          <div class="bg" :style="{backgroundImage: `url(${bgURL})`}"></div>
+          <div class="bg" :style="{backgroundImage: `url(/bg/${value.id_string}.png)`}"></div>
           <div class="absolute top-0 left-0 right-0 bottom-0 p-4 flex flex-col">
             <div class="flex-1 flex justify-center items-center">
-              <img src="/logo/logo_axie.png" alt="">
+              <img :src="`/logo/${value.id_string}.png`" alt="">
             </div>
             <div class="grid grid-cols-2 gap-4 text-sm">
               <div class="shadow bg-white p-3 rounded-lg">
@@ -50,12 +50,12 @@
             <th class="py-3 px-4 text-left">Share</th>
             <th class="py-3 px-4 text-left hidden md:table-cell">Elo</th>
             <th class="py-3 px-4 text-left hidden md:table-cell">Win Rate</th>
-            <th class="py-3 px-4 text-right hidden md:table-cell">NFTs</th>
+            <th class="py-3 px-4 text-right">NFTs</th>
           </tr>
           </thead>
           <tbody>
           <template>
-            <tr v-for="(item, i) in value.wallets" :key="i">
+            <tr v-for="(item, i) in value.wallets" :key="i" class="has-remove">
               <td class="py-3 px-4 text-left">
                 <nuxt-link class="text-[#0F43F9]" :to="`/dashboard/${item.address}?game=${value.id}`">
                   {{ shortAddress(item.name) }}
@@ -64,8 +64,13 @@
               <td class="py-3 px-4 text-left">{{ item.todayEarning }}</td>
               <td class="py-3 px-4 text-left">{{(item.earning_rate || 1) * 100}}%</td>
               <td class="py-3 px-4 text-left hidden md:table-cell">{{ item.elo }}</td>
-              <td class="py-3 px-4 text-left hidden md:table-cell">{{ (item.win_rate.result * 100).toLocaleString() }}%</td>
-              <td class="py-3 px-4 text-right hidden md:table-cell">{{item.totalNFT}}</td>
+              <td class="py-3 px-4 text-left hidden md:table-cell">{{ (item.win_rate.results * 100).toLocaleString() }}%</td>
+              <td class="py-3 px-4 text-right">
+                <span>{{item.totalNFT}}</span>
+                <div class="remove" @click="removeWatcher(item.watcher.id)">
+                  <icon class="sm" fill="#FFF" name="remove"></icon>
+                </div>
+              </td>
             </tr>
           </template>
           </tbody>
@@ -84,6 +89,8 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
   name: "GameReport",
   props: {
@@ -93,9 +100,6 @@ export default {
     }
   },
   computed: {
-    bgURL() {
-      return "/bg/gunfire.png"
-    },
     analytic() {
       let earning = 0;
       let unclaimed = 0;
@@ -129,6 +133,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions('config', ['removeWatcher']),
     openForm() {
       this.$store.commit('config/SET_MODAL', {
         type: "add_wallet",

@@ -130,6 +130,7 @@ export default {
     trackWallet() {
       if (this.wl) {
         const x = this.wl.replace("ronin:", "0x")
+        this.wl = x;
         if (Web3.utils.isAddress(x)) {
           this.$router.push(`/dashboard/${x}?game=1`);
         } else {

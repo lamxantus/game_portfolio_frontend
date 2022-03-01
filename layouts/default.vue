@@ -33,7 +33,7 @@
           </div>
           <h4 class="font-bold">Xantus Wallet</h4>
           <p>The wallet of People</p>
-          <a class="inline-flex border text-gray-300 py-1.5 rounded-xl p-3 cursor-pointer">Read more</a>
+          <a class="inline-flex border text-white py-1.5 rounded-lg text-sm p-3 cursor-pointer">Read more</a>
         </div>
       </div>
     </div>

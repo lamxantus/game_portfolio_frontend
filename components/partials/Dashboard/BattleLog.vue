@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="bg-white rounded-xl p-4 duration-300 hover:shadow-xl">
-      <table class="table-fixed w-full">
+      <table v-if="battle_logs.length" class="table-fixed w-full">
         <thead>
         <tr class="font-bold rounded">
           <td class="p-3 w-1/4 text-left">Date</td>
@@ -27,8 +27,8 @@
         <tr v-for="item in battle_logs" :key="item.battle_id">
           <td class="p-3">
             <p>
-              <b>{{new Date(item.time_start).toLocaleDateString()}}</b>
-              <span>{{new Date(item.time_start).toLocaleTimeString()}}</span>
+              <b>{{ new Date(item.time_start).toLocaleDateString() }}</b>
+              <span>{{ new Date(item.time_start).toLocaleTimeString() }}</span>
             </p>
           </td>
           <td class="p-3 uppercase">{{ item.mode }}</td>
@@ -45,7 +45,7 @@
           <td class="p-3">
             <div class="flex justify-between">
               <div>Win</div>
-              <div>+{{item.earn_token}} SLP</div>
+              <div>+{{ item.earn_token }} SLP</div>
             </div>
             <div class="flex justify-between">
               <div>ELO</div>
@@ -66,6 +66,12 @@
         </tr>
         </tbody>
       </table>
+      <div class="p-8 text-center" v-else>
+        <div class="w-28 mx-auto mb-3">
+          <img src="/bg/empty.svg" alt="Empty">
+        </div>
+        <p class="text-gray-500">Empty data!</p>
+      </div>
     </div>
   </div>
 </template>

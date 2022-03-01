@@ -17,8 +17,8 @@
         <h4 class="font-bold">Rank</h4>
         <span class="font-bold">{{ Number(data.rank || "0").toLocaleString() }}</span>
       </div>
-      <hr class="my-4 border-gray-100"/>
-      <div>
+      <hr v-if="false" class="my-4 border-gray-100"/>
+      <div v-if="false">
         <div class="flex justify-between mb-2">
           <h4 class="font-bold">Energy</h4>
           <span class="font-bold">13/20</span>
@@ -44,7 +44,7 @@
           </div>
           <div class="flex justify-between">
             <span>Lose</span>
-            <span>{{ (data.win_rate.win * data.win_rate.result).toLocaleString() }}</span>
+            <span>{{ (data.win_rate.lose).toLocaleString() }}</span>
           </div>
         </div>
         <div class="w-1/3">
@@ -138,7 +138,7 @@ export default {
             'Win',
           ],
           datasets: [{
-            data: [this.data.win_rate.result * this.data.win_rate.win, this.data.win_rate.win],
+            data: [this.data.win_rate.lose, this.data.win_rate.win],
             backgroundColor: [
               'rgb(255, 99, 132)',
               'rgb(54, 162, 235)',

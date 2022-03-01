@@ -1,6 +1,7 @@
 import Vue from 'vue';
 
 const schemas = require("/plugins/schemas");
+
 export default {
   namespaced: true,
   state: () => ({
@@ -10,7 +11,7 @@ export default {
         title: "Axie Infinity",
         description: "Build up a collection and use them across an ever expanding universe of games! Axie Infinity uses cutting edge technology called Blockchain to reward players",
         image: "/axie.jpeg",
-        bg: "/bg/axs.png",
+        bg: "/bg/axie_infinity.png",
         meta: {
           token_in_game: "SLP"
         }
@@ -49,10 +50,26 @@ export default {
       } else {
         state.ns.pop()
       }
+    },
+    ["REMOVE_WATCHER"](state, watcherId) {
+      if (state.wallet.related.length) {
+        const index = state.wallet.related.map(x => x.id).indexOf(watcherId);
+        if (index >= 0) {
+          state.wallet.related.splice(index, 1)
+        }
+      }
+      for (let i = 0; i < state.dashboard.length; i++) {
+        if (state.dashboard[i].wallets.length) {
+          const index = state.dashboard[i].wallets.map(x => x.watcher.id).indexOf(watcherId)
+          if (index >= 0) {
+            state.dashboard[i].wallets.splice(index, 1)
+          }
+        }
+      }
     }
   },
   actions: {
-    async fetchData({commit, state}, wallet, game_id = 4) {
+    async fetchData({commit, state}, wallet, game_id = 1) {
       wallet = wallet.replace("ronin:", "0x");
       const res = await this.$axios.$get(`/${wallet}`, {
         params: {
@@ -70,6 +87,24 @@ export default {
           data: schemas.WALLET
         })
       }
+    },
+    removeWatcher({commit, state}, watcherId) {
+      this.$axios.$delete('/watch', {
+        params: {
+          id: watcherId
+        }
+      }).then(() => {
+        commit('REMOVE_WATCHER', watcherId)
+        commit('REMOVE_NOTIFY', {
+          msg: "Stopped watch a wallet!",
+          type: "success"
+        })
+      }).catch(() => {
+        commit('REMOVE_NOTIFY', {
+          msg: "Something wrong!",
+          type: "error"
+        })
+      })
     }
   },
   getters: {

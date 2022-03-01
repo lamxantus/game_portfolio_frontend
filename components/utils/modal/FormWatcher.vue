@@ -120,7 +120,11 @@ export default {
     },
     action() {
       if (!this.form.id) {
-        if (!this.form.wallet) return;
+        if (!this.form.wallet) {
+          return
+        } else {
+          this.form.wallet = this.form.wallet.replace("ronin:", "0x");
+        }
         this.$axios.$post('/watch', {
           address: this.form.wallet,
           game: this.form.game

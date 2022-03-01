@@ -65,3 +65,14 @@ tr:hover:after {
     opacity: 0;
   }
 }
+
+.has-remove {
+  @apply relative;
+}
+
+.has-remove .remove {
+  @apply hidden absolute -top-2 -right-2 bg-red-500 rounded-full p-0.5 cursor-pointer duration-300;
+}
+.has-remove:hover .remove {
+  @apply block;
+}

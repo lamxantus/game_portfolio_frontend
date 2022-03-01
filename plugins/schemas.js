@@ -26,7 +26,8 @@ export const WALLET = {
     "lifetime_revenue": 0.0,
     "lifetime_profit": 0.0,
     "lifetime_roi": 0
-  }
+  },
+  related: []
 }
 
 export const DASHBOARD = [

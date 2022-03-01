@@ -82,14 +82,18 @@
         </div>
         <hr class="my-4 border-[#ACB9FF50]"/>
         <div class="grid grid-cols-3 gap-3">
-          <nuxt-link
-            v-for="item in data.related" :key="item.id"
-            :to="`/dashboard/${item.wallet}?game=${$route.query.game}`"
-            class="p-2 py-4 bg-white rounded-xl hover:shadow-xl cursor-pointer"
-          >
-            <div class="text-4xl bg-[#ACB9FF] p-1.5 w-12 h-12 rounded-full mx-auto mb-3">🤨</div>
-            <p class="one-line">Unnamed</p>
-          </nuxt-link>
+          <div v-for="item in data.related" :key="item.id" class="has-remove">
+            <nuxt-link
+              :to="`/dashboard/${item.wallet}?game=${$route.query.game}`"
+              class="p-2 py-4 bg-white rounded-xl hover:shadow-xl cursor-pointer block"
+            >
+              <div class="text-4xl bg-[#ACB9FF] p-1.5 w-12 h-12 rounded-full mx-auto mb-3">🤨</div>
+              <p class="one-line">Unnamed</p>
+            </nuxt-link>
+            <div class="remove" @click="removeWatcher(item.id)">
+              <icon class="sm" fill="#FFF" name="remove"></icon>
+            </div>
+          </div>
           <div class="p-2 py-4 border border-dashed rounded-xl cursor-pointer text-center" @click="openForm()">
             <icon name="plus"></icon>
             <p>Add more wallet</p>
@@ -131,7 +135,7 @@ export default {
   },
   methods: {
     ...mapActions("auth", ["logIn"]),
-    ...mapActions('config', ['fetchData']),
+    ...mapActions('config', ['fetchData', 'removeWatcher']),
     edit() {
       this.$store.commit('config/SET_MODAL', {
         type: "add_wallet",
