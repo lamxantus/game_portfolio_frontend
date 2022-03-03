@@ -24,7 +24,7 @@
                 <span class="text-gray-500">{{ (priceRate * analytic.earning).toLocaleString() }}$</span>
               </div>
               <div class="shadow bg-white p-3 rounded-lg">
-                <span>Roi</span>
+                <span>_</span>
                 <h4 class="font-extrabold text-xl">{{ (analytic.roi * 100).toLocaleString() }}</h4>
                 <div class="font-bold">%</div>
               </div>
@@ -61,9 +61,9 @@
                   {{ shortAddress(item.name) }}
                 </nuxt-link>
               </td>
-              <td class="py-3 px-4 text-left">{{ item.todayEarning }}</td>
+              <td class="py-3 px-4 text-left">{{ item.totalEarning.toLocaleString() }}</td>
               <td class="py-3 px-4 text-left">{{(item.earning_rate || 1) * 100}}%</td>
-              <td class="py-3 px-4 text-left hidden md:table-cell">{{ item.elo }}</td>
+              <td class="py-3 px-4 text-left hidden md:table-cell">{{ item.elo.toLocaleString() }}</td>
               <td class="py-3 px-4 text-left hidden md:table-cell">{{ (item.win_rate.results * 100).toLocaleString() }}%</td>
               <td class="py-3 px-4 text-right">
                 <span>{{item.totalNFT}}</span>

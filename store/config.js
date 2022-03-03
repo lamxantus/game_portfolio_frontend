@@ -35,6 +35,9 @@ export default {
         Vue.set(state, "wallet", data)
       }
     },
+    ["SET_GAME_TX"](state, data) {
+      Vue.set(state.wallet, "gameTX", data);
+    },
     ["SET_MODAL"](state, payload) {
       state.modal = payload;
     },
@@ -87,6 +90,15 @@ export default {
           data: schemas.WALLET
         })
       }
+    },
+    async fetchGameTX({commit, state}, params) {
+      const res = await this.$axios.$get('/game-txs', {
+        params: {
+          ...params,
+          page_size: 8
+        }
+      });
+      commit('SET_GAME_TX', res);
     },
     removeWatcher({commit, state}, watcherId) {
       this.$axios.$delete('/watch', {

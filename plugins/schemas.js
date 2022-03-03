@@ -19,7 +19,10 @@ export const WALLET = {
       "data": []
     }
   },
-  "battle_logs": [],
+  "gameTX": {
+    results: [],
+    count: 0
+  },
   "premium": {
     "top_ranking": null,
     "lifetime_invest": 0.0,

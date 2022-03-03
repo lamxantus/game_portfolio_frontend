@@ -5,15 +5,19 @@
         <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
           <img src="/icon/earning-large.png" alt="">
         </div>
-        <h2 class="font-bold text-lg">Earning</h2>
+        <h2 class="font-bold text-lg">Daily earning</h2>
         <div>
           <img src="/icon/warning.png" alt="">
         </div>
       </div>
-      <div class="flex space-x-4">
-        <div>Today</div>
-        <div>Week</div>
-        <div>Month</div>
+      <div class="flex space-x-4 text-gray-300 font-bold">
+        <div
+          v-for="item in date_units" :key="item.value"
+          class="cursor-pointer"
+          :class="{'text-black': filter.date_unit === item.value}"
+          @click="filter.date_unit = item.value"
+        >{{ item.title }}
+        </div>
       </div>
     </div>
     <div class="mb-4 flex space-x-4 items-end justify-between" style="height: 208px">
@@ -52,53 +56,53 @@ export default {
   data() {
     return {
       chart: null,
+      date_units: [{
+        title: "Today",
+        value: "d"
+      }, {
+        title: "Week",
+        value: "w"
+      }, {
+        title: "Month",
+        value: "m"
+      }],
+      filter: {
+        date_unit: 'd'
+      }
     }
   },
   methods: {
-    draw() {
+    async loadData() {
+      if (this.data.wallet) {
+        return await this.$axios.$get('/report', {
+          params: {
+            ...this.filter,
+            wallet: this.data.wallet,
+            game: this.$route.query.game
+          }
+        }).catch(() => ({}))
+      }
+      return {}
+    },
+    async draw() {
       let now = new Date();
       now = new Date(now.setDate(now.getDate() + 1));
       const ctx = document.getElementById('myChartEarning').getContext('2d');
       if (this.chart) {
         this.chart.destroy();
       }
-      let arrElo = {};
-      let arrEarn = {};
-      for (let i = 0; i < 14; i++) {
-        const d = new Date(now.setDate(now.getDate() - 1));
-        arrEarn[d.toISOString().split("T")[0]] = 0;
-        arrElo[d.toISOString().split("T")[0]] = 0;
-      }
-      this.data.report.earning.data.forEach(item => {
-        const key = item.date.split("T")[0];
-        arrEarn[key] = Number(item.value);
-      })
-      this.data.report.elo.data.forEach(item => {
-        const key = item.date.split("T")[0];
-        arrElo[key] = Number(item.value);
-      })
-      let mm = 0;
-      Object.keys(arrEarn).forEach(key => {
-        if (!arrEarn[key]) {
-          arrEarn[key] = mm
-        } else {
-          mm = arrEarn[key]
-        }
-      })
-      Object.keys(arrElo).forEach(key => {
-        if (!arrElo[key]) {
-          arrElo[key] = mm
-        } else {
-          mm = arrElo[key]
-        }
-      })
+      const res = await this.loadData();
+      console.log(res);
+      // START CALCULATE
+
+      // END CALCULATE
       this.chart = new Chart(ctx, {
         type: 'bar',
         interaction: {
           intersect: false,
         },
         data: {
-          labels: Object.keys(arrEarn).map((x, i) => {
+          labels: Object.keys(res).map((x, i) => {
             const arr = x.split("-");
             arr.shift();
             if (i % 2) {
@@ -110,7 +114,9 @@ export default {
           datasets: [{
             barPercentage: 0.6,
             label: 'SLPs',
-            data: Object.values(arrEarn).reverse(),
+            data: Object.values(res).map(x => {
+              return x.token
+            }),
             backgroundColor: ['#DDDDDD'],
             borderRadius: Number.MAX_VALUE,
             borderSkipped: false,
@@ -118,7 +124,9 @@ export default {
           }, {
             barPercentage: 0.6,
             label: 'ELOs',
-            data: Object.values(arrElo).reverse(),
+            data: Object.values(res).map(x => {
+              return x.exp
+            }),
             backgroundColor: ['#FFA800'],
             borderColor: '#FFA800',
             type: 'line',
@@ -175,8 +183,14 @@ export default {
   watch: {
     data() {
       this.draw();
+    },
+    filter: {
+      deep: true,
+      handler: function () {
+        this.draw();
+      }
     }
-  }
+  },
 }
 </script>
 

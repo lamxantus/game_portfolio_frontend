@@ -35,28 +35,30 @@
                 class="hover:shadow-xl duration-300 bg-white p-3 rounded-2xl flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
                 <div class="">
                   <h4 class="text-[#0F43F9]">Unclaimed</h4>
-                  <div class="font-bold text-4xl">{{ Number(data.unclaimed || "0").toLocaleString() }}</div>
+                  <div class="font-bold text-3xl">{{ Number(data.unclaimed || "0").toLocaleString() }}</div>
                   <div>SLP</div>
                   <span v-if="data.unclaimed"
                         class="text-gray-500">{{ (getCurrentPriceRate * data.unclaimed).toLocaleString() }}$</span>
                 </div>
                 <div class="">
                   <h4 class="text-[#10CE00]">Claimed</h4>
-                  <div class="font-bold text-4xl">{{ (data.claimed_token || 0).toLocaleString() }}</div>
+                  <div class="font-bold text-3xl">{{ (data.claimed_token || 0).toLocaleString() }}</div>
                   <div>SLP</div>
                   <span class="text-gray-500">{{ (getCurrentPriceRate * data.claimed_token).toLocaleString() }}$</span>
                 </div>
                 <div class="">
                   <h4 class="text-[#FFA800]">Total Earning</h4>
-                  <div class="font-bold text-4xl">{{ Number(data.totalEarning || "0").toLocaleString() }}</div>
+                  <div class="font-bold text-3xl">{{ Number(data.totalEarning || "0").toLocaleString() }}</div>
                   <div>SLP</div>
                   <span class="text-gray-500">{{ (getCurrentPriceRate * data.totalEarning).toLocaleString() }}$</span>
                 </div>
                 <div class="">
-                  <h4 class="text-[#00A3FF]">Next Claim</h4>
-                  <div class="font-bold text-3xl">{{ (new Date(data.lastClaimedDate * 1000)).toLocaleDateString() }}
+                  <h4 class="text-[#00A3FF]">Last Claim</h4>
+                  <div class="font-bold text-3xl">
+                    <span v-if="data.lastClaimedDate">{{ (new Date(data.lastClaimedDate)).toLocaleDateString() }}</span>
+                    <span v-else class="text-gray-300">Unknown</span>
                   </div>
-                  <div>{{ (new Date(data.lastClaimedDate * 1000)).toLocaleTimeString() }}</div>
+                  <div v-if="data.lastClaimedDate">{{ (new Date(data.lastClaimedDate)).toLocaleTimeString() }}</div>
                 </div>
               </div>
             </div>
@@ -65,9 +67,9 @@
                 <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
                   <img src="/icon/wallet.png" alt="">
                 </div>
-                <h2 class="font-bold text-lg">Wallet Sumary</h2>
+                <h2 class="font-bold text-lg">Wallet Summary</h2>
               </div>
-              <div class="hover:shadow-xl duration-300 bg-white p-3 rounded-2xl">
+              <div class="flex-1 hover:shadow-xl duration-300 bg-white p-3 rounded-2xl">
                 <div class="flex justify-between items-center mb-1">
                   <h4>Investment</h4>
                   <div v-if="data.premium.lifetime_invest" class="font-bold">{{ data.premium.lifetime_invest.toLocaleString() }}$</div>
@@ -84,7 +86,7 @@
                   <div v-if="data.premium.lifetime_profit" class="font-bold">{{ data.premium.lifetime_profit.toLocaleString() }}$</div>
                   <div v-else>_</div>
                 </div>
-                <div class="flex justify-between items-center">
+                <div v-if="false" class="flex justify-between items-center">
                   <h4>ROI</h4>
                   <div v-if="data.premium.roi" class="font-bold">{{ data.premium.roi }}$</div>
                   <div v-else>_</div>
@@ -119,9 +121,9 @@
                  class="bg-white rounded-lg duration-300 hover:shadow-xl p-3">
               <img :src="item.media_url" alt="">
               <h3 class="text-lg font-bold">{{ item.name }}</h3>
-              <div class="flex justify-between" v-if="item.price">
-                <span>Last Price</span>
-                <span>{{ item.price.toFixed(3) }}</span>
+              <div class="flex justify-between items-center">
+                <span class="text-xs text-gray-500">Last price</span>
+                <span>{{ (item.current_price || 0).toLocaleString() }}eth</span>
               </div>
               <hr class="my-2 border-gray-100">
               <a

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="data && data.battle_logs">
+  <div v-if="response">
     <div class="mb-3 flex justify-between">
       <div class="flex items-center space-x-2">
         <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
@@ -12,7 +12,34 @@
       </div>
     </div>
     <div class="bg-white rounded-xl p-4 duration-300 hover:shadow-xl">
-      <table v-if="battle_logs.length" class="table-fixed w-full">
+      <div class="flex justify-between items-center mb-3">
+        <div class="flex space-x-2 font-bold text-gray-500">
+          <div
+            class="cursor-pointer"
+            :class="{'text-black': filter.game_mode === 'pvp'}"
+            @click="filter.game_mode = 'pvp'">PVP
+          </div>
+          <div
+            class="cursor-pointer"
+            :class="{'text-black': filter.game_mode === 'pve'}"
+            @click="filter.game_mode = 'pve'">PVE
+          </div>
+        </div>
+        <div class="flex space-x-2 items-center">
+          <div class="font-bold text-gray-500 mr-6">Total: {{ response.count }}</div>
+          <div
+            v-if="filter.page > 1"
+            class="cursor-pointer rounded-full w-8 h-8 shadow-lg bg-white p-2" @click="navigate(false)">
+            <icon name="chv-left"></icon>
+          </div>
+          <div
+            v-if="filter.page * 8 < response.count"
+            class="cursor-pointer rounded-full w-8 h-8 shadow-lg bg-white p-2" @click="navigate(true)">
+            <icon name="chv-right"></icon>
+          </div>
+        </div>
+      </div>
+      <table v-if="response.results.length" class="table-fixed w-full">
         <thead>
         <tr class="font-bold rounded">
           <td class="p-3 w-1/4 text-left">Date</td>
@@ -20,21 +47,20 @@
           <td class="p-3">My Team</td>
           <td class="p-3">Result</td>
           <td class="p-3">Opponent</td>
-          <td class="p-3 text-right">Track</td>
         </tr>
         </thead>
         <tbody>
-        <tr v-for="item in battle_logs" :key="item.battle_id">
+        <tr v-for="item in response.results" :key="item.id">
           <td class="p-3">
             <p>
               <b>{{ new Date(item.time_start).toLocaleDateString() }}</b>
               <span>{{ new Date(item.time_start).toLocaleTimeString() }}</span>
             </p>
           </td>
-          <td class="p-3 uppercase">{{ item.mode }}</td>
+          <td class="p-3 uppercase">{{ item.game_mode }}</td>
           <td class="p-3">
             <div class="flex space-x-2">
-              <div v-for="nft in item.teams" :key="nft.id">
+              <div v-for="nft in item.token_items" :key="nft.id">
                 <img
                   class="w-28"
                   :src="nft.media_url"
@@ -43,12 +69,16 @@
             </div>
           </td>
           <td class="p-3">
-            <div class="flex justify-between">
-              <div>Win</div>
-              <div>+{{ item.earn_token }} SLP</div>
+            <div class="flex justify-between items-center">
+              <div class="text-xs text-gray-500">Win</div>
+              <div>
+                <div v-for="e in item.earn_token_items" :key="e.token_item.symbol">
+                  <span>+{{ e.value }} {{ e.token_item.symbol }}</span>
+                </div>
+              </div>
             </div>
-            <div class="flex justify-between">
-              <div>ELO</div>
+            <div class="flex justify-between items-center">
+              <div class="text-xs text-gray-500">ELO</div>
               <div>{{ item.earn_elo }}</div>
             </div>
           </td>
@@ -62,7 +92,6 @@
               </div>
             </div>
           </td>
-          <td class="p-3"></td>
         </tr>
         </tbody>
       </table>
@@ -77,16 +106,50 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 const schemas = require("/plugins/schemas");
 
 export default {
   name: "BattleLog",
+  data() {
+    return {
+      filter: {
+        game_mode: null,
+        page: 1
+      }
+    }
+  },
   computed: {
     data() {
       return this.$store.state.config.wallet || schemas.WALLET
     },
-    battle_logs() {
-      return this.data.battle_logs.slice(0, 6)
+    response() {
+      return this.data.gameTX
+    }
+  },
+  watch: {
+    filter: {
+      deep: true,
+      handler: function () {
+        this.fetchGameTX({
+          ...this.filter,
+          wallet: this.data.wallet,
+          game: this.$route.query.game
+        })
+      }
+    }
+  },
+  methods: {
+    ...mapActions('config', ['fetchGameTX']),
+    navigate(isNext = true) {
+      if (isNext) {
+        if (this.filter.page * 8 < this.response.count) {
+          this.filter.page++
+        }
+      } else if (this.filter.page > 1) {
+        this.filter.page--
+      }
     }
   }
 }

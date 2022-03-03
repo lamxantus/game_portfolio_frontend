@@ -29,23 +29,7 @@
               </div>
             </div>
           </div>
-          <div class="p-4">
-            <div class="flex justify-end text-gray-100 mb-2 space-x-4">
-              <div>Today</div>
-              <div>Week</div>
-              <div>Month</div>
-            </div>
-            <div class="flex space-x-4 items-end h-40">
-              <template v-for="i in 7">
-                <div
-                  :key="i"
-                  class="flex-1 bg-white chart-elm bg-opacity-20 hover:bg-opacity-100 hover:text-black duration-200"
-                  :style="{height: `${reports[i - 1] ? reports[i - 1].h : 0}%`}">
-                  <span>{{ reports[i - 1] ? reports[i - 1].v : '|' }}</span>
-                </div>
-              </template>
-            </div>
-          </div>
+          <general-report/>
         </div>
       </div>
       <div class="md:w-1/3">
@@ -105,12 +89,13 @@
 </template>
 
 <script>
-const schemas = require("/plugins/schemas");
+import GeneralReport from "./GeneralReport";
 import GameReport from "../Game/Report";
 
+const schemas = require("/plugins/schemas");
 export default {
   name: "DashboardMultiple",
-  components: {GameReport},
+  components: {GeneralReport, GameReport},
   data() {
     return {
       total: 0,
@@ -118,8 +103,6 @@ export default {
       unClaimed: 0,
       totalNFT: 0,
       totalScholar: 0,
-      range: 7,
-      reports: []
     }
   },
   computed: {
@@ -143,9 +126,6 @@ export default {
         this.compute()
       }
     },
-    range() {
-      this.loadReport()
-    }
   },
   methods: {
     RD(min, max) {
@@ -171,25 +151,9 @@ export default {
         }
       }
     },
-    loadReport() {
-      this.$axios.$get("/report", {
-        params: {
-          range: this.range
-        }
-      }).then(res => {
-        const max = Math.max(res.map(x => +x.value)) * 1.2;
-        this.reports = res.map(x => ({
-          v: +x.value,
-          h: (+x.value / max) * 100,
-          d: x.date
-        }))
-      })
-
-    }
   },
   mounted() {
     this.compute();
-    this.loadReport()
   }
 }
 </script>
