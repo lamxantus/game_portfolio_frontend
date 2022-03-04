@@ -1,6 +1,10 @@
 <template>
   <div>
     <div class="mb-6">
+      <h4 class="font-bold text-lg">You have {{ response.count }} NFTs</h4>
+      <p class="text-gray-500">Whose total value is $0</p>
+    </div>
+    <div class="mb-6">
       <div class="flex items-center space-x-2 mb-3">
         <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
           <img src="/icon/earning.png" alt="">
@@ -9,13 +13,12 @@
       </div>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-      <div v-for="(item, i) in response.results" :key="i"
-           class="bg-white rounded-lg duration-300 hover:shadow-xl p-3">
+      <div v-for="(item, i) in response.results" :key="i" class="bg-white rounded-lg duration-300 hover:shadow-xl p-3">
         <img :src="item.media_url" alt="">
         <h3 class="text-lg font-bold">{{ item.name }}</h3>
-        <div class="flex justify-between" v-if="item.price">
-          <span>Last Price</span>
-          <span>{{ item.price.toFixed(3) }}</span>
+        <div class="flex justify-between items-center">
+          <span class="text-xs text-gray-500">Last price</span>
+          <span>{{ (item.current_price || 0).toLocaleString() }}eth</span>
         </div>
         <hr class="my-2 border-gray-100">
         <a
@@ -35,7 +38,7 @@ export default {
   name: "NFTS",
   props: {
     game: {
-      default: 4,
+      default: 1,
       type: Number
     }
   },
@@ -57,6 +60,11 @@ export default {
           }
         });
       }
+    }
+  },
+  watch: {
+    user() {
+      this.fetch()
     }
   },
   created() {

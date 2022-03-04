@@ -92,7 +92,6 @@ export default {
         this.chart.destroy();
       }
       const res = await this.loadData();
-      console.log(res);
       // START CALCULATE
 
       // END CALCULATE
@@ -110,7 +109,7 @@ export default {
             } else {
               return arr.join("-")
             }
-          }).reverse(),
+          }),
           datasets: [{
             barPercentage: 0.6,
             label: 'SLPs',
