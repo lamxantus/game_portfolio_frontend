@@ -9,33 +9,38 @@
       </div>
     </div>
     <div class="md:flex rounded-xl bg-white hover:shadow-xl duration-300 overflow-hidden">
-      <div class="md:w-1/3">
+      <div class="md:w-1/4">
         <div class="quick-report">
           <div class="bg" :style="{backgroundImage: `url(/bg/${value.id_string}.png)`}"></div>
           <div class="absolute top-0 left-0 right-0 bottom-0 p-4 flex flex-col">
             <div class="flex-1 flex justify-center items-center">
               <img :src="`/logo/${value.id_string}.png`" alt="">
             </div>
-            <div class="grid grid-cols-2 gap-4 text-sm">
+            <div class="text-sm">
               <div class="shadow bg-white p-3 rounded-lg">
-                <span>Earning</span>
-                <h4 class="font-extrabold text-xl">{{ analytic.earning.toLocaleString() }}</h4>
-                <div class="font-bold">{{value.options['token_in_game']}}</div>
-                <span class="text-gray-500">{{ (priceRate * analytic.earning).toLocaleString() }}$</span>
-              </div>
-              <div class="shadow bg-white p-3 rounded-lg">
-                <span>_</span>
-                <h4 class="font-extrabold text-xl">{{ (analytic.roi * 100).toLocaleString() }}</h4>
-                <div class="font-bold">%</div>
-              </div>
-              <div class="shadow bg-white p-3 rounded-lg">
-                <span>Me</span>
-                <h4 class="font-extrabold text-xl">{{ analytic.totalNFT }}</h4>
-                <div class="font-bold">AXIES</div>
-              </div>
-              <div class="shadow bg-white p-3 rounded-lg">
-                <span>Scholar</span>
-                <h4 class="font-extrabold text-xl">{{ 0 }}</h4>
+                <div class="p-3">
+                  <span class="text-[#0F43F9]">Earning</span>
+                  <h4 class="font-extrabold text-xl mt-2">{{ analytic.earning.toLocaleString() }}</h4>
+                  <div class="font-bold">{{value.options['token_in_game']}}</div>
+                  <span class="text-gray-500">{{ (priceRate * analytic.earning).toLocaleString() }}$</span>
+                </div>
+                <hr>
+                <div class="p-3 space-y-2">
+                  <div class="flex justify-between items-center text-gray-500">
+                    <span>Manager</span>
+                    <div class="flex space-x-2">
+                      <b class="text-black">{{analytic.manager.toLocaleString()}} SLP</b>
+                      <span>${{(priceRate * analytic.manager).toLocaleString()}}</span>
+                    </div>
+                  </div>
+                  <div class="flex justify-between items-center text-gray-500">
+                    <span>Scholar</span>
+                    <div class="flex space-x-2">
+                      <b class="text-black">{{analytic.scholar.toLocaleString()}} SLP</b>
+                      <span>${{(priceRate * analytic.scholar).toLocaleString()}}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -46,7 +51,8 @@
           <thead>
           <tr class="text-black font-bold uppercase text-xs leading-normal rounded">
             <th class="py-3 px-4 text-left">Name</th>
-            <th class="py-3 px-4 text-left">Earning</th>
+            <th class="py-3 px-4 text-left">Scholar</th>
+            <th class="py-3 px-4 text-left">Manager</th>
             <th class="py-3 px-4 text-left">Share</th>
             <th class="py-3 px-4 text-left hidden md:table-cell">Elo</th>
             <th class="py-3 px-4 text-left hidden md:table-cell">Win Rate</th>
@@ -61,7 +67,8 @@
                   {{ shortAddress(item.name) }}
                 </nuxt-link>
               </td>
-              <td class="py-3 px-4 text-left">{{ item.totalEarning.toLocaleString() }}</td>
+              <td class="py-3 px-4 text-left">{{ (item.totalEarning * (item.earning_rate || 1)).toLocaleString() }}</td>
+              <td class="py-3 px-4 text-left">{{ (item.totalEarning * (1 - (item.earning_rate || 1))).toLocaleString() }}</td>
               <td class="py-3 px-4 text-left">{{(item.earning_rate || 1) * 100}}%</td>
               <td class="py-3 px-4 text-left hidden md:table-cell">{{ item.elo.toLocaleString() }}</td>
               <td class="py-3 px-4 text-left hidden md:table-cell">{{ (item.win_rate.results * 100).toLocaleString() }}%</td>
@@ -106,8 +113,10 @@ export default {
       let totalNFT = 0;
       let rv = 0;
       let iv = 0;
+      let manager = 0;
       if (this.value.wallets) {
         this.value.wallets.forEach(item => {
+          manager = manager + item.totalEarning * (1 - (item.earning_rate || 1))
           earning = +item.totalEarning + +earning;
           unclaimed = +item.todayEarning + +unclaimed;
           totalNFT = totalNFT + item.totalNFT;
@@ -121,7 +130,9 @@ export default {
         earning,
         unclaimed,
         totalNFT,
-        roi: iv ? rv / iv : 0
+        roi: iv ? rv / iv : 0,
+        manager,
+        scholar: earning - manager
       }
     },
     priceRate() {
@@ -149,7 +160,7 @@ export default {
 <style scoped>
 .quick-report {
   @apply relative overflow-hidden;
-  padding-top: 110%;
+  padding-top: 150%;
 }
 
 .quick-report .bg {

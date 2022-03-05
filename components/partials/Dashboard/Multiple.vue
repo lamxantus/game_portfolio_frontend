@@ -135,6 +135,7 @@ export default {
       this.total = 0;
       this.claimed = 0;
       this.unClaimed = 0;
+      this.totalNFT = 0;
       for (let i = 0; i < this.games.length; i++) {
         let game = this.games[i];
         const rate = this.$store.getters["config/getPriceRate"](game.options["token_in_game"]);

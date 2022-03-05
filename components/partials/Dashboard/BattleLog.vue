@@ -16,6 +16,11 @@
         <div class="flex space-x-2 font-bold text-gray-500">
           <div
             class="cursor-pointer"
+            :class="{'text-black': filter.game_mode === null}"
+            @click="filter.game_mode = null">All
+          </div>
+          <div
+            class="cursor-pointer"
             :class="{'text-black': filter.game_mode === 'pvp'}"
             @click="filter.game_mode = 'pvp'">PVP
           </div>

@@ -24,7 +24,7 @@
       <div class="mb-6 flex-1 rounded-xl">
         <div class="md:mb-6 mb-4">
           <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
-            <div class="md:w-2/3 flex flex-col">
+            <div class="flex-1 flex flex-col">
               <div class="flex items-center space-x-2 mb-3">
                 <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
                   <img src="/icon/earning.png" alt="">
@@ -32,37 +32,37 @@
                 <h2 class="font-bold text-lg">Total Earning</h2>
               </div>
               <div
-                class="hover:shadow-xl duration-300 bg-white p-3 rounded-2xl flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
-                <div class="">
-                  <h4 class="text-[#0F43F9]">Unclaimed</h4>
+                class="hover:shadow-xl duration-300 bg-white rounded-2xl flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div class="p-4">
+                  <h4 class="mb-2 text-[#0F43F9]">Unclaimed</h4>
                   <div class="font-bold text-3xl">{{ Number(data.unclaimed || "0").toLocaleString() }}</div>
                   <div>SLP</div>
                   <span v-if="data.unclaimed"
                         class="text-gray-500">{{ (getCurrentPriceRate * data.unclaimed).toLocaleString() }}$</span>
                 </div>
-                <div class="">
-                  <h4 class="text-[#10CE00]">Claimed</h4>
+                <div class="border-l p-4 border-[#F7F8FF]">
+                  <h4 class="mb-2 text-[#10CE00]">Claimed</h4>
                   <div class="font-bold text-3xl">{{ (data.claimed_token || 0).toLocaleString() }}</div>
                   <div>SLP</div>
                   <span class="text-gray-500">{{ (getCurrentPriceRate * data.claimed_token).toLocaleString() }}$</span>
                 </div>
-                <div class="">
-                  <h4 class="text-[#FFA800]">Total Earning</h4>
+                <div class="border-l p-4 border-[#F7F8FF]">
+                  <h4 class="mb-2 text-[#FFA800]">Total Earning</h4>
                   <div class="font-bold text-3xl">{{ Number(data.totalEarning || "0").toLocaleString() }}</div>
                   <div>SLP</div>
                   <span class="text-gray-500">{{ (getCurrentPriceRate * data.totalEarning).toLocaleString() }}$</span>
                 </div>
-                <div class="">
-                  <h4 class="text-[#00A3FF]">Last Claim</h4>
+                <div class="border-l p-4 border-[#F7F8FF]">
+                  <h4 class="mb-2 text-[#00A3FF]">Next Claim</h4>
                   <div class="font-bold text-3xl">
-                    <span v-if="data.lastClaimedDate">{{ (new Date(data.lastClaimedDate)).toLocaleDateString() }}</span>
+                    <span v-if="data.lastClaimedDate">{{ nextClaimDate }}</span>
                     <span v-else class="text-gray-300">Unknown</span>
                   </div>
                   <div v-if="data.lastClaimedDate">{{ (new Date(data.lastClaimedDate)).toLocaleTimeString() }}</div>
                 </div>
               </div>
             </div>
-            <div class="flex-1 flex flex-col">
+            <div v-if="false" class="flex-1 flex flex-col">
               <div class="flex items-center space-x-2 mb-3">
                 <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
                   <img src="/icon/wallet.png" alt="">
@@ -144,13 +144,12 @@
         </div>
         <div v-if="!user" class="mb-12 text-center">
           <h2 class="text-2xl">View full dashboard and track more game</h2>
-          <div>
-            <nuxt-link
-              class="m-3 p-1.5 px-2 inline-flex space-x-2 items-center cursor-pointer bg-[#0F43F9] rounded text-white"
-              to="/dashboard">
+          <div class="my-4">
+            <div class="p-1.5 px-4 inline-flex space-x-2 items-center cursor-pointer bg-[#0F43F9] rounded-xl text-white"
+                 @click="logIn">
               <icon class="md" name="user" fill="#d6d3d1"/>
-              <span>Connect Wallet</span>
-            </nuxt-link>
+              <span>{{ user ? getUserName : 'Connect Wallet' }}</span>
+            </div>
           </div>
           <div class="flex items-center justify-center space-x-4 flex-wrap">
             <div class="flex space-x-2">
@@ -193,9 +192,24 @@ export default {
     data() {
       return this.$store.state.config.wallet || schemas.WALLET
     },
+    ...mapGetters("auth", ["getUserName"]),
     ...mapGetters("config", ["getCurrentPriceRate"]),
+    nextClaimDate() {
+      const now = new Date()
+      if (this.data.lastClaimedDate) {
+        const date = new Date(this.data.lastClaimedDate)
+        date.setDate(date.getDate() + 7);
+        if (date.getTime() <= now.getTime()) {
+          return "Immediately"
+        } else {
+          return date.toLocaleDateString()
+        }
+      }
+      return "Unknown"
+    }
   },
   methods: {
+    ...mapActions("auth", ["logIn"]),
     ...mapActions('config', [
       'fetchData'
     ]),

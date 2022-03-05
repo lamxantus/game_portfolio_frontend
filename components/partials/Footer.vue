@@ -27,7 +27,7 @@
       </div>
       <div class="flex flex-col md:flex-row justify-between">
         <p class="text-[#808080]">© 2022 Copyright by Xantus, .JSC. All rights reserved</p>
-        <div class="flex space-x-6 text-[#0F43F9]">
+        <div v-if="false" class="flex space-x-6 text-[#0F43F9]">
           <a href="">White paper</a>
           <a href="">Terms & Conditions</a>
           <a href="">Privacy Policies</a>

@@ -7,7 +7,7 @@
             <div class="flex space-x-2 items-center">
               <div class="site-title" @click="$router.push('/')">
                 <nuxt-link class="" to="/">
-                  <img class="w-32" src="/logo.png" alt="Xantus Tracker">
+                  <img class="w-48" src="/logo.png" alt="Xantus Tracker">
                 </nuxt-link>
               </div>
             </div>
@@ -20,8 +20,8 @@
             </div>
           </template>
           <div v-else-if="!$route.params.wallet">
-            <h4 class="font-bold text-lg">Hello {{ user.last_name || "Unnamed" }},</h4>
-            <p class="text-gray-500">Next claimed is about 3 days. Here is summary of your portfolio</p>
+            <h4 class="font-bold text-lg">Have a good day,</h4>
+            <p class="text-gray-500">Here is summary of your portfolio</p>
           </div>
         </div>
         <dashboard-multiple v-if="!$route.params.wallet"/>
