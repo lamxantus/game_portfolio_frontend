@@ -6,7 +6,7 @@
           <img src="/icon/earning-large.png" alt="">
         </div>
         <h2 class="font-bold text-lg">Daily earning</h2>
-        <div>
+        <div v-if="false">
           <img src="/icon/warning.png" alt="">
         </div>
       </div>

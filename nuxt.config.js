@@ -30,7 +30,6 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [// https://go.nuxtjs.dev/tailwindcss
     '@nuxt/postcss8',
-    '@nuxtjs/google-analytics'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -38,9 +37,10 @@ export default {
     '@nuxtjs/axios', // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     ['cookie-universal-nuxt', {alias: 'ck'}],
+    '@nuxtjs/google-gtag',
   ],
-  googleAnalytics: {
-    id: 'G-Q126BB7QGV'
+  'google-gtag':{
+    id: 'G-Q126BB7QGV', // required
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
@@ -60,8 +60,8 @@ export default {
     postcss: {
       plugins: {
         tailwindcss: {},
-        autoprefixer: {},
-      },
-    },
+        autoprefixer: {}
+      }
+    }
   }
 }
