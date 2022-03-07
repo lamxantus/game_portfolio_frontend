@@ -76,3 +76,7 @@ tr:hover:after {
 .has-remove:hover .remove {
   @apply block;
 }
+
+tr {
+  position: relative;
+}

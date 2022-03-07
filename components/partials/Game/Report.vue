@@ -17,7 +17,7 @@
               <img :src="`/logo/${value.id_string}.png`" alt="">
             </div>
             <div class="text-sm">
-              <div class="shadow bg-white p-3 rounded-lg">
+              <div class="shadow bg-white rounded-lg">
                 <div class="p-3">
                   <span class="text-[#0F43F9]">Earning</span>
                   <h4 class="font-extrabold text-xl mt-2">{{ analytic.earning.toLocaleString() }}</h4>
@@ -26,17 +26,17 @@
                 </div>
                 <hr>
                 <div class="p-3 space-y-2">
-                  <div class="flex justify-between items-center text-gray-500">
+                  <div class="flex justify-between text-gray-500">
                     <span>Manager</span>
-                    <div class="flex space-x-2">
-                      <b class="text-black">{{analytic.manager.toLocaleString()}} SLP</b>
+                    <div class="space-y-2 text-right text-xs">
+                      <div class="text-black font-bold">{{analytic.manager.toLocaleString()}} SLP</div>
                       <span>${{(priceRate * analytic.manager).toLocaleString()}}</span>
                     </div>
                   </div>
-                  <div class="flex justify-between items-center text-gray-500">
+                  <div class="flex justify-between text-gray-500">
                     <span>Scholar</span>
-                    <div class="flex space-x-2">
-                      <b class="text-black">{{analytic.scholar.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}} SLP</b>
+                    <div class="space-y-2 text-right text-xs">
+                      <div class="text-black font-bold">{{analytic.scholar.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}} SLP</div>
                       <span>${{(priceRate * analytic.scholar).toLocaleString()}}</span>
                     </div>
                   </div>
