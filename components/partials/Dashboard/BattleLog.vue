@@ -47,23 +47,23 @@
       <table v-if="response.results.length" class="table-auto w-full">
         <thead>
         <tr class="font-bold rounded">
-          <td class="p-3 w-1/4 text-left">Date</td>
-          <td class="p-3">Mode</td>
-          <td class="p-3 w-1/3">My Team</td>
-          <td class="p-3 w-1/5">Result</td>
-          <td v-if="filter.game_mode === 'pve'" class="p-3 w-1/3">Opponent</td>
+          <td class="p-1 w-1/4 text-left">Date</td>
+          <td class="p-1">Mode</td>
+          <td class="p-1 w-1/3">My Team</td>
+          <td class="p-1 w-1/5">Result</td>
+          <td class="p-1 w-1/3" v-if="filter.game_mode === 'pve'">Opponent</td>
         </tr>
         </thead>
         <tbody>
         <tr v-for="item in response.results" :key="item.id">
-          <td class="p-3">
+          <td class="p-1">
             <p>
               <b>{{ new Date(item.time_start).toLocaleDateString() }}</b>
               <span>{{ new Date(item.time_start).toLocaleTimeString() }}</span>
             </p>
           </td>
-          <td class="p-3 uppercase">{{ item.game_mode }}</td>
-          <td class="p-3">
+          <td class="p-1 uppercase">{{ item.game_mode }}</td>
+          <td class="p-1">
             <div class="flex space-x-2">
               <div v-for="nft in item.token_items" :key="nft.id">
                 <img
@@ -73,7 +73,7 @@
               </div>
             </div>
           </td>
-          <td class="p-3">
+          <td class="p-1">
             <div class="flex justify-between items-center">
               <div class="text-xs text-gray-500">Win</div>
               <div>
@@ -87,7 +87,7 @@
               <div>{{ item.earn_elo }}</div>
             </div>
           </td>
-          <td v-if="filter.game_mode === 'pve'" class="p-3">
+          <td class="p-1" v-if="filter.game_mode === 'pve'">
             <div class="flex space-x-2">
               <div v-for="nft in item.opponents" :key="nft.id">
                 <img
