@@ -23,13 +23,13 @@
           </div>
         </div>
         <label class="block">
-          <span class="mx-2 block text-sm font-bold mb-2">Name</span>
+          <span class="mx-2 block text-sm font-bold mb-2">Name <span style="color: red">*</span></span>
           <input
             v-model="form.meta.name" class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl" type="text"
           >
         </label>
          <label class="block">
-          <span class="mx-2 block text-sm font-bold mb-2">Manager Percentage</span>
+          <span class="mx-2 block text-sm font-bold mb-2">Manager Percentage <span style="color: red">*</span></span>
           <input
             v-model="form.earn_ratio" class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl"
             min="1"

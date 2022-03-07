@@ -44,7 +44,7 @@
           </div>
         </div>
       </div>
-      <table v-if="response.results.length" class="table-auto w-full">
+      <table v-if="response.results.length" id="battle_log" class="table-auto w-full" >
         <thead>
         <tr class="font-bold rounded">
           <td class="p-1 w-1/4 text-left">Date</td>

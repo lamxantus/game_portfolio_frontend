@@ -2,38 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-
-tr {
-  position: relative;
+table {
+  border-spacing: 0;
+  border-collapse: separate;
+}
+tr:hover td {
+  border: 2px solid #0f43f9;
+  border-left-width: 0;
+  border-right-width: 0;
+}
+tr:hover td:first-child {
+  border: 2px solid #0f43f9;
+  border-right-width: 0;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
 }
 
-tr * {
-  position: relative;
-  z-index: 2;
+tr:hover td:last-child {
+  border: 2px solid #0f43f9;
+  border-left-width: 0;
+
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
 }
-
-/*tr:after {*/
-/*  @apply border border-white absolute top-0 left-0 bottom-0 right-0 rounded-lg;*/
-/*  content: "";*/
-/*  z-index: 1;*/
-/*}*/
-
 thead tr:after {
-  background: #F7F8FF;
-}
-
-tr:hover:after {
-  border-color: #0F43F9;
-}
-
-tr {
-  @apply border border-transparent duration-300;
-  border-bottom-color: #0F43F930;
-}
-
-tr:hover {
-  @apply border;
-  border-color: #0F43F930;
+  background: #f7f8ff;
 }
 
 .notification {
@@ -66,7 +59,7 @@ tr:hover {
 }
 
 .waitingForConnection1 {
-  animation: blinker1 1.7s cubic-bezier(.5, 0, 1, 1) infinite alternate;
+  animation: blinker1 1.7s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
 }
 
 @keyframes blinker1 {
