@@ -36,7 +36,7 @@
                   <div class="flex justify-between items-center text-gray-500">
                     <span>Scholar</span>
                     <div class="flex space-x-2">
-                      <b class="text-black">{{analytic.scholar.toLocaleString()}} SLP</b>
+                      <b class="text-black">{{analytic.scholar.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}} SLP</b>
                       <span>${{(priceRate * analytic.scholar).toLocaleString()}}</span>
                     </div>
                   </div>
@@ -67,11 +67,11 @@
                   {{ shortAddress(item.name) }}
                 </nuxt-link>
               </td>
-              <td class="py-3 px-4 text-left">{{ (item.totalEarning * (item.earning_rate || 1)).toLocaleString() }}</td>
-              <td class="py-3 px-4 text-left">{{ (item.totalEarning * (1 - (item.earning_rate || 1))).toLocaleString() }}</td>
+              <td class="py-3 px-4 text-left">{{ (item.totalEarning * (item.earning_rate || 1)).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</td>
+              <td class="py-3 px-4 text-left">{{ (item.totalEarning * (1 - (item.earning_rate || 1))).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</td>
               <td class="py-3 px-4 text-left">{{(item.earning_rate || 1) * 100}}%</td>
-              <td class="py-3 px-4 text-left hidden md:table-cell">{{ item.elo.toLocaleString() }}</td>
-              <td class="py-3 px-4 text-left hidden md:table-cell">{{ (item.win_rate.results * 100).toLocaleString() }}%</td>
+              <td class="py-3 px-4 text-left hidden md:table-cell">{{ item.elo.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</td>
+              <td class="py-3 px-4 text-left hidden md:table-cell">{{ (item.win_rate.results * 100).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}%</td>
               <td class="py-3 px-4 text-right">
                 <span>{{item.totalNFT}}</span>
                 <div class="remove" @click="removeWatcher(item.watcher.id)">

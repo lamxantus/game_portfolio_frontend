@@ -11,17 +11,17 @@
         <div class="bg-[#0F43F9] rounded-xl grid grid-cols-2 text-white">
           <div class="p-4 flex flex-col">
             <div class="flex-1">
-              <div class="text-2xl font-bold ">${{ total.toLocaleString() }}</div>
+              <div class="text-2xl font-bold ">${{ total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</div>
               <span v-if="false" class="text-[#10CE00]">(+23 Today)</span>
             </div>
             <div>
               <div class="flex justify-between">
                 <span>Claimed</span>
-                <span>{{ claimed.toLocaleString() }}$</span>
+                <span>{{ claimed.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}$</span>
               </div>
               <div class="flex justify-between my-2">
                 <span>Unclaimed</span>
-                <span>{{ unClaimed.toLocaleString() }}$</span>
+                <span>{{ unClaimed.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}$</span>
               </div>
               <div class="flex justify-between">
                 <span>Next Claim</span>

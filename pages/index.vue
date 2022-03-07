@@ -21,7 +21,7 @@
       <div class="container relative z-20 text-center">
         <div class="md:w-3/5 mx-auto text-5xl font-bold leading-10">
           <div class="mb-3">Easily Track your</div>
-          <div>GameFI Portfolio</div>
+          <div>GameFi Portfolio</div>
         </div>
         <div class="my-6">
           <h2 class="mb-4 font-bold text-lg">Enter your  wallet address</h2>
@@ -59,27 +59,26 @@
     <section>
       <div class="container">
         <div class="my-10 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6 -mx-4 md:mx-0">
-          <div class="p-6 bg-white rounded-2xl duration-300 hover:shadow-xl">
+          <div class="p-4 bg-white rounded-2xl duration-300 hover:shadow-xl">
             <h3 class="mb-2 text-xl font-bold flex space-x-2 items-center">
               <img src="/icon/bookmark.png" alt="">
-              <span>Track more game</span>
+              <span>Diverse</span>
             </h3>
-            <p>We're using the Game API's and Data mining to display all data in the way user want to know</p>
+            <p>Oxalus tracker supports not only one game but many top games of your interest with ease</p>
           </div>
           <div class="p-4 bg-white rounded-2xl duration-30 hover:shadow-xl">
             <h3 class="mb-2 text-xl font-bold flex space-x-2 items-center">
               <img src="/icon/bookmark.png" alt="">
               <span>Data-driven</span>
             </h3>
-            <p>We're using the Game API's and Data mining to display all data in the way user want to know</p>
+            <p>Oxalus tracker provides useful indexes and tools to help manage your resources</p>
           </div>
           <div class="p-4 bg-white rounded-2xl duration-300 hover:shadow-xl">
             <h3 class="mb-2 text-xl font-bold flex space-x-2 items-center">
               <img src="/icon/bookmark.png" alt="">
-              <span>Secure...</span>
+              <span>Free-to-use</span>
             </h3>
-            <p>a book or other written or printed work, regarded in terms of its content rather than its physical
-              form.</p>
+            <p>Oxalus tracker lets you connect wallet and access tools to track your stats for free</p>
           </div>
         </div>
         <div class="bg-[#0F43F9] p-6 text-white rounded-2xl hover:shadow-xl">
@@ -99,8 +98,8 @@
               </div>
             </div>
             <div class="flex-1 text-2xl font-bold">
-              <h2>More than <span class="text-[#FFA800]">150.000+</span></h2>
-              <h2>Gamefi player are using us</h2>
+              <h2 style="font-size: 34px"><span class="text-[#FFA800]">150,000+</span></h2>
+              <h2>GameFi Players are using Oxalus</h2>
             </div>
             <div class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-white rounded" @click="logIn">
               <img src="/icon/wallet.png" alt="">

@@ -23,19 +23,19 @@
     <div class="mb-4 flex space-x-4 items-end justify-between" style="height: 208px">
       <canvas class="w-full" style="height: 208px" id="myChartEarning"></canvas>
     </div>
-    <div class="mb-2 grid grid-cols-2 gap-4 md:gap-8">
-      <div class="flex justify-between">
-        <h4 class="font-bold">Today</h4>
+    <div class="mb-2 flex justify-between gap-4 md:gap-8">
+      <div class="flex">
+        <h4 class="font-bold">Today: </h4>
         <div v-if="data.daily_earnings">
-          <div>{{ data.daily_earnings.toLocaleString() }}</div>
-          <span>{{ (getCurrentPriceRate * data.daily_earnings).toLocaleString() }}$</span>
+          <div> {{ data.daily_earnings.toLocaleString() }}</div>
+          <span> {{ (getCurrentPriceRate * data.daily_earnings).toLocaleString() }}$</span>
         </div>
         <div v-else>_</div>
       </div>
-      <div class="flex justify-between">
-        <h4 class="font-bold">Average</h4>
+      <div class="flex ">
+        <h4 class="font-bold">Average: </h4>
         <div v-if="data.average_earnings">
-          <div>{{ data.average_earnings.toLocaleString() }} (<span class="text-green-400">+23</span>)</div>
+          <div> {{ data.average_earnings.toLocaleString() }} (<span class="text-green-400">+23</span>)</div>
           <span>{{ (data.average_earnings * getCurrentPriceRate).toLocaleString() }}$</span>
         </div>
         <div v-else>_</div>
