@@ -3,7 +3,7 @@
     <div v-if="user && $route.path !== '/'" class="sidebar">
       <div>
         <nuxt-link to="/">
-          <img class="w-32" src="/logo.png" alt="Xantus Tracker">
+          <img class="w-32" src="/logo/logo.svg" alt="Xantus Tracker">
         </nuxt-link>
       </div>
       <div class="flex-1 flex flex-col justify-center">
@@ -19,7 +19,7 @@
           </div>
           <div>NFTs</div>
         </nuxt-link>
-        <nuxt-link to="/dashboard/scholarship" class="menu-item">
+        <nuxt-link v-if="false" to="/dashboard/scholarship" class="menu-item">
           <div>
             <icon name="user"></icon>
           </div>
