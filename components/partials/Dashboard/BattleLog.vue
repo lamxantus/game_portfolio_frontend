@@ -44,14 +44,14 @@
           </div>
         </div>
       </div>
-      <table v-if="response.results.length" class="table-fixed w-full">
+      <table v-if="response.results.length" class="table-auto w-full">
         <thead>
         <tr class="font-bold rounded">
           <td class="p-3 w-1/4 text-left">Date</td>
           <td class="p-3">Mode</td>
-          <td class="p-3">My Team</td>
-          <td class="p-3">Result</td>
-          <td class="p-3">Opponent</td>
+          <td class="p-3 w-1/3">My Team</td>
+          <td class="p-3 w-1/5">Result</td>
+          <td v-if="filter.game_mode === 'pve'" class="p-3 w-1/3">Opponent</td>
         </tr>
         </thead>
         <tbody>
@@ -87,7 +87,7 @@
               <div>{{ item.earn_elo }}</div>
             </div>
           </td>
-          <td class="p-3">
+          <td v-if="filter.game_mode === 'pve'" class="p-3">
             <div class="flex space-x-2">
               <div v-for="nft in item.opponents" :key="nft.id">
                 <img

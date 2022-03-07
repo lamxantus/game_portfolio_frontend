@@ -38,6 +38,9 @@ export default {
     ["SET_GAME_TX"](state, data) {
       Vue.set(state.wallet, "gameTX", data);
     },
+    ["SET_GAME_RS"](state, data) {
+      Vue.set(state.wallet, "win_rate", data);
+    },
     ["SET_MODAL"](state, payload) {
       state.modal = payload;
     },
@@ -99,6 +102,14 @@ export default {
         }
       });
       commit('SET_GAME_TX', res);
+    },
+    async fetchGameRS({commit, state}, params) {
+      const res = await this.$axios.$get('/game-result', {
+        params: {
+          ...params
+        }
+      });
+      commit('SET_GAME_RS', res);
     },
     removeWatcher({commit, state}, watcherId) {
       this.$axios.$delete('/watch', {

@@ -30,10 +30,22 @@
       <hr class="my-4 border-gray-100"/>
       <div class="flex justify-between mb-2">
         <h4 class="font-bold">Win rate</h4>
-        <div class="flex space-x-2">
-          <span class="font-bold">All</span>
-          <span class="font-bold">PVE</span>
-          <span class="font-bold">PVP</span>
+        <div class="flex space-x-2 font-bold">
+          <div
+            class="cursor-pointer"
+            :class="{'text-black': filter.game_mode === null}"
+            @click="filter.game_mode = null">All
+          </div>
+          <div
+            class="cursor-pointer"
+            :class="{'text-black': filter.game_mode === 'pvp'}"
+            @click="filter.game_mode = 'pvp'">PVP
+          </div>
+          <div
+            class="cursor-pointer"
+            :class="{'text-black': filter.game_mode === 'pve'}"
+            @click="filter.game_mode = 'pve'">PVE
+          </div>
         </div>
       </div>
       <div class="flex items-center space-x-16">
@@ -83,6 +95,7 @@ import {
   Tooltip,
   SubTitle
 } from 'chart.js';
+import {mapActions} from "vuex";
 
 const schemas = require("/plugins/schemas");
 
@@ -117,6 +130,13 @@ let chart;
 
 export default {
   name: "Statistic",
+  data() {
+    return {
+      filter: {
+        game_mode: null,
+      }
+    }
+  },
   computed: {
     data() {
       return this.$store.state.config.wallet || schemas.WALLET
@@ -161,11 +181,22 @@ export default {
           }
         );
       }
-    }
+    },
+    ...mapActions('config', ['fetchGameRS']),
   },
   watch: {
-    data() {
+    "data.win_rate"() {
       this.draw()
+    },
+    filter: {
+      deep: true,
+      handler: function () {
+        this.fetchGameRS({
+          mode: this.filter.game_mode,
+          wallet: this.data.wallet,
+          game: this.$route.query.game
+        })
+      }
     }
   },
   mounted() {

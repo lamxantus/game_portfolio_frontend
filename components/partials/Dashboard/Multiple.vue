@@ -45,18 +45,18 @@
               <div class="text-2xl font-bold">{{ totalNFT }}</div>
               <div>NFT</div>
             </div>
-            <div class="w-3/5">
+            <div class="w-2/3">
               <div class="flex justify-between items-center">
                 <span>Total Value</span>
-                <span class="font-bold">9$</span>
+                <span class="font-bold">${{ nftTotalValue }}</span>
               </div>
               <div class="flex justify-between items-center my-2">
                 <span>Highest Price</span>
-                <span class="font-bold">309$</span>
+                <span class="font-bold">${{ nftHighestValue }}</span>
               </div>
               <div class="flex justify-between items-center">
                 <span>Lowest Price</span>
-                <span class="font-bold">0$</span>
+                <span class="font-bold">${{ nftLowestValue }}</span>
               </div>
             </div>
           </div>
@@ -66,18 +66,18 @@
               <div class="text-2xl font-bold">{{ totalScholar }}</div>
               <div>Scholar</div>
             </div>
-            <div class="w-3/5">
+            <div class="w-2/3">
               <div class="flex justify-between items-center">
                 <span>Best Earning</span>
-                <span class="font-bold">0$</span>
+                <span class="font-bold">N/A</span>
               </div>
               <div class="flex justify-between items-center my-2">
                 <span>Best ROI</span>
-                <span class="font-bold">0$</span>
+                <span class="font-bold">N/A</span>
               </div>
               <div class="flex justify-between items-center">
                 <span>Most Invest</span>
-                <span class="font-bold">0$</span>
+                <span class="font-bold">N/A</span>
               </div>
             </div>
           </div>
@@ -103,6 +103,9 @@ export default {
       unClaimed: 0,
       totalNFT: 0,
       totalScholar: 0,
+      nftTotalValue: 0,
+      nftHighestValue: 0,
+      nftLowestValue: 0
     }
   },
   computed: {
@@ -136,20 +139,35 @@ export default {
       this.claimed = 0;
       this.unClaimed = 0;
       this.totalNFT = 0;
+      this.totalScholar = 0;
+      this.nftTotalValue = 0;
+      this.nftHighestValue = 0;
+      this.nftLowestValue = 0;
+
       for (let i = 0; i < this.games.length; i++) {
         let game = this.games[i];
         const rate = this.$store.getters["config/getPriceRate"](game.options["token_in_game"]);
         const rateValue = rate ? rate.price : 0;
         for (let j = 0; j < game.wallets.length; j++) {
           const wallet = game.wallets[j];
+          if (j === 0) {
+            this.nftLowestValue = wallet.nftLowestValue || 0
+          }
           this.total = this.total + +wallet.totalEarning * rateValue;
           this.claimed = this.claimed + +wallet.claimed * rateValue;
           this.unClaimed = this.unClaimed + +wallet.unclaimed * rateValue;
-          this.totalNFT = this.totalNFT + +wallet.totalNFT
+          this.totalNFT = this.totalNFT + +wallet.totalNFT;
+          if (wallet.nftTotalValue) {
+            this.nftTotalValue = this.nftTotalValue + wallet.nftTotalValue
+          }
+          if (wallet.nftHighestValue && wallet.nftHighestValue > this.nftHighestValue) {
+            this.nftHighestValue = wallet.nftHighestValue
+          }
+          if (wallet.nftLowestValue && wallet.nftLowestValue < this.nftLowestValue) {
+            this.nftLowestValue = wallet.nftLowestValue
+          }
         }
-        if (game.wallets.length) {
-          this.totalScholar++
-        }
+        this.totalScholar = this.totalScholar + game.wallets.length
       }
     },
   },
