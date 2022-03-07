@@ -28,6 +28,22 @@
             v-model="form.meta.name" class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl" type="text"
           >
         </label>
+         <label class="block">
+          <span class="mx-2 block text-sm font-bold mb-2">Manager Percentage</span>
+          <input
+            v-model="form.earn_ratio" class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl"
+            min="1"
+            max="100"
+            
+            type="number">
+        </label>
+         <label class="block">
+          <span class="mx-2 block text-sm font-bold mb-2" >Scholar Percentage</span>
+          <input
+            v-model="form.scholar_ratio" class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl"
+            disabled
+            type="number">
+        </label>
         <label class="block">
           <span class="mx-2 block text-sm font-bold mb-2">Address</span>
           <input
@@ -46,12 +62,7 @@
             v-model="form.meta.telegram" class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl" type="text"
           >
         </label>
-        <label class="block">
-          <span class="mx-2 block text-sm font-bold mb-2">Profit Sharing Percentage</span>
-          <input
-            v-model="form.earn_ratio" class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl"
-            type="number">
-        </label>
+       
         <label class="block">
           <span class="mx-2 block text-sm font-bold mb-2">Payout Address</span>
           <input v-model="form.meta.payout_address" class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl">
@@ -103,11 +114,18 @@ export default {
           color: null,
           character: null
         },
-        earn_ratio: 1
+        earn_ratio: 1,
+        scholar_ratio: 99
       }
     }
   },
   watch: {
+    "form.earn_ratio"(val){
+      console.log("Val", val, this.form.earn_ratio)
+      if(val > 100) this.form.earn_ratio = 100;
+      this.form.scholar_ratio = 100 - this.form.earn_ratio;
+      
+    },
     "this.$store.state.config.modal"() {
       this.init()
     }

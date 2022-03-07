@@ -21,7 +21,7 @@
           </template>
           <div v-else-if="!$route.params.wallet">
             <h4 class="font-bold text-lg">Have a good day,</h4>
-            <p class="text-gray-500">Here is summary of your portfolio</p>
+            <p class="text-gray-500">Here is the summary of your portfolio</p>
           </div>
         </div>
         <dashboard-multiple v-if="!$route.params.wallet"/>
