@@ -1,18 +1,21 @@
 <template>
-  <div>
+  <div >
     <h1 class="text-xl mb-4 text-center font-bold">
       <span v-if="!form.id">Add Wallet</span>
       <span v-else-if="!done">Change Wallet Information</span>
     </h1>
-    <div v-if="!done" class="space-y-3">
+    <div v-if="!done" class="space-y-3" style="width: 35%; min-width: 350px">
       <label v-if="!form.id" class="block">
         <span class="mx-2 block text-sm font-bold mb-2">Wallet address</span>
         <input
           v-model="form.wallet" class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl" type="text"
+          @focus="inputFocus('wallet')"
           placeholder="Wallet Address">
+        <span class="mx-2 block text-sm mb-2 mt-1" style="color: red" v-if="this.required.wallet">This wallet address is invalid!</span>
+
       </label>
       <template v-else-if="!done">
-        <div class="block">
+        <div class="block ">
           <div class="flex items-center space-x-3">
             <div class="text-4xl bg-[#ACB9FF] p-1.5 w-12 h-12 rounded-full">🤨</div>
             <div class="flex-1">
@@ -26,22 +29,30 @@
           <span class="mx-2 block text-sm font-bold mb-2">Name <span style="color: red">*</span></span>
           <input
             v-model="form.meta.name" class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl" type="text"
+            @focus="inputFocus('name')"
           >
+          <span class="mx-2 block text-sm mb-2" style="color: red" v-if="this.required.name">This field is required</span>
+
         </label>
          <label class="block">
-          <span class="mx-2 block text-sm font-bold mb-2">Manager Percentage <span style="color: red">*</span></span>
+          <span class="mx-2 block text-sm font-bold py-2">Manager Percentage <span style="color: red">*</span></span>
           <input
             v-model="form.earn_ratio" class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl"
             min="1"
             max="100"
-            
+            @focus="inputFocus('manager')"
+
             type="number">
-        </label>
+           <span class="mx-2 block text-sm mb-2" style="color: red" v-if="this.required.manager">This field is required</span>
+
+         </label>
          <label class="block">
           <span class="mx-2 block text-sm font-bold mb-2" >Scholar Percentage</span>
           <input
-            v-model="form.scholar_ratio" class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl"
+             class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl"
+             :value="100-form.earn_ratio"
             disabled
+            placeholder="This field is auto-calculated"
             type="number">
         </label>
         <label class="block">
@@ -62,7 +73,7 @@
             v-model="form.meta.telegram" class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl" type="text"
           >
         </label>
-       
+
         <label class="block">
           <span class="mx-2 block text-sm font-bold mb-2">Payout Address</span>
           <input v-model="form.meta.payout_address" class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl">
@@ -94,12 +105,18 @@
 <script>
 import {mapActions} from "vuex";
 import {cloneDeep} from "lodash";
+import Web3 from "web3";
 
 export default {
   name: "FormWatcher",
   data() {
     return {
       done: false,
+      required: {
+        name: false,
+        manager: false,
+        wallet: false
+      },
       form: {
         id: null,
         wallet: null,
@@ -114,8 +131,7 @@ export default {
           color: null,
           character: null
         },
-        earn_ratio: 1,
-        scholar_ratio: 99
+        earn_ratio: undefined,
       }
     }
   },
@@ -124,7 +140,7 @@ export default {
       console.log("Val", val, this.form.earn_ratio)
       if(val > 100) this.form.earn_ratio = 100;
       this.form.scholar_ratio = 100 - this.form.earn_ratio;
-      
+
     },
     "this.$store.state.config.modal"() {
       this.init()
@@ -132,6 +148,9 @@ export default {
   },
   methods: {
     ...mapActions('config', ['fetchData']),
+    inputFocus(t) {
+      this.required[t] = false;
+    },
     skip() {
       this.fetchData("dashboard", 1);
       this.$store.commit('config/SET_MODAL', null);
@@ -143,6 +162,12 @@ export default {
         } else {
           this.form.wallet = this.form.wallet.replace("ronin:", "0x");
         }
+        if (!Web3.utils.isAddress(this.form.wallet)) {
+          console.log('dsadsa')
+          this.required.wallet = true;
+
+          return;
+        }
         this.$axios.$post('/watch', {
           address: this.form.wallet,
           game: this.form.game
@@ -150,6 +175,16 @@ export default {
           this.form.id = res.id;
         })
       } else if (!this.done && this.form.id) {
+        let checkFalse = false;
+        if(!this.form.meta.name) {
+          this.required.name = true;
+          checkFalse = true;
+        }
+        if(!this.form.earn_ratio) {
+          this.required.manager = true;
+          checkFalse  = true;
+        }
+        if(checkFalse) return
         this.$axios.$post('/save-watcher', this.form).then(() => {
           this.done = true;
         })

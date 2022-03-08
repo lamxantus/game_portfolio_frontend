@@ -14,7 +14,7 @@
         <div
           :key="i"
           class="flex-1 bg-white chart-elm bg-opacity-20 hover:bg-opacity-100 hover:text-black duration-200"
-          :style="{height: `${report[i].token * 100 / maxLength}%`}">
+          :style="{minHeight: '26px',height: `${report[i].token * 100 / maxLength}%`}">
           <span>{{ report[i].token }}</span>
         </div>
       </template>
