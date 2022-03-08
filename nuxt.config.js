@@ -40,7 +40,7 @@ export default {
     '@nuxtjs/google-gtag',
   ],
   'google-gtag':{
-    id: 'G-Q126BB7QGV', // required
+    id: 'GTM-T2NRR6B', // required
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
