@@ -13,7 +13,7 @@
     </div>
     <div class="bg-white rounded-xl p-4 duration-300 hover:shadow-xl">
       <div class="flex justify-between items-center mb-3">
-        <div class="flex space-x-2 font-bold text-gray-500">
+        <div class="flex space-x-2 font-bold text-gray-400">
           <div
             class="cursor-pointer"
             :class="{'text-black': filter.game_mode === null}"

@@ -32,8 +32,9 @@
             <img class="mx-auto" src="/icon/wallet.svg" alt="">
           </div>
           <h4 class="font-bold">Xantus Wallet</h4>
-          <p>The wallet of People</p>
-          <a class="inline-flex border text-white py-1.5 rounded-lg text-sm p-3 cursor-pointer">Read more</a>
+          <p>The wallet of people</p>
+          <a v-if="false" class="inline-flex border text-white py-1.5 rounded-lg text-sm p-3 cursor-pointer">Read more</a>
+          <span class="text-sm text-gray-400">Coming Soon</span>
         </div>
       </div>
     </div>

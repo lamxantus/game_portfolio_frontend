@@ -30,7 +30,7 @@
       <hr class="my-4 border-gray-100"/>
       <div class="flex justify-between mb-2">
         <h4 class="font-bold">Win rate</h4>
-        <div class="flex space-x-2 font-bold">
+        <div class="flex space-x-2 font-bold text-gray-400">
           <div
             class="cursor-pointer"
             :class="{'text-black': filter.game_mode === null}"
