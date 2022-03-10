@@ -50,6 +50,7 @@ export default {
             })
             if (res && res.address.toLowerCase() === account.toLowerCase()) {
               await this.$auth.bcConnect(res.token);
+              this.$gtag('event', 'Connect_wallet', {});
               this.$router.push('/dashboard')
             }
           }

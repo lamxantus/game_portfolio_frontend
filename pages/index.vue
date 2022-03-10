@@ -11,7 +11,8 @@
             </div>
           </div>
           <div class="flex space-x-8 items-center">
-            <div class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] rounded text-white" @click="logIn">
+            <div class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] rounded text-white"
+                 @click="logIn">
               <img src="/icon/wallet-white.png" alt="">
               <span>{{ user ? getUserName : 'Connect Wallet' }}</span>
             </div>
@@ -24,7 +25,7 @@
           <div>GameFi Portfolio</div>
         </div>
         <div class="my-6">
-          <h2 class="mb-4 font-bold text-lg">Enter your  wallet address</h2>
+          <h2 class="mb-4 font-bold text-lg">Enter your wallet address</h2>
           <div class="mb-4 flex justify-center" @keyup.enter="trackWallet">
             <div class="inline-flex items-center space-x-3">
               <label>
@@ -36,11 +37,13 @@
               <button
                 class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded"
                 @click="trackWallet"
-              >Get Started</button>
+              >Get Started
+              </button>
             </div>
           </div>
-          <nuxt-link class="text-sm inline-flex items-center space-x-1" :to="`/dashboard/${user ? '': 'random?game=1'}`">
-            <span class="text-white">{{user ? 'Dashboard' : 'View random wallet'}}</span>
+          <nuxt-link class="text-sm inline-flex items-center space-x-1"
+                     :to="`/dashboard/${user ? '': 'random?game=1'}`">
+            <span class="text-white">{{ user ? 'Dashboard' : 'View random wallet' }}</span>
             <icon name="chv-right" class="sm" fill="white"></icon>
           </nuxt-link>
         </div>
@@ -81,6 +84,23 @@
             <p>Oxalus tracker lets you connect wallet and access tools to track your stats for free</p>
           </div>
         </div>
+        <div class="my-16">
+          <h2 class="mb-8 text-center text-3xl font-bold">You can now track multi-games</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="game-holder" v-for="game in games" :key="game.id">
+              <div class="wrap">
+                <img class="object-cover w-full h-full rounded-xl" :src="`/bg/${game.id}.png`" alt="">
+              </div>
+              <div class="wrap flex flex-col items-center justify-center">
+                <img class="" :src="`/logo/${game.id}.png`" alt="">
+              </div>
+              <div v-if="!game.date || game.date > now" class="time">
+                <span v-if="game.date">{{ countDown(game.date - now) }}</span>
+                <span v-else>Coming soon</span>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="bg-[#0F43F9] p-6 text-white rounded-2xl hover:shadow-xl">
           <div class="md:flex md:space-x-4 items-center">
             <div class="flex items-center">
@@ -117,16 +137,29 @@ import Adapter from "../components/utils/modal/Adapter";
 import {mapActions, mapGetters} from "vuex";
 import Web3 from "web3";
 
+let ivt = null;
 export default {
   name: "PageIndex",
   components: {Adapter},
   data() {
     return {
-      wl: null
+      wl: null,
+      now: new Date().getTime(),
+      games: [{
+        id: "axie_infinity",
+        date: new Date().getTime()
+      }, {
+        id: "gunfire",
+        date: new Date("2022/03/14").getTime()
+      }, {
+        id: "mones",
+        date: null
+      }]
     }
   },
   methods: {
     trackWallet() {
+      this.$gtag('event', 'Get_started', {});
       if (this.wl) {
         const x = this.wl.replace("ronin:", "0x")
         this.wl = x;
@@ -142,15 +175,32 @@ export default {
     },
     ...mapActions("auth", ["logIn"]),
     ...mapActions('config', ['fetchData']),
+    countDown(distance) {
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      // Display the result in the element with id="demo"
+      return days + "d " + hours + "h " + minutes + "m " + seconds + "s "
+    }
   },
   computed: {
     ...mapGetters("auth", ["getUserName"]),
   },
+  mounted() {
+    ivt = setInterval(() => {
+      this.now = new Date();
+    }, 1000)
+  },
+  beforeDestroy() {
+    clearInterval(ivt);
+  }
 }
 </script>
 
 <style>
-#s1 {}
+#s1 {
+}
 
 #s1:before {
   position: absolute;
@@ -159,11 +209,21 @@ export default {
   content: "";
   bottom: 0;
   left: 30vw;
-  border-radius: 100%;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  border-radius: 100% 100% 0 0;
   box-shadow: 0 -14px 70px 45px #0f43f9;
   background: #0F43F9;
 }
 
+.game-holder {
+  @apply relative;
+  padding-top: 50%;
+}
+
+.game-holder .wrap {
+  @apply absolute top-0 left-0 right-0 bottom-0;
+}
+
+.game-holder .time {
+  @apply absolute top-2 text-white right-2 p-0.5 px-2 bg-red-500 text-xs rounded;
+}
 </style>
