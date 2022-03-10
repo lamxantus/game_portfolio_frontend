@@ -6,13 +6,13 @@
           <span class="text-lg font-bold mr-4">Keep in touch</span>
           <label class="mr-4">
             <input
-              class="p-1.5 px-4 border border-[#DDE0F7] rounded-xl" type="text"
+              class="p-1.5 px-4 ưborder border-[#DDE0F7] rounded-xl" type="text"
               placeholder="Your email address">
           </label>
           <button
             class="p-1.5 px-4 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded-xl"
           >View</button>
-        </div>
+        </div> 
         <div v-if="false" class="flex items-center space-x-4">
           <a class="p-1.5 bg-[#0F43F9] rounded-full" href="">
             <icon name="tw" fill="#FFF"></icon>

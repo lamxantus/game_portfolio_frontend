@@ -36,7 +36,7 @@
                   <div class="flex justify-between text-gray-500">
                     <span>Scholar</span>
                     <div class="space-y-2 text-right text-xs">
-                      <div class="text-black font-bold">{{analytic.scholar.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}} SLP</div>
+                      <div class="text-black font-bold">{{analytic.scholar.toLocaleString()}} SLP</div>
                       <span>${{(priceRate * analytic.scholar).toLocaleString()}}</span>
                     </div>
                   </div>
@@ -67,10 +67,10 @@
                   {{ shortAddress(item.name) }}
                 </nuxt-link>
               </td>
-              <td class="py-3 px-4 text-left">{{ (item.totalEarning * (item.earning_rate || 1)).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</td>
-              <td class="py-3 px-4 text-left">{{ (item.totalEarning * (1 - (item.earning_rate || 1))).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</td>
+              <td class="py-3 px-4 text-left">{{ (item.totalEarning * (item.earning_rate || 1)).toLocaleString() }}</td>
+              <td class="py-3 px-4 text-left">{{ (item.totalEarning * (1 - (item.earning_rate || 1))).toLocaleString() }}</td>
               <td class="py-3 px-4 text-left">{{(item.earning_rate || 1) * 100}}%</td>
-              <td class="py-3 px-4 text-left hidden md:table-cell">{{ item.elo.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</td>
+              <td class="py-3 px-4 text-left hidden md:table-cell">{{ item.elo.toLocaleString() }}</td>
               <td class="py-3 px-4 text-left hidden md:table-cell">{{ (item.win_rate.results * 100).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}%</td>
               <td class="py-3 px-4 text-right">
                 <span>{{item.totalNFT}}</span>
