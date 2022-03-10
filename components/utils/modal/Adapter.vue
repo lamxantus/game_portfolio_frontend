@@ -1,5 +1,5 @@
 <template>
-  <div v-if="modal" class="fixed top-0 left-0 right-0 bottom-0 z-20 flex justify-center items-center">
+  <div v-if="modal" class="fixed top-0 left-0 right-0 bottom-0 z-20 flex justify-center items-center p-4">
     <div
       class="fixed top-0 left-0 right-0 bottom-0 backdrop-blur bg-black/30"
       @click="$store.commit('config/SET_MODAL', null)"
