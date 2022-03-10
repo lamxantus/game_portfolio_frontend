@@ -22,6 +22,10 @@ export default {
   },
   actions: {
     async logIn({commit, state}) {
+      if(state.user) {
+        this.$router.push('/dashboard');
+        return;
+      }
       if (window.ethereum && !state.user) {
         const W3 = new Web3(window.ethereum)
         await window.ethereum.enable();
