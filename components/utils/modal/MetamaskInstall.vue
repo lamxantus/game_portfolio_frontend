@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center">
+  <div class="text-center" style="max-width: 500px; min-width: 300px">
     <div class="px-32 py-8">
       <img src="/metamask.svg" alt="">
     </div>
