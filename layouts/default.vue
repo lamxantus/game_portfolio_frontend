@@ -33,7 +33,8 @@
           </div>
           <h4 class="font-bold">Xantus Wallet</h4>
           <p>The wallet of people</p>
-          <a v-if="false" class="inline-flex border text-white py-1.5 rounded-lg text-sm p-3 cursor-pointer">Read more</a>
+          <a v-if="false" class="inline-flex border text-white py-1.5 rounded-lg text-sm p-3 cursor-pointer">Read
+            more</a>
           <span class="text-sm text-gray-400">Coming Soon</span>
         </div>
       </div>
@@ -70,6 +71,27 @@ export default {
         href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap'
       }
     ]
+  },
+  mounted() {
+    window.addEventListener('mouseover', initLandbot, {once: true});
+    window.addEventListener('touchstart', initLandbot, {once: true});
+    let myLandbot;
+
+    function initLandbot() {
+      if (!myLandbot) {
+        const s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.addEventListener('load', function () {
+          myLandbot = new Landbot.Livechat({
+            configUrl: 'https://chats.landbot.io/v3/H-1173931-TBVEOV2LJR3RTE0C/index.json',
+          });
+        });
+        s.src = 'https://cdn.landbot.io/landbot-3/landbot-3.0.0.js';
+        var x = document.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(s, x);
+      }
+    }
   }
 }
 </script>
