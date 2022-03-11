@@ -12,7 +12,8 @@ export default {
         description: "Build up a collection and use them across an ever expanding universe of games! Axie Infinity uses cutting edge technology called Blockchain to reward players",
         meta: {
           token_in_game: "SLP"
-        }
+        },
+        id_string: "axie_infinity"
       },
       {
         id: 2,
@@ -20,7 +21,8 @@ export default {
         description: "Gunfire Hero is the second blockchain game in the Step Hero Play-to-earn Multiverse.",
         meta: {
           token_in_game: "STEP"
-        }
+        },
+        id_string: "gunfire"
       }
     ],
     dashboard: [],
