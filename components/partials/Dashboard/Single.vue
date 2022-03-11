@@ -36,20 +36,20 @@
                 <div class="p-4">
                   <h4 class="mb-2 text-[#0F43F9]">Unclaimed</h4>
                   <div class="font-bold text-3xl">{{ Number(data.unclaimed || "0").toLocaleString() }}</div>
-                  <div>SLP</div>
+                  <div>{{ activeGame.meta.token_in_game }}</div>
                   <span v-if="data.unclaimed"
                         class="text-gray-500">{{ (getCurrentPriceRate * data.unclaimed).toLocaleString() }}$</span>
                 </div>
                 <div class="border-l p-4 border-[#F7F8FF]">
                   <h4 class="mb-2 text-[#10CE00]">Claimed</h4>
                   <div class="font-bold text-3xl">{{ (data.claimed_token || 0).toLocaleString() }}</div>
-                  <div>SLP</div>
+                  <div>{{ activeGame.meta.token_in_game }}</div>
                   <span class="text-gray-500">{{ (getCurrentPriceRate * data.claimed_token).toLocaleString() }}$</span>
                 </div>
                 <div class="border-l p-4 border-[#F7F8FF]">
                   <h4 class="mb-2 text-[#FFA800]">Total Earning</h4>
                   <div class="font-bold text-3xl">{{ Number(data.totalEarning || "0").toLocaleString() }}</div>
-                  <div>SLP</div>
+                  <div>{{ activeGame.meta.token_in_game }}</div>
                   <span class="text-gray-500">{{ (getCurrentPriceRate * data.totalEarning).toLocaleString() }}$</span>
                 </div>
                 <div class="border-l p-4 border-[#F7F8FF]">
@@ -206,6 +206,10 @@ export default {
         }
       }
       return "Unknown"
+    },
+    activeGame() {
+      const cfStore = this.$store.state.config
+      return cfStore.games[cfStore.activeGame];
     }
   },
   methods: {
@@ -240,6 +244,9 @@ export default {
         this.search = this.data.wallet
       }
     }
+  },
+  created() {
+    this.$store.commit('config/SET_ACTIVE_GAME', +this.$route.query.game - 1);
   }
 }
 </script>

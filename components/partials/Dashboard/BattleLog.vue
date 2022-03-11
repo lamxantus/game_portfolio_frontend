@@ -49,8 +49,8 @@
         <tr class="font-bold rounded">
           <td class="p-1 w-1/4 text-left">Date</td>
           <td class="p-1">Mode</td>
-          <td class="p-1 w-1/3">My Team</td>
-          <td class="p-1 w-1/5">Result</td>
+          <td v-if="activeGame.id_string === 'axie_infinity'" class="p-1 w-1/3">My Team</td>
+          <td class="p-1 w-1/5 text-right">Result</td>
           <td class="p-1 w-1/3" v-if="filter.game_mode === 'pve'">Opponent</td>
         </tr>
         </thead>
@@ -63,7 +63,7 @@
             </p>
           </td>
           <td class="p-1 uppercase">{{ item.game_mode }}</td>
-          <td class="p-1">
+          <td v-if="activeGame.id_string === 'axie_infinity'" class="p-1">
             <div class="flex space-x-2">
               <div v-for="nft in item.token_items" :key="nft.id">
                 <img
@@ -73,7 +73,7 @@
               </div>
             </div>
           </td>
-          <td class="p-1">
+          <td class="p-1 text-right">
             <div class="flex justify-between items-center">
               <div class="text-xs text-gray-500">Win</div>
               <div>
@@ -131,6 +131,10 @@ export default {
     },
     response() {
       return this.data.gameTX
+    },
+    activeGame() {
+      const cfStore = this.$store.state.config
+      return cfStore.games[cfStore.activeGame];
     }
   },
   watch: {

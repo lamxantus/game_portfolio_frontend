@@ -6,25 +6,31 @@ table {
   border-spacing: 0;
   border-collapse: separate;
 }
+
+tr td {
+  border: 1px solid transparent;
+}
+
 tr:hover td {
-  border: 2px solid #0f43f9;
+  border: 1px solid #0f43f9;
   border-left-width: 0;
   border-right-width: 0;
 }
+
 tr:hover td:first-child {
-  border: 2px solid #0f43f9;
+  border: 1px solid #0f43f9;
   border-right-width: 0;
   border-bottom-left-radius: 10px;
   border-top-left-radius: 10px;
 }
 
 tr:hover td:last-child {
-  border: 2px solid #0f43f9;
+  border: 1px solid #0f43f9;
   border-left-width: 0;
-
   border-bottom-right-radius: 10px;
   border-top-right-radius: 10px;
 }
+
 thead tr:after {
   background: #f7f8ff;
 }

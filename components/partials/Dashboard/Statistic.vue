@@ -5,7 +5,7 @@
         <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
           <img src="/icon/statistic.png" alt="">
         </div>
-        <h2 class="font-bold text-lg">Today Statistic</h2>
+        <h2 class="font-bold text-lg">Today statistic</h2>
       </div>
     </div>
     <div class="">

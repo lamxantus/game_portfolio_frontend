@@ -130,7 +130,10 @@ export default {
   },
   fetch() {
     if (this.isWallet || !this.$route.params.wallet) {
-      this.fetchData(this.$route.params.wallet || "dashboard", this.$route.query.game)
+      this.fetchData({
+        wallet: this.$route.params.wallet || "dashboard",
+        game_id: this.$route.query.game
+      })
     }
   },
   methods: {

@@ -10,10 +10,16 @@ export default {
         id: 1,
         title: "Axie Infinity",
         description: "Build up a collection and use them across an ever expanding universe of games! Axie Infinity uses cutting edge technology called Blockchain to reward players",
-        image: "/axie.jpeg",
-        bg: "/bg/axie_infinity.png",
         meta: {
           token_in_game: "SLP"
+        }
+      },
+      {
+        id: 2,
+        title: "Gunfire Hero",
+        description: "Gunfire Hero is the second blockchain game in the Step Hero Play-to-earn Multiverse.",
+        meta: {
+          token_in_game: "STEP"
         }
       }
     ],
@@ -72,10 +78,13 @@ export default {
           }
         }
       }
+    },
+    ["SET_ACTIVE_GAME"](state, gameIndex) {
+      state.activeGame = gameIndex;
     }
   },
   actions: {
-    async fetchData({commit, state}, wallet, game_id = 1) {
+    async fetchData({commit, state}, {wallet, game_id}) {
       wallet = wallet.replace("ronin:", "0x");
       const res = await this.$axios.$get(`/${wallet}`, {
         params: {
