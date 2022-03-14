@@ -65,23 +65,23 @@
           <div class="p-4 bg-white rounded-2xl duration-300 hover:shadow-xl">
             <h3 class="mb-2 text-xl font-bold flex space-x-2 items-center">
               <img src="/icon/bookmark.png" alt="">
-              <span>Diverse</span>
+              <span>Multi-game</span>
             </h3>
-            <p>Oxalus tracker supports not only one game but many top games of your interest with ease</p>
+            <p>Supports not only one game but many top games of your interest with ease</p>
           </div>
           <div class="p-4 bg-white rounded-2xl duration-30 hover:shadow-xl">
             <h3 class="mb-2 text-xl font-bold flex space-x-2 items-center">
               <img src="/icon/bookmark.png" alt="">
               <span>Data-driven</span>
             </h3>
-            <p>Oxalus tracker provides useful indexes and tools to help manage your resources</p>
+            <p>Provides useful indexes and tools to help manage your resources</p>
           </div>
           <div class="p-4 bg-white rounded-2xl duration-300 hover:shadow-xl">
             <h3 class="mb-2 text-xl font-bold flex space-x-2 items-center">
               <img src="/icon/bookmark.png" alt="">
               <span>Free-to-use</span>
             </h3>
-            <p>Oxalus tracker lets you connect wallet and access tools to track your stats for free</p>
+            <p>Lets you connect wallet and access tools to track your stats for free</p>
           </div>
         </div>
         <div class="my-16">
