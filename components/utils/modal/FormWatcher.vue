@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <h1 class="text-xl mb-4 text-center font-bold">
       <span v-if="!form.id">Add Wallet</span>
       <span v-else-if="!done">Change Wallet Information</span>
@@ -31,10 +31,10 @@
             v-model="form.meta.name" class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl" type="text"
             @focus="inputFocus('name')"
           >
-          <span class="mx-2 block text-sm mb-2" style="color: red" v-if="this.required.name">This field is required</span>
-
+          <span class="mx-2 block text-sm mb-2" style="color: red"
+                v-if="this.required.name">This field is required</span>
         </label>
-         <label class="block">
+        <label class="block">
           <span class="mx-2 block text-sm font-bold py-2">Manager Percentage <span style="color: red">*</span></span>
           <input
             v-model="form.earn_ratio" class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl"
@@ -43,14 +43,15 @@
             @focus="inputFocus('manager')"
 
             type="number">
-           <span class="mx-2 block text-sm mb-2" style="color: red" v-if="this.required.manager">This field is required</span>
+          <span class="mx-2 block text-sm mb-2" style="color: red"
+                v-if="this.required.manager">This field is required</span>
 
-         </label>
-         <label class="block">
-          <span class="mx-2 block text-sm font-bold mb-2" >Scholar Percentage</span>
+        </label>
+        <label class="block">
+          <span class="mx-2 block text-sm font-bold mb-2">Scholar Percentage</span>
           <input
-             class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl"
-             :value="100-form.earn_ratio"
+            class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl"
+            :value="100-form.earn_ratio"
             disabled
             placeholder="This field is auto-calculated"
             type="number">
@@ -73,7 +74,6 @@
             v-model="form.meta.telegram" class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl" type="text"
           >
         </label>
-
         <label class="block">
           <span class="mx-2 block text-sm font-bold mb-2">Payout Address</span>
           <input v-model="form.meta.payout_address" class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl">
@@ -131,14 +131,13 @@ export default {
           color: null,
           character: null
         },
-        earn_ratio: undefined,
+        earn_ratio: 0,
       }
     }
   },
   watch: {
-    "form.earn_ratio"(val){
-      console.log("Val", val, this.form.earn_ratio)
-      if(val > 100) this.form.earn_ratio = 100;
+    "form.earn_ratio"(val) {
+      if (val > 100) this.form.earn_ratio = 100;
       this.form.scholar_ratio = 100 - this.form.earn_ratio;
 
     },
@@ -163,7 +162,6 @@ export default {
           this.form.wallet = this.form.wallet.replace("ronin:", "0x");
         }
         if (!Web3.utils.isAddress(this.form.wallet)) {
-          console.log('dsadsa')
           this.required.wallet = true;
 
           return;
@@ -176,15 +174,15 @@ export default {
         })
       } else if (!this.done && this.form.id) {
         let checkFalse = false;
-        if(!this.form.meta.name) {
+        if (!this.form.meta.name) {
           this.required.name = true;
           checkFalse = true;
         }
-        if(!this.form.earn_ratio) {
+        if (!this.form.earn_ratio) {
           this.required.manager = true;
-          checkFalse  = true;
+          checkFalse = true;
         }
-        if(checkFalse) return
+        if (checkFalse) return
         this.$axios.$post('/save-watcher', this.form).then(() => {
           this.done = true;
         })
