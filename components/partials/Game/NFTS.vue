@@ -18,7 +18,7 @@
         <h3 class="text-lg font-bold">{{ item.name }}</h3>
         <div class="flex justify-between items-center">
           <span class="text-xs text-gray-500">Last price</span>
-          <span>{{ (item.current_price || 0).toLocaleString() }}eth</span>
+          <span>{{item.current_price > 0?  item.current_price.toLocaleString() + 'eth' : 'N/A' }}</span>
         </div>
         <hr class="my-2 border-gray-100">
         <a
