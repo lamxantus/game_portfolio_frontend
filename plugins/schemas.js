@@ -3,6 +3,11 @@ export const WALLET = {
   "totalEarning": 0,
   "totalNFT": 0,
   "unclaimed": 0,
+  "average_earnings": 0,
+  "daily_earnings": 0,
+  "todayEarning": 0,
+  "yesterdayEarning": 0,
+  "avg": 0,
   "nextClaimDate": null,
   "featured_nft": [{"id": 0, "img": ""}],
   "report": {
@@ -18,10 +23,6 @@ export const WALLET = {
       "type": "date",
       "data": []
     }
-  },
-  "gameTX": {
-    results: [],
-    count: 0
   },
   "premium": {
     "top_ranking": null,

@@ -40,7 +40,10 @@ export default {
       if (wallet === "dashboard") {
         Vue.set(state, "dashboard", data)
       } else {
-        Vue.set(state, "wallet", data)
+        Vue.set(state, "wallet", {
+          ...state.wallet,
+          ...data
+        })
       }
     },
     ["SET_GAME_TX"](state, data) {

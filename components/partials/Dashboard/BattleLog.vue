@@ -160,6 +160,13 @@ export default {
         this.filter.page--
       }
     }
+  },
+  created() {
+    this.fetchGameTX({
+      ...this.filter,
+      wallet: this.$route.params.wallet,
+      game: this.$route.query.game
+    })
   }
 }
 </script>

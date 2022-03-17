@@ -29,14 +29,14 @@
                   <div class="flex justify-between text-gray-500">
                     <span>Manager</span>
                     <div class="space-y-2 text-right text-xs">
-                      <div class="text-black font-bold">{{analytic.manager.toLocaleString()}} SLP</div>
+                      <div class="text-black font-bold">{{analytic.manager.toLocaleString()}} {{value.options['token_in_game']}}</div>
                       <span>${{(priceRate * analytic.manager).toLocaleString()}}</span>
                     </div>
                   </div>
                   <div class="flex justify-between text-gray-500">
                     <span>Scholar</span>
                     <div class="space-y-2 text-right text-xs">
-                      <div class="text-black font-bold">{{analytic.scholar.toLocaleString()}} SLP</div>
+                      <div class="text-black font-bold">{{analytic.scholar.toLocaleString()}} {{value.options['token_in_game']}}</div>
                       <span>${{(priceRate * analytic.scholar).toLocaleString()}}</span>
                     </div>
                   </div>
