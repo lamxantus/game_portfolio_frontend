@@ -182,8 +182,8 @@ export default {
           this.required.manager = true;
           checkFalse = true;
         }
-        if (checkFalse) return
-        this.$axios.$post('/save-watcher', this.form).then(() => {
+        if(checkFalse) return
+        this.$axios.$post('/save-watcher', {...this.form, earn_ratio: this.form.earn_ratio/100 }).then(() => {
           this.done = true;
         })
       } else {
@@ -196,7 +196,7 @@ export default {
         this.form.game = data.game.id;
         if (data.watcher) {
           this.form.id = data.watcher.id;
-          this.form.earn_ratio = data.watcher.earn_ratio;
+          this.form.earn_ratio = data.watcher.earn_ratio * 100;
           this.form.wallet = data.watcher.wallet;
           this.form.meta = data.watcher.meta ? cloneDeep(data.watcher.meta) : {
             name: null,

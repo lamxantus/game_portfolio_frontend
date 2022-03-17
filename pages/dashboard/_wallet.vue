@@ -30,7 +30,7 @@
         <dashboard-single v-else/>
       </div>
     </div>
-    <div v-if="data && data.wallet && data.watcher" class="bg-[#DDE0F64D] w-full md:w-72 p-4 py-8">
+    <div v-if="data && data.wallet && data.watcher && isWallet" class="bg-[#DDE0F64D] w-full md:w-72 p-4 py-8">
       <div class="flex items-center space-x-3">
         <div class="text-4xl bg-[#ACB9FF] p-1.5 w-12 h-12 rounded-full">🤨</div>
         <div class="flex-1">
@@ -45,11 +45,11 @@
           <span class="font-bold">{{ data.watcher.earn_ratio * 100 }}%</span>
         </div>
         <div class="w-full bg-[#0F43F9] h-2 rounded-xl">
-          <div class="bg-[#FFA800] h-2 rounded-xl" :style="{width: `${data.watcher.earn_ratio * 100}%`}"></div>
+          <div class="bg-[#FFA800] h-2 rounded-xl" :style="{width: `${(data.watcher.earn_ratio * 100) > 100 ? 100 : data.watcher.earn_ratio * 100}%`}"></div>
         </div>
       </div>
       <hr class="my-4 border-[#ACB9FF50]"/>
-      <div>
+      <div >
         <div class="flex justify-between items-center mb-2">
           <h4>Name</h4>
           <div v-if="data.watcher.meta" class="font-bold">{{ data.watcher.meta.name }}</div>
@@ -88,7 +88,7 @@
               class="p-2 py-4 bg-white rounded-xl hover:shadow-xl cursor-pointer block"
             >
               <div class="text-4xl bg-[#ACB9FF] p-1.5 w-12 h-12 rounded-full mx-auto mb-3">🤨</div>
-              <p class="one-line">Unnamed</p>
+              <p class="one-line">{{item.meta ? item.meta.name : 'Unnamed'}}</p>
             </nuxt-link>
             <div class="remove" @click="removeWatcher(item.id)">
               <icon class="sm" fill="#FFF" name="remove"></icon>
