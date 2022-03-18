@@ -1,4 +1,20 @@
 import Web3 from "web3";
+import WalletConnect from "@walletconnect/client";
+import QRCodeModal from "@walletconnect/qrcode-modal";
+
+const wc_connector = new WalletConnect({
+  bridge: "https://bridge.walletconnect.org",
+  qrcodeModal: QRCodeModal,
+});
+const W3 = new Web3(window.ethereum);
+
+const CHAIN_MAPPING = {
+  "56": "bsc_mainnet",
+  "1": "eth_mainnet",
+  "43114": "avax_mainnet",
+  "250": "fantom_mainet",
+  "137": "polygon_mainet",
+}
 
 export default {
   namespaced: true,
@@ -22,43 +38,74 @@ export default {
   },
   actions: {
     async logIn({commit, state}) {
-      if(state.user) {
-        this.$router.push('/dashboard');
+      commit('config/SET_MODAL', {
+        type: 'login'
+      }, {root: true})
+    },
+    async login({commit, state}, type) {
+      if (state.user) {
+        await this.$router.push('/dashboard');
         return;
       }
-      if (window.ethereum && !state.user) {
-        const W3 = new Web3(window.ethereum)
-        await window.ethereum.enable();
-        const account = (await W3.eth.getAccounts()).pop();
-        if (account) {
-          const chain_id = "eth_mainnet";
-          const message = `AUTHENTICATION_${(new Date()).getTime()}`;
-          const signature = await W3.eth.personal.sign(
+      let account, chainId;
+      if (window.ethereum && type === 'metamask') {
+        if (!window.ethereum) {
+          commit('config/SET_MODAL', {
+            type: 'metamask_install'
+          }, {root: true})
+          return
+        }
+        await window.ethereum.enable().catch(() => {
+        });
+        const accounts = await W3.eth.getAccounts().catch(() => ([]));
+        account = accounts.pop()
+        chainId = await W3.eth.net.getId();
+      } else {
+        const res = await wc_connector.connect().catch(() => {
+          return {
+            accounts: [],
+            chainId: null
+          }
+        });
+        if (res.accounts.length) {
+          account = res.accounts[0]
+        }
+        chainId = res.chainId;
+      }
+      if (!account) {
+        return
+      }
+      if (!chainId || !CHAIN_MAPPING[chainId.toString()]) {
+        return
+      }
+      if (account) {
+        const chain_id = CHAIN_MAPPING[chainId.toString()];
+        const message = `AUTHENTICATION_${(new Date()).getTime()}`;
+        let signature;
+        if (type === "metamask") {
+          signature = await W3.eth.personal.sign(
             message,
             account,
             ''
-          ).catch((e) => {
+          ).catch(() => null);
+        } else {
+          signature = await wc_connector.signPersonalMessage([account, message]).catch(() => null);
+        }
+        if (signature) {
+          const res = await this.$axios.$post('/connect', {
+            chain_id,
+            message,
+            signature: signature
+          }).catch(() => {
             return null
-          });
-          if (signature) {
-            const res = await this.$axios.$post('/connect', {
-              chain_id,
-              message,
-              signature: signature
-            }).catch(() => {
-              return null
-            })
-            if (res && res.address.toLowerCase() === account.toLowerCase()) {
-              await this.$auth.bcConnect(res.token);
-              this.$gtag('event', 'Connect_wallet', {});
-              this.$router.push('/dashboard')
-            }
+          })
+          if (res && res.address.toLowerCase() === account.toLowerCase()) {
+            await this.$auth.bcConnect(res.token);
+            this.$gtag('event', 'Connect_wallet', {});
+            await this.$router.push('/dashboard');
+            commit('config/SET_MODAL', null, {root: true})
           }
         }
-      } else {
-        commit('config/SET_MODAL', {
-          type: 'metamask_install'
-        }, { root: true })
       }
     }
   },

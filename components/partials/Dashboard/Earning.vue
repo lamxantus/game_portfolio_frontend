@@ -147,7 +147,7 @@ export default {
               ticks: {
                 display: false
               },
-              beginAtZero: true,
+              beginAtZero: false,
               grid: {
                 display: false,
                 drawBorder: false,

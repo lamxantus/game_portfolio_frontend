@@ -7,6 +7,7 @@
     <div class="mx-auto bg-white rounded-xl p-4 md:p-6 relative z-10 overflow-y-scroll ">
       <form-watcher v-if="modal.type === 'add_wallet'"/>
       <metamask-install v-else-if="modal.type === 'metamask_install'"/>
+      <login v-else-if="modal.type === 'login'"/>
     </div>
   </div>
 </template>
@@ -14,10 +15,11 @@
 <script>
 import FormWatcher from "./FormWatcher";
 import MetamaskInstall from "./MetamaskInstall";
+import Login from "./Login";
 
 export default {
   name: "Adapter",
-  components: {MetamaskInstall, FormWatcher},
+  components: {Login, MetamaskInstall, FormWatcher},
   computed: {
     modal() {
       return this.$store.state.config.modal

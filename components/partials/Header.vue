@@ -12,7 +12,7 @@
           </div>
         </div>
       </div>
-      <div class="p-1 px-3 cursor-pointer" @click="$auth.logout()">
+      <div v-if="$store.state.auth.loggedIn" class="p-1 px-3 cursor-pointer" @click="$auth.logout()">
         <icon name="logout" fill="#F9F9F9"></icon>
       </div>
     </div>
@@ -20,7 +20,6 @@
 </template>
 
 <script>
-const {mapActions, mapGetters} = require("vuex");
 export default {
   name: "PHeader",
   data() {

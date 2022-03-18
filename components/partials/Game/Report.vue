@@ -1,5 +1,5 @@
 <template>
-  <div v-if="value" class="mb-6">
+  <div v-if="value && value.options" class="mb-6">
     <div class="mb-4">
       <div class="flex items-center space-x-2 mb-3">
         <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
@@ -21,7 +21,7 @@
                 <div class="p-3">
                   <span class="text-[#0F43F9]">Earning</span>
                   <h4 class="font-extrabold text-xl mt-2">{{ analytic.earning.toLocaleString() }}</h4>
-                  <div class="font-bold">{{value.options['token_in_game']}}</div>
+                  <div class="font-bold">{{ value.options['token_in_game'] }}</div>
                   <span class="text-gray-500">{{ (priceRate * analytic.earning).toLocaleString() }}$</span>
                 </div>
                 <hr>
@@ -29,15 +29,19 @@
                   <div class="flex justify-between text-gray-500">
                     <span>Manager</span>
                     <div class="space-y-2 text-right text-xs">
-                      <div class="text-black font-bold">{{analytic.manager.toLocaleString()}} {{value.options['token_in_game']}}</div>
-                      <span>${{(priceRate * analytic.manager).toLocaleString()}}</span>
+                      <div class="text-black font-bold">{{ analytic.manager.toLocaleString() }}
+                        {{ value.options['token_in_game'] }}
+                      </div>
+                      <span>${{ (priceRate * analytic.manager).toLocaleString() }}</span>
                     </div>
                   </div>
                   <div class="flex justify-between text-gray-500">
                     <span>Scholar</span>
                     <div class="space-y-2 text-right text-xs">
-                      <div class="text-black font-bold">{{analytic.scholar.toLocaleString()}} {{value.options['token_in_game']}}</div>
-                      <span>${{(priceRate * analytic.scholar).toLocaleString()}}</span>
+                      <div class="text-black font-bold">{{ analytic.scholar.toLocaleString() }}
+                        {{ value.options['token_in_game'] }}
+                      </div>
+                      <span>${{ (priceRate * analytic.scholar).toLocaleString() }}</span>
                     </div>
                   </div>
                 </div>
@@ -51,9 +55,24 @@
           <thead>
           <tr class="text-black font-bold uppercase text-xs leading-normal rounded">
             <th class="py-3 px-4 text-left">Name</th>
-            <th class="py-3 px-4 text-left">Scholar</th>
-            <th class="py-3 px-4 text-left">Manager</th>
-            <th class="py-3 px-4 text-left">Share</th>
+            <th class="py-3 px-4 text-left">
+              <div>
+                <div>Scholar</div>
+                <span v-if="value.options" class="text-gray-400 capitalize">{{value.options.token_in_game}}</span>
+              </div>
+            </th>
+            <th class="py-3 px-4 text-left">
+              <div>
+                <div>Manager</div>
+                <span v-if="value.options" class="text-gray-400 capitalize">{{value.options.token_in_game}}</span>
+              </div>
+            </th>
+            <th class="py-3 px-4 text-left">
+              <div>
+                <div>Share</div>
+                <span class="text-gray-400 capitalize">Of scholar</span>
+              </div>
+            </th>
             <th class="py-3 px-4 text-left hidden md:table-cell">Elo</th>
             <th class="py-3 px-4 text-left hidden md:table-cell">Win Rate</th>
             <th class="py-3 px-4 text-right">NFTs</th>
@@ -67,13 +86,27 @@
                   {{ shortAddress(`${item.watcher.meta ? item.watcher.meta.name : 'Unnamed'}`) }}
                 </nuxt-link>
               </td>
-              <td class="py-3 px-4 text-left">{{ (item.totalEarning * (item.earn_ratio <=1 ?item.earn_ratio : item.earn_ratio/100 )).toLocaleString() }}</td>
-              <td class="py-3 px-4 text-left">{{ (item.totalEarning * (1 - (item.earn_ratio <=1 ?item.earn_ratio : item.earn_ratio/100 ))).toLocaleString() }}</td>
-              <td class="py-3 px-4 text-left">{{(item.earn_ratio <=1 ?item.earn_ratio : item.earn_ratio/100 ) * 100}}%</td>
+              <td class="py-3 px-4 text-left">{{
+                  (item.totalEarning * (item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100)).toLocaleString()
+                }}
+              </td>
+              <td class="py-3 px-4 text-left">{{
+                  (item.totalEarning * (1 - (item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100))).toLocaleString()
+                }}
+              </td>
+              <td class="py-3 px-4 text-left">
+                {{ (item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100) * 100 }}%
+              </td>
               <td class="py-3 px-4 text-left hidden md:table-cell">{{ item.elo.toLocaleString() }}</td>
-              <td class="py-3 px-4 text-left hidden md:table-cell">{{ (item.win_rate.results * 100).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}%</td>
+              <td class="py-3 px-4 text-left hidden md:table-cell">{{
+                  (item.win_rate.results * 100).toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                  })
+                }}%
+              </td>
               <td class="py-3 px-4 text-right">
-                <span>{{item.totalNFT}}</span>
+                <span>{{ item.totalNFT }}</span>
                 <div class="remove" @click="removeWatcher(item.watcher.id)">
                   <icon class="sm" fill="#FFF" name="remove"></icon>
                 </div>
@@ -102,7 +135,6 @@ export default {
   name: "GameReport",
   props: {
     value: {
-      type: Object,
       default: null
     }
   },

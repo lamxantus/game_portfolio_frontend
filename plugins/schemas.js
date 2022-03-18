@@ -3,6 +3,7 @@ export const WALLET = {
   "totalEarning": 0,
   "totalNFT": 0,
   "unclaimed": 0,
+  "claimed_token": 0,
   "average_earnings": 0,
   "daily_earnings": 0,
   "todayEarning": 0,
@@ -39,7 +40,8 @@ export const DASHBOARD = [
     "id": 0,
     "name": "",
     "options": {
-      "tableField": [{"name": "", "field": ""}]
+      "tableField": [{"name": "", "field": ""}],
+      "token_in_game": "STEP",
     },
     "scholarship": 0,
     "wallets": [{

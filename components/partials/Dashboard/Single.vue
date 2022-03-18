@@ -221,7 +221,9 @@ export default {
       if (this.$route.params.wallet !== "random") {
         this.$route.params.wallet = "random"
       }
-      this.fetchData("random", 1);
+      this.fetchData({
+        wallet: "random", game_id: this.$route.query.game
+      });
     },
     trackWallet() {
       if (this.search) {

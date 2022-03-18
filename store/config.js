@@ -90,6 +90,10 @@ export default {
   },
   actions: {
     async fetchData({commit, state}, {wallet, game_id}) {
+      commit("SET_DATA", {
+        wallet: wallet,
+        data: schemas.WALLET
+      })
       wallet = wallet.replace("ronin:", "0x");
       const res = await this.$axios.$get(`/${wallet}`, {
         params: {
@@ -100,11 +104,6 @@ export default {
         commit("SET_DATA", {
           wallet: wallet,
           data: res
-        })
-      } else {
-        commit("SET_DATA", {
-          wallet: wallet,
-          data: schemas.WALLET
         })
       }
     },
