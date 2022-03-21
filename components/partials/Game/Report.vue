@@ -70,7 +70,7 @@
             <th class="py-3 px-4 text-left">
               <div>
                 <div>Share</div>
-                <span class="text-gray-400 capitalize">Of scholar</span>
+                <span class="text-gray-400 capitalize">Of Manager</span>
               </div>
             </th>
             <th class="py-3 px-4 text-left hidden md:table-cell">Elo</th>

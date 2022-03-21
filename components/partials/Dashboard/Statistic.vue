@@ -18,13 +18,15 @@
         <span class="font-bold">{{ Number(data.rank || "0").toLocaleString() }}</span>
       </div>
       <hr v-if="false" class="my-4 border-gray-100"/>
-      <div v-if="false">
+      <div v-if="data.energy">
         <div class="flex justify-between mb-2">
           <h4 class="font-bold">Energy</h4>
-          <span class="font-bold">13/20</span>
+          <span class="font-bold">{{ data.energy.spent }}/{{ data.energy.balance }}</span>
         </div>
         <div class="w-full bg-gray-50 h-3 rounded-xl">
-          <div class="bg-[#FFA800] h-3 rounded-xl" style="width: 20%"></div>
+          <div class="bg-[#FFA800] h-3 rounded-xl" :style="{
+            width: `${data.energy.balance ? (data.energy.spent / data.energy.balance) * 100 : 0}%`
+          }"></div>
         </div>
       </div>
       <hr class="my-4 border-gray-100"/>
