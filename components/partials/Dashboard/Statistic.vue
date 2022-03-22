@@ -21,11 +21,11 @@
       <div v-if="data.energy">
         <div class="flex justify-between mb-2">
           <h4 class="font-bold">Energy</h4>
-          <span class="font-bold">{{ data.energy.spent }}/{{ data.energy.balance }}</span>
+          <span class="font-bold">{{ data.energy.balance - data.energy.spent }}/{{ data.energy.balance }}</span>
         </div>
         <div class="w-full bg-gray-50 h-3 rounded-xl">
           <div class="bg-[#FFA800] h-3 rounded-xl" :style="{
-            width: `${data.energy.balance ? (data.energy.spent / data.energy.balance) * 100 : 0}%`
+            width: `${data.energy.balance ? ((data.energy.balance - data.energy.spent) / data.energy.balance) * 100 : 0}%`
           }"></div>
         </div>
       </div>
