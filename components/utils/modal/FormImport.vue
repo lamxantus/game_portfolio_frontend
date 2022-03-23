@@ -3,7 +3,7 @@
       <span class="title">
         Import Data
       </span>
-    <p class="description">You can import data from axie.management <a href="https://tracker.axie.management/config" style="color: #ACB9FF; text-decoration: underline">here</a>
+    <p class="description">You can import data from axie.management <a target="_blank" href="https://tracker.axie.management/config" style="color: #ACB9FF; text-decoration: underline">here</a>
       Please upload that (.csv) file to import data</p>
     <p class="mt-6 ml-2" style="width: 100%; font-weight: bold">File</p>
     <div class="input-file-wrapper">
