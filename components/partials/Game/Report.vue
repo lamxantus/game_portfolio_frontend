@@ -258,7 +258,6 @@ export default {
 
 .table-game {
   /*display: block;*/
-  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   position: relative;
