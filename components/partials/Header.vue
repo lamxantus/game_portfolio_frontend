@@ -1,5 +1,5 @@
 <template>
-  <header class="bg-black text-white">
+  <header class="bg-[#030C1F] text-white">
     <div class="flex space-x-6 m-2 text-xs items-center">
       <div class="p-1 px-3 bg-[#555555] rounded">{{now.toLocaleDateString()}} {{now.toLocaleTimeString()}}</div>
       <div class="relative flex-1 h-4">

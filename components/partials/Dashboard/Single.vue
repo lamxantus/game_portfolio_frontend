@@ -1,5 +1,5 @@
 <template>
-  <div class="my-4">
+  <div class="my-4 px-3">
     <p v-if="!data.wallet" class="mb-4 bg-green-300 p-3 border rounded">This wallet data on the road, please be patient!</p>
     <div v-if="!user" class="w-full mb-6 md:inline-flex items-center space-y-2 md:space-y-0">
       <span class="text-lg font-bold mr-4">Tracker for </span>
@@ -35,26 +35,26 @@
                 class="hover:shadow-xl duration-300 bg-white rounded-2xl flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
                 <div class="p-4">
                   <h4 class="mb-2 text-[#0F43F9]">Unclaimed</h4>
-                  <div class="font-bold text-3xl">{{ Number(data.unclaimed || "0").toLocaleString() }}</div>
+                  <div class="font-bold text-2xl">{{ Number(data.unclaimed || "0").toLocaleString() }}</div>
                   <div>{{ activeGame.meta.token_in_game }}</div>
                   <span v-if="data.unclaimed"
                         class="text-gray-500">{{ (getCurrentPriceRate * data.unclaimed).toLocaleString() }}$</span>
                 </div>
                 <div class="border-l p-4 border-[#F7F8FF]">
                   <h4 class="mb-2 text-[#10CE00]">Claimed</h4>
-                  <div class="font-bold text-3xl">{{ (data.claimed_token || 0).toLocaleString() }}</div>
+                  <div class="font-bold text-2xl">{{ (data.claimed_token || 0).toLocaleString() }}</div>
                   <div>{{ activeGame.meta.token_in_game }}</div>
                   <span class="text-gray-500">{{ (getCurrentPriceRate * data.claimed_token).toLocaleString() }}$</span>
                 </div>
                 <div class="border-l p-4 border-[#F7F8FF]">
                   <h4 class="mb-2 text-[#FFA800]">Total Earning</h4>
-                  <div class="font-bold text-3xl">{{ Number(data.totalEarning || "0").toLocaleString() }}</div>
+                  <div class="font-bold text-2xl">{{ Number(data.totalEarning || "0").toLocaleString() }}</div>
                   <div>{{ activeGame.meta.token_in_game }}</div>
                   <span class="text-gray-500">{{ (getCurrentPriceRate * data.totalEarning).toLocaleString() }}$</span>
                 </div>
                 <div class="border-l p-4 border-[#F7F8FF]">
                   <h4 class="mb-2 text-[#00A3FF]">Next Claim</h4>
-                  <div class="font-bold text-3xl">
+                  <div class="font-bold text-2xl">
                     <span v-if="data.lastClaimedDate">{{ nextClaimDate }}</span>
                     <span v-else class="text-gray-300">Unknown</span>
                   </div>

@@ -10,7 +10,10 @@ table {
 tr td {
   border: 1px solid transparent;
 }
+th:first-child ,th:last-child {
+  border-radius: 30px;
 
+}
 tr:hover td {
   border: 1px solid #0f43f9;
   border-left-width: 0;

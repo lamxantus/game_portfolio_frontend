@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <section class="bg-black text-white">
+  <div class="bg-[#030C1F] px-4">
+    <section class="text-white">
       <div class="container mb-10">
         <div class="mb-4 flex justify-between">
           <div class="flex space-x-2 items-center">
@@ -11,10 +11,10 @@
             </div>
           </div>
           <div class="flex space-x-8 items-center">
-            <div class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] rounded text-white"
+            <div class="p-2 px-3 flex space-x-2 items-center cursor-pointer  rounded text-white connect-wallet-btn"
                  @click="logIn">
-              <img src="/icon/wallet-white.png" alt="">
-              <span>{{ user ? getUserName : 'Connect Wallet' }}</span>
+              <img src="/icon/icon-wallet-blue.png" alt="" >
+              <span style="font-weight: 700; color: #ACB9FF" >{{ user ? getUserName : 'Connect Wallet' }}</span>
             </div>
           </div>
         </div>
@@ -24,18 +24,16 @@
           <div class="mb-3">Easily Track your</div>
           <div>GameFi Portfolio</div>
         </div>
-        <div class="my-6">
+        <div class="my-6" v-if="!user">
           <h2 class="mb-4 font-bold text-lg">Enter your wallet address</h2>
           <div class="mb-4 flex justify-center" @keyup.enter="trackWallet">
-            <div class="inline-flex items-center space-x-3">
-              <label>
+            <div id="search-section" class="inline-flex items-center space-x-3">
                 <input
                   v-model="wl"
-                  class="p-1.5 px-2 border text-black border-gray-200 rounded" type="text" placeholder="Wallet Address"
+                  class="p-1.5 px-2 border text-black border-gray-200 rounded wallet-input" type="text" placeholder="Wallet Address"
                 >
-              </label>
               <button
-                class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded"
+                class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded justify-center flex-1"
                 @click="trackWallet"
               >Get Started
               </button>
@@ -47,9 +45,17 @@
             <icon name="chv-right" class="sm" fill="white"></icon>
           </nuxt-link>
         </div>
+        <div class="my-6" v-if="user">
+
+          <nuxt-link class="text-sm inline-flex items-center space-x-1 bg-[#0F43F9] rounded-3xl p-2 px-3"
+                     to="/dashboard">
+            <span class="text-white">View Dashboard</span>
+            <icon name="chv-right" class="m" fill="white"></icon>
+          </nuxt-link>
+        </div>
       </div>
-      <div class="bg-[#F7F8FF] relative">
-        <div id="s1" class="absolute bg-black top-0 left-0 right-0 bottom-1/2"></div>
+      <div class=" relative">
+        <div id="s1" class="absolute  top-0 left-0 right-0 bottom-1/2"></div>
         <div class="container">
           <div class="relative z-10">
             <img class="mx-auto" src="/bg/macbook.png" alt="">
@@ -59,7 +65,7 @@
         </div>
       </div>
     </section>
-    <section>
+    <section >
       <div class="container">
         <div class="my-10 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6 -mx-4 md:mx-0">
           <div class="p-4 bg-white rounded-2xl duration-300 hover:shadow-xl">
@@ -121,9 +127,9 @@
               <h2 style="font-size: 34px"><span class="text-[#FFA800]">150,000+</span></h2>
               <h2>GameFi Players are using Oxalus</h2>
             </div>
-            <div class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-white rounded" @click="logIn">
-              <img src="/icon/wallet.png" alt="">
-              <span class="text-black">{{ user ? getUserName : 'Connect Wallet' }}</span>
+            <div class="p-2 px-3 flex space-x-2 items-center cursor-pointer bg-white rounded-3xl" @click="logIn">
+              <img src="/icon/icon-blue-primary.png" alt="">
+              <span  style="font-weight: 700; color: #0F43F9">{{ user ? getUserName : 'Connect Wallet' }}</span>
             </div>
           </div>
         </div>
@@ -201,6 +207,14 @@ export default {
 <style>
 #s1 {
 }
+#search-section {
+
+  width: 60%;
+
+}
+.wallet-input {
+  width: calc(100% - 150px);
+}
 
 #s1:before {
   position: absolute;
@@ -212,8 +226,12 @@ export default {
   border-radius: 100% 100% 0 0;
   box-shadow: 0 -14px 70px 45px #0f43f9;
   background: #0F43F9;
-}
 
+}
+.connect-wallet-btn {
+  border: 1px solid #ACB9FF;
+  border-radius: 20px;
+}
 .game-holder {
   @apply relative;
   padding-top: 50%;
