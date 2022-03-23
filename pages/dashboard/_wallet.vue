@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col lg:flex-row">
+  <div class="flex flex-col lg:flex-row px-3">
     <div class="flex-1">
       <div class="container my-4">
         <div class="mb-4 flex justify-between">

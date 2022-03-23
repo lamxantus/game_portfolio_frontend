@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg-[#030C1F]">
     <div class="container py-6 mt-6 border-t border-[#ACB9FF20] text-sm">
       <div class="flex flex-col md:flex-row justify-between items-center">
         <div v-if="false" class="w-full mb-6 md:inline-flex items-center space-y-2 md:space-y-0">
@@ -12,7 +12,7 @@
           <button
             class="p-1.5 px-4 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded-xl"
           >View</button>
-        </div> 
+        </div>
         <div v-if="false" class="flex items-center space-x-4">
           <a class="p-1.5 bg-[#0F43F9] rounded-full" href="">
             <icon name="tw" fill="#FFF"></icon>

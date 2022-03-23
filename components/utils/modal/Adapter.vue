@@ -8,6 +8,7 @@
       <form-watcher v-if="modal.type === 'add_wallet'"/>
       <metamask-install v-else-if="modal.type === 'metamask_install'"/>
       <login v-else-if="modal.type === 'login'"/>
+      <form-import v-else-if="modal.type === 'form_import'"/>
     </div>
   </div>
 </template>
@@ -16,10 +17,11 @@
 import FormWatcher from "./FormWatcher";
 import MetamaskInstall from "./MetamaskInstall";
 import Login from "./Login";
+import FormImport from "@/components/utils/modal/FormImport";
 
 export default {
   name: "Adapter",
-  components: {Login, MetamaskInstall, FormWatcher},
+  components: {FormImport, Login, MetamaskInstall, FormWatcher},
   computed: {
     modal() {
       return this.$store.state.config.modal
