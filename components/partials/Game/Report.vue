@@ -61,7 +61,7 @@
           </div>
         </div>
       </div>
-      <div class="bg-white flex-1 p-4">
+      <div class="bg-white flex-1 p-4 pt-0" style="position: relative; height: 375px; overflow-y: auto">
         <table class="w-full table-auto text-sm table-game">
           <thead>
           <tr class="text-black font-bold uppercase text-xs leading-normal rounded">
@@ -249,6 +249,13 @@ export default {
   border: 1px solid #ACB9FF;
   border-radius: 20px;
   color: #ACB9FF;
+  -moz-appearance:none; /* Firefox */
+  -webkit-appearance:none; /* Safari and Chrome */
+  appearance:none;
+  background-image: url("/icon/icon-dropdown.svg");
+  background-repeat: no-repeat, repeat;
+  background-position: right .7em top 50%, 0 0;
+  background-size: 1.5em auto, 100%;
 }
 
 .quick-report .bg {
@@ -260,9 +267,6 @@ export default {
 
 .table-game {
   /*display: block;*/
-  overflow-y: auto;
-  overflow-x: hidden;
-  position: relative;
 }
 
 .table-game thead {
