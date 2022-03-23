@@ -98,11 +98,13 @@
                 </nuxt-link>
               </td>
               <td class="py-3 px-4 text-left">{{
-                  (item.totalEarning * (item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100)).toLocaleString()
+                  (item.totalEarning * (1 - (item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100))).toLocaleString()
+
                 }}
               </td>
               <td class="py-3 px-4 text-left">{{
-                  (item.totalEarning * (1 - (item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100))).toLocaleString()
+                  (item.totalEarning * (item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100)).toLocaleString()
+
                 }}
               </td>
               <td class="py-3 px-4 text-left">
