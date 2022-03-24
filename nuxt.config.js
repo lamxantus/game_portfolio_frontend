@@ -37,9 +37,9 @@ export default {
     '@nuxtjs/axios', // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     ['cookie-universal-nuxt', {alias: 'ck'}],
-    '@nuxtjs/google-gtag',
+    '@nuxtjs/gtm'
   ],
-  'google-gtag':{
+  'gtm':{
     id: 'GTM-T2NRR6B', // required
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
