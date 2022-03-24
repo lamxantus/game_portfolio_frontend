@@ -151,7 +151,9 @@ export default {
       this.required[t] = false;
     },
     skip() {
-      this.fetchData("dashboard", 1);
+      this.fetchData({
+        wallet: "dashboard"
+      });
       this.$store.commit('config/SET_MODAL', null);
     },
     action() {
@@ -185,6 +187,9 @@ export default {
         if(checkFalse) return
         this.$axios.$post('/save-watcher', {...this.form, earn_ratio: this.form.earn_ratio/100 }).then(() => {
           this.done = true;
+          this.fetchData({
+            wallet: "dashboard"
+          });
         })
       } else {
         this.skip()

@@ -1,6 +1,7 @@
 <template>
   <div class="my-4 px-3">
-    <p v-if="!data.wallet" class="mb-4 bg-green-300 p-3 border rounded">This wallet data on the road, please be patient!</p>
+    <p v-if="!data.wallet" class="mb-4 bg-green-300 p-3 border rounded">This wallet data on the road, please be
+      patient!</p>
     <div v-if="!user" class="w-full mb-6 md:inline-flex items-center space-y-2 md:space-y-0">
       <span class="text-lg font-bold mr-4">Tracker for </span>
       <label class="mr-4">
@@ -72,18 +73,24 @@
               <div class="flex-1 hover:shadow-xl duration-300 bg-white p-3 rounded-2xl">
                 <div class="flex justify-between items-center mb-1">
                   <h4>Investment</h4>
-                  <div v-if="data.premium.lifetime_invest" class="font-bold">{{ data.premium.lifetime_invest.toLocaleString() }}$</div>
+                  <div v-if="data.premium.lifetime_invest" class="font-bold">
+                    {{ data.premium.lifetime_invest.toLocaleString() }}$
+                  </div>
                   <div v-else>_</div>
                 </div>
                 <div class="flex justify-between items-center">
                   <h4>Expenses</h4>
-                  <div v-if="data.premium.lifetime_revenue" class="font-bold">{{ data.premium.lifetime_revenue.toLocaleString() }}$</div>
+                  <div v-if="data.premium.lifetime_revenue" class="font-bold">
+                    {{ data.premium.lifetime_revenue.toLocaleString() }}$
+                  </div>
                   <div v-else>_</div>
                 </div>
                 <hr class="my-2 border-gray-100">
                 <div class="flex justify-between items-center mb-1">
                   <h4>Return</h4>
-                  <div v-if="data.premium.lifetime_profit" class="font-bold">{{ data.premium.lifetime_profit.toLocaleString() }}$</div>
+                  <div v-if="data.premium.lifetime_profit" class="font-bold">
+                    {{ data.premium.lifetime_profit.toLocaleString() }}$
+                  </div>
                   <div v-else>_</div>
                 </div>
                 <div v-if="false" class="flex justify-between items-center">
@@ -116,25 +123,34 @@
               <span class="font-bold">{{ data.totalNFT }}</span>
             </div>
           </div>
-          <div v-if="data.featured_nft.length" class="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <div v-for="(item, i) in data.featured_nft" :key="i"
-                 class="bg-white rounded-lg duration-300 hover:shadow-xl p-3">
-              <img :src="item.media_url" alt="">
-              <h3 class="text-lg font-bold">{{ item.name }}</h3>
-              <div class="flex justify-between items-center">
-                <span class="text-xs text-gray-500">Last price</span>
-                <span>{{ (item.current_price || 0).toLocaleString() }}eth</span>
+          <template v-if="data.featured_nft.length">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+              <div v-for="(item, i) in data.featured_nft" :key="i"
+                   class="bg-white rounded-lg duration-300 hover:shadow-xl p-3">
+                <img :src="item.media_url" alt="">
+                <h3 class="text-lg font-bold">{{ item.name }}</h3>
+                <div class="flex justify-between items-center">
+                  <span class="text-xs text-gray-500">Last price</span>
+                  <span>{{ (item.current_price || 0).toLocaleString() }}eth</span>
+                </div>
+                <hr class="my-2 border-gray-100">
+                <a
+                  :href="`https://marketplace.axieinfinity.com/axie/${item.id}/`"
+                  target="_blank"
+                  class="text-xs flex space-x-2 items-center">
+                  View on marketplace
+                  <icon name="chv-right" class="sm"></icon>
+                </a>
               </div>
-              <hr class="my-2 border-gray-100">
-              <a
-                :href="`https://marketplace.axieinfinity.com/axie/${item.id}/`"
-                target="_blank"
-                class="text-xs flex space-x-2 items-center">
-                View on marketplace
-                <icon name="chv-right" class="sm"></icon>
-              </a>
             </div>
-          </div>
+            <div class="mt-4 text-center">
+              <nuxt-link
+                class="p-1.5 px-4 inline-flex space-x-2 items-center cursor-pointer bg-[#0F43F9] rounded-xl text-white"
+                to="/dashboard/game">
+                <span>View all</span>
+              </nuxt-link>
+            </div>
+          </template>
           <div class="p-8 text-center" v-else>
             <div class="w-28 mx-auto mb-3">
               <img src="/bg/empty.svg" alt="Empty">
