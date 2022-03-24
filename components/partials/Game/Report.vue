@@ -108,7 +108,7 @@
                 }}
               </td>
               <td class="py-3 px-4 text-left">
-                {{ (item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100) * 100 }}%
+                {{ Math.round((item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100) * 100) }}%
               </td>
               <td class="py-3 px-4 text-left hidden md:table-cell">{{ item.elo.toLocaleString() }}</td>
               <td class="py-3 px-4 text-left hidden md:table-cell">{{

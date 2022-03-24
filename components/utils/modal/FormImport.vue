@@ -58,7 +58,6 @@ export default {
       this.$axios.$post(`/move?game=${data.game.id}`, {
         rows: this.data
       }).then((res) => {
-        console.log("res", res)
         this.$store.commit('config/SET_MODAL', null);
         window.location.reload()
       })
@@ -72,7 +71,7 @@ export default {
         for(const item of rs ) {
           const obj = {};
           obj.wallet = item.ronin.replace('ronin:', '0x');
-          obj.earn_ratio = Number(item.scholarPercentage)/100;
+          obj.earn_ratio = item.manager/(item.total || 1);
           obj.meta = item;
           final.push(obj)
 
