@@ -1,5 +1,18 @@
 <template>
   <div>
+    <h4 class="mb-4 text-xl font-bold">Login</h4>
+    <p class="mb-4">Connect with social</p>
+    <div class="mb-4 border rounded-xl">
+      <div
+        class="p-4 hover:shadow-md flex space-x-4 items-center cursor-pointer"
+        @click="handleClick('google')"
+      >
+        <img class="w-6" src="/google.png" alt="">
+        <div class="flex-1">
+          <span>Google</span>
+        </div>
+      </div>
+    </div>
     <p class="mb-4">
       Connect with one of our available wallet info providers or create a new one.
     </p>
@@ -36,7 +49,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions("auth", ["login"]),
+    ...mapActions("w3_auth", ["login"]),
     handleClick(type) {
       this.showNoti = type === "walletconnect";
       this.login(type)

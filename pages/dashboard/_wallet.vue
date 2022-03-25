@@ -120,7 +120,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("auth", ["getUserName"]),
+    ...mapGetters("w3_auth", ["getUserName"]),
     isWallet() {
       return this.$route.params.wallet && !["game", "scholarship"].includes(this.$route.params.wallet)
     },
@@ -137,7 +137,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions("auth", ["logIn"]),
+    ...mapActions("w3_auth", ["logIn"]),
     ...mapActions('config', ['fetchData', 'removeWatcher']),
     edit() {
       this.$store.commit('config/SET_MODAL', {

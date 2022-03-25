@@ -60,7 +60,7 @@ export default {
         const accounts = await W3.eth.getAccounts().catch(() => ([]));
         account = accounts.pop()
         chainId = await W3.eth.net.getId();
-      } else {
+      } else if (type === 'walletconnect') {
         const res = await wc_connector.connect().catch(() => {
           return {
             accounts: [],
@@ -71,6 +71,9 @@ export default {
           account = res.accounts[0]
         }
         chainId = res.chainId;
+      } else {
+        const url = `https://accounts.google.com/o/oauth2/auth/identifier?protocol=oauth2&response_type=code&access_type&client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.APP_URL}&scope=openid%20profile%20email&state=XmYy8FSl6Q&code_challenge_method&flowName=GeneralOAuthFlow`
+        window.open(url, "_self")
       }
       if (!account) {
         return
@@ -100,7 +103,7 @@ export default {
             return null
           })
           if (res && res.address.toLowerCase() === account.toLowerCase()) {
-            await this.$auth.bcConnect(res.token);
+            await this.$w3_auth.bcConnect(res.token);
             this.$gtag('event', 'Connect_wallet', {});
             await this.$router.push('/dashboard');
             commit('config/SET_MODAL', null, {root: true})

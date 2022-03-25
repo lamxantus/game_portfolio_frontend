@@ -12,7 +12,7 @@
           </div>
         </div>
       </div>
-      <div v-if="$store.state.auth.loggedIn" class="p-1 px-3 cursor-pointer" @click="$auth.logout()">
+      <div v-if="$store.state.w3_auth.loggedIn" class="p-1 px-3 cursor-pointer" @click="$w3_auth.logout()">
         <icon name="logout" fill="#F9F9F9"></icon>
       </div>
     </div>

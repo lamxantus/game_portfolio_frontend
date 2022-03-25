@@ -179,7 +179,7 @@ export default {
         }
       }
     },
-    ...mapActions("auth", ["logIn"]),
+    ...mapActions("w3_auth", ["logIn"]),
     ...mapActions('config', ['fetchData']),
     countDown(distance) {
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -191,7 +191,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("auth", ["getUserName"]),
+    ...mapGetters("w3_auth", ["getUserName"]),
   },
   mounted() {
     ivt = setInterval(() => {

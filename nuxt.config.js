@@ -1,4 +1,10 @@
+require("dotenv").config();
+
 export default {
+  env: {
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    APP_URL: process.env.APP_URL
+  },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
@@ -18,7 +24,7 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '@/assets/main.css',
+    '@/assets/main.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -29,25 +35,24 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [// https://go.nuxtjs.dev/tailwindcss
-    '@nuxt/postcss8',
+    '@nuxt/postcss8'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [// https://go.nuxtjs.dev/axios
     '@nuxtjs/axios', // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    ['cookie-universal-nuxt', {alias: 'ck'}],
-    '@nuxtjs/gtm'
+    '@nuxtjs/gtm',
+    ['cookie-universal-nuxt', {alias: 'ck'}]
   ],
-  'gtm':{
-    id: 'GTM-T2NRR6B', // required
+  'gtm': {
+    id: 'GTM-T2NRR6B' // required
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: process.env.API_DOMAIN || 'http://127.0.0.1:8000',
+    baseURL: process.env.API_DOMAIN || 'http://127.0.0.1:8000'
   },
-
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {

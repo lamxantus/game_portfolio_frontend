@@ -208,7 +208,7 @@ export default {
     data() {
       return this.$store.state.config.wallet || schemas.WALLET
     },
-    ...mapGetters("auth", ["getUserName"]),
+    ...mapGetters("w3_auth.js", ["getUserName"]),
     ...mapGetters("config", ["getCurrentPriceRate"]),
     nextClaimDate() {
       const now = new Date()
@@ -229,7 +229,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions("auth", ["logIn"]),
+    ...mapActions("w3_auth.js", ["logIn"]),
     ...mapActions('config', [
       'fetchData'
     ]),

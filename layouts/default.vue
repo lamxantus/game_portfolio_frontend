@@ -92,6 +92,19 @@ export default {
         x.parentNode.insertBefore(s, x);
       }
     }
+  },
+  created() {
+    if (this.$route.query.code) {
+      this.$axios.$post('/auth/google', {
+        code: this.$route.query.code,
+        client_id: process.env.GOOGLE_CLIENT_ID,
+        redirect_uri: process.env.APP_URL,
+        grant_type: 'authorization_code'
+      }).then(res => {
+        this.$w3_auth.bcConnect(res.token, res.user);
+        this.$router.push('/dashboard');
+      })
+    }
   }
 }
 </script>

@@ -17,16 +17,6 @@ export default function (context, inject) {
       await setUser(user)
     }
   }
-  const connectBlockchain = async (credential) => {
-    let res = await context.$axios.$post('/auth/login/', credential).catch(e => {
-      console.log(e);
-    })
-    if (res) {
-      await setToken(res['token'])
-      let user = await getUser()
-      await setUser(user)
-    }
-  }
   const getUser = async () => {
     try {
       return await context.$axios.$get('/auth/me')
@@ -58,10 +48,10 @@ export default function (context, inject) {
       context.$axios.setHeader('Authorization', undefined)
       context.store.$ck.remove('auth.token')
     }
-    await context.store.commit('auth/SET_TOKEN', token);
+    await context.store.commit('w3_auth/SET_TOKEN', token);
   }
   const setUser = async (user) => {
-    await context.store.commit('auth/SET_USER', user);
+    await context.store.commit('w3_auth/SET_USER', user);
   }
   const init = async () => {
     let token = await getToken();
@@ -71,15 +61,17 @@ export default function (context, inject) {
       await setUser(user);
     }
   }
-  const bcConnect = async (token) => {
+  const bcConnect = async (token, user) => {
     await setToken(token)
-    let user = await getUser()
+    if (!user) {
+      user = await getUser()
+    }
     await setUser(user)
   }
   init().then(() => {});
   $auth.login = login;
   $auth.logout = logout;
   $auth.bcConnect = bcConnect;
-  context.$auth = $auth;
-  inject('auth', $auth);
+  context.$w3_auth = $auth;
+  inject('w3_auth', $auth);
 }
