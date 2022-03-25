@@ -104,7 +104,7 @@ export default {
           })
           if (res && res.address.toLowerCase() === account.toLowerCase()) {
             await this.$w3_auth.bcConnect(res.token);
-            this.$gtag('event', 'Connect_wallet', {});
+            this.$gtm.push({ event: 'Connect_wallet' })
             await this.$router.push('/dashboard');
             commit('config/SET_MODAL', null, {root: true})
           }

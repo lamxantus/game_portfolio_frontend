@@ -165,7 +165,7 @@ export default {
   },
   methods: {
     trackWallet() {
-      this.$gtag('event', 'Get_started', {});
+      this.$gtm.push({event: 'Get_started'});
       if (this.wl) {
         const x = this.wl.replace("ronin:", "0x")
         this.wl = x;
