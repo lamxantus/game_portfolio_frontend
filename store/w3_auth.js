@@ -38,6 +38,10 @@ export default {
   },
   actions: {
     async logIn({commit, state}) {
+      if (state.user) {
+        await this.$router.push('/dashboard');
+        return;
+      }
       commit('config/SET_MODAL', {
         type: 'login'
       }, {root: true})

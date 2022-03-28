@@ -7,7 +7,7 @@
             <div class="flex space-x-2 items-center">
               <div class="site-title" @click="$router.push('/')">
                 <nuxt-link class="" to="/">
-                  <img class="w-48" src="/logo/logo-white.svg" alt="Xantus Tracker">
+                  <img class="w-48" src="/logo/logo-black.svg" alt="Xantus Tracker">
                 </nuxt-link>
               </div>
             </div>
@@ -35,7 +35,9 @@
         <div class="text-4xl bg-[#ACB9FF] p-1.5 w-12 h-12 rounded-full">🤨</div>
         <div class="flex-1">
           <h4 class="text-lg font-bold">{{ data.watcher.meta ? data.watcher.meta.name : "Unnamed" }}</h4>
-          <p>{{ `${data.wallet.substr(0, 5)}...${data.wallet.substr(35, 42)}` }}</p>
+          <div class="address_section">
+            <p class="short_address" @copy="copyAddress" >{{ shortAddress(data.wallet) }}</p>
+          </div>
         </div>
         <div class="border rounded p-1 px-2 text-xs cursor-pointer" @click="edit">Edit</div>
       </div>
@@ -139,6 +141,9 @@ export default {
   methods: {
     ...mapActions("w3_auth", ["logIn"]),
     ...mapActions('config', ['fetchData', 'removeWatcher']),
+    copyAddress() {
+      navigator.clipboard.writeText(this.data.wallet)
+    },
     edit() {
       this.$store.commit('config/SET_MODAL', {
         type: "add_wallet",
@@ -173,5 +178,13 @@ export default {
   -webkit-line-clamp: 1; /* number of lines to show */
   line-clamp: 1;
   -webkit-box-orient: vertical;
+}
+.address_section {
+  position: relative;
+}
+.address_hidden {
+  position: absolute;
+  z-index: 1;
+  background: #f5f5f5
 }
 </style>

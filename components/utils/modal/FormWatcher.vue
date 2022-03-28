@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 100%" class="pb-2">
     <h1 class="text-xl mb-4 text-center font-bold">
       <span v-if="!form.id">Add Wallet</span>
       <span v-else-if="!done">Change Wallet Information</span>
@@ -22,7 +22,7 @@
               <h4 class="text-lg font-bold">{{ form.meta.name || "Unnamed" }}</h4>
               <p>{{ `${form.wallet.substr(0, 5)}...${form.wallet.substr(35, 42)}` }}</p>
             </div>
-            <div class="border rounded p-1 px-2 text-xs cursor-pointer">Edit</div>
+<!--            <div class="border rounded p-1 px-2 text-xs cursor-pointer">Edit</div>-->
           </div>
         </div>
         <label class="block">
@@ -89,7 +89,7 @@
     <div v-else>
       <h1 class="text-xl m-4 font-bold">New wallet was added successfully</h1>
     </div>
-    <div class="flex justify-center space-x-4 mt-6">
+    <div class="flex justify-center space-x-4 mt-6 pb-2">
       <div class="bg-[#0F43F9] text-white p-2 px-4 rounded-xl cursor-pointer" @click="action()">
         <span v-if="!form.id">Add to your portfolio</span>
         <span v-else-if="!done">Save</span>
@@ -219,6 +219,9 @@ export default {
   },
   created() {
     this.init()
+  },
+  mounted() {
+    document.getElementById('modal-container').style.height = '100%'
   }
 }
 </script>
