@@ -7,7 +7,7 @@
             <div class="flex space-x-2 items-center">
               <div class="site-title" @click="$router.push('/')">
                 <nuxt-link class="" to="/">
-                  <img class="w-48" src="/logo/logo.svg" alt="Xantus Tracker">
+                  <img class="w-48" src="/logo/logo-white.svg" alt="Xantus Tracker">
                 </nuxt-link>
               </div>
             </div>

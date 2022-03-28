@@ -3,7 +3,7 @@
     <div v-if="user && $route.path !== '/'" class="sidebar">
       <div>
         <nuxt-link to="/">
-          <img class="w-32" src="/logo/logo.svg" alt="Xantus Tracker">
+          <img class="w-32" src="/logo/logo-white.svg" alt="Xantus Tracker">
         </nuxt-link>
       </div>
       <div class="flex-1 flex flex-col justify-center">
