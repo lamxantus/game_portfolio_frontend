@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="min-width: 300px;">
     <h4 class="mb-4 text-xl font-bold">Login</h4>
     <p class="mb-4">Connect with social</p>
     <div class="mb-4 border rounded-xl">
@@ -13,28 +13,30 @@
         </div>
       </div>
     </div>
-    <p class="mb-4">
-      Connect with one of our available wallet info providers or create a new one.
-    </p>
-    <div class="border rounded-xl">
-      <div
-        class="p-4 border-b hover:shadow-md flex space-x-4 items-center cursor-pointer"
-        @click="handleClick('walletconnect')"
-      >
-        <img class="w-6" src="/walletconnect.svg" alt="">
-        <div class="flex-1">
-          <span>WalletConnect</span>
-          <p v-if="showNoti" class="text-xs text-gray-400">Please open your mobile wallet!</p>
+    <template v-if="false">
+      <p class="mb-4">
+        Connect with one of our available wallet info providers or create a new one.
+      </p>
+      <div class="border rounded-xl">
+        <div
+          class="p-4 border-b hover:shadow-md flex space-x-4 items-center cursor-pointer"
+          @click="handleClick('walletconnect')"
+        >
+          <img class="w-6" src="/walletconnect.svg" alt="">
+          <div class="flex-1">
+            <span>WalletConnect</span>
+            <p v-if="showNoti" class="text-xs text-gray-400">Please open your mobile wallet!</p>
+          </div>
+        </div>
+        <div
+          class="p-4 hover:shadow-md flex space-x-4 items-center cursor-pointer"
+          @click="handleClick('metamask')"
+        >
+          <img class="w-6" src="/metamask.png" alt="">
+          <span>MetaMask</span>
         </div>
       </div>
-      <div
-        class="p-4 hover:shadow-md flex space-x-4 items-center cursor-pointer"
-        @click="handleClick('metamask')"
-      >
-        <img class="w-6" src="/metamask.png" alt="">
-        <span>MetaMask</span>
-      </div>
-    </div>
+    </template>
   </div>
 </template>
 

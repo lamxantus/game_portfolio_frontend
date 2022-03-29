@@ -4,12 +4,25 @@
       <h4 class="font-bold text-lg">You have {{ response.count }} NFTs</h4>
       <p class="text-gray-500">Whose total value is $0</p>
     </div>
-    <div class="mb-6">
-      <div class="flex items-center space-x-2 mb-3">
+    <div class="mb-6 flex justify-between">
+      <div class="flex items-center space-x-2">
         <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
           <img src="/icon/earning.png" alt="">
         </div>
-        <h2 class="font-bold text-lg">Axies Infinity</h2>
+        <h2 class="font-bold text-lg">{{ game ===1 ? 'Axies Infinity': 'Gunfire Hero' }}</h2>
+      </div>
+      <div class="flex space-x-2 items-center">
+        <div class="font-bold text-gray-500 mr-6">Total: {{ response.count }}</div>
+        <div
+          v-if="filter.page > 1"
+          class="cursor-pointer rounded-full w-8 h-8 shadow-lg bg-white p-2" @click="navigate(false)">
+          <icon name="chv-left"></icon>
+        </div>
+        <div
+          v-if="filter.page * 8 < response.count"
+          class="cursor-pointer rounded-full w-8 h-8 shadow-lg bg-white p-2" @click="navigate(true)">
+          <icon name="chv-right"></icon>
+        </div>
       </div>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -47,6 +60,9 @@ export default {
       response: {
         results: [],
         count: 0
+      },
+      filter: {
+        page: 1
       }
     }
   },
@@ -56,16 +72,34 @@ export default {
         this.response = await this.$axios.$get("/nfts", {
           params: {
             game: this.game,
-            user: this.user.id
+            user: this.user.id,
+            ...this.filter
           }
         });
+      }
+    },
+    navigate(isNext = true) {
+      if (isNext) {
+        if (this.filter.page * 8 < this.response.count) {
+          this.filter.page++
+        }
+      } else if (this.filter.page > 1) {
+        this.filter.page--
       }
     }
   },
   watch: {
     user() {
       this.fetch()
-    }
+    },
+    filter: {
+      deep: true,
+      handler: function () {
+        this.fetch({
+          ...this.filter,
+        })
+      }
+    },
   },
   created() {
     this.fetch()

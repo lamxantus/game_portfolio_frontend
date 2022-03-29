@@ -15,7 +15,7 @@
               <div class="p-1.5 px-4 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] rounded-xl text-white"
                    @click="logIn">
                 <icon class="md" name="user" fill="#d6d3d1"/>
-                <span>{{ user ? getUserName : 'Connect Wallet' }}</span>
+                <span>{{ user ? getUserName : 'Login' }}</span>
               </div>
             </div>
           </template>

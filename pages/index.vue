@@ -13,8 +13,8 @@
           <div class="flex space-x-8 items-center">
             <div class="p-2 px-3 flex space-x-2 items-center cursor-pointer  rounded text-white connect-wallet-btn"
                  @click="logIn">
-              <img src="/icon/icon-wallet-blue.png" alt="" >
-              <span style="font-weight: 700; color: #ACB9FF" >{{ user ? getUserName : 'Connect Wallet' }}</span>
+              <icon class="md" name="user" fill="#d6d3d1"/>
+              <span style="font-weight: 700; color: #ACB9FF" >{{ user ? getUserName : 'Login' }}</span>
             </div>
           </div>
         </div>
