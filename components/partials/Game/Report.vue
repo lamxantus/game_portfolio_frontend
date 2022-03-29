@@ -206,7 +206,7 @@ export default {
       this.$axios.$get(`/move?game=${this.value.id}`, ).then((res) => {
         console.log("res", res)
         res.forEach((item, index) => {
-          const arrayData = [item.watcher.meta ? item.watcher.meta.name : 'Unnamed', item.wallet, item.earn_scholar, item.earn_manager, `${Math.round((1 - (item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100))*100)}%`, item.elo,`${ Math.round(item.win_rate * 100*100)/100}%`, item.totalNFT || 0];
+          const arrayData = [item.meta ? item.meta.name : 'Unnamed', item.wallet, item.earn_scholar, item.earn_manager, `${Math.round((1 - (item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100))*100)}%`, item.elo,`${ Math.round(item.win_rate * 100*100)/100}%`, item.totalNFT || 0];
           finalData.push(arrayData.join(','));
 
         });
