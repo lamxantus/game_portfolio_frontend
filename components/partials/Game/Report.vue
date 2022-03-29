@@ -207,24 +207,26 @@ export default {
         console.log("res", res)
         res.forEach((item, index) => {
           const arrayData = [item.watcher.meta ? item.watcher.meta.name : 'Unnamed', item.wallet, item.earn_scholar, item.earn_manager, `${Math.round((1 - (item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100))*100)}%`, item.elo,`${ Math.round(item.win_rate * 100*100)/100}%`, item.totalNFT || 0];
-          finalData.push(arrayData.join(','))
+          finalData.push(arrayData.join(','));
+
         });
+        let csvContent = "data:text/csv;charset=utf-8,";
+        csvContent += headers.join(',');
+        csvContent += '\n';
+        csvContent += finalData.join('\n');
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "tracker.csv");
+        document.body.appendChild(link); // Required for FF
+
+        link.click();
+        setTimeout(() => {
+          document.body.removeChild(link)
+        }, 100)
       })
 
-      let csvContent = "data:text/csv;charset=utf-8,";
-      csvContent += headers.join(',');
-      csvContent += '\n';
-      csvContent += finalData.join('\n');
-      const encodedUri = encodeURI(csvContent);
-      const link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "tracker.csv");
-      document.body.appendChild(link); // Required for FF
 
-      link.click();
-      setTimeout(() => {
-        document.body.removeChild(link)
-      }, 100)
     },
     onSelectedItem(event) {
       const selectItem = event.target.value;
