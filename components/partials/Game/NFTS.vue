@@ -2,7 +2,6 @@
   <div>
     <div class="mb-6">
       <h4 class="font-bold text-lg">You have {{ response.count }} NFTs</h4>
-      <p class="text-gray-500">Whose total value is $0</p>
     </div>
     <div class="mb-6 flex justify-between">
       <div class="flex items-center space-x-2">
