@@ -131,7 +131,8 @@
                 <h3 class="text-lg font-bold">{{ item.name }}</h3>
                 <div class="flex justify-between items-center">
                   <span class="text-xs text-gray-500">Last price</span>
-                  <span>{{ (item.current_price || 0).toLocaleString() }}eth</span>
+                  <span v-if="item.current_price">{{ (item.current_price || 0).toLocaleString() }}eth</span>
+                  <span v-else>NA</span>
                 </div>
                 <hr class="my-2 border-gray-100">
                 <a
@@ -142,13 +143,6 @@
                   <icon name="chv-right" class="sm"></icon>
                 </a>
               </div>
-            </div>
-            <div class="mt-4 text-center">
-              <nuxt-link
-                class="p-1.5 px-4 inline-flex space-x-2 items-center cursor-pointer bg-[#0F43F9] rounded-xl text-white"
-                to="/dashboard/game">
-                <span>View all</span>
-              </nuxt-link>
             </div>
           </template>
           <div class="p-8 text-center" v-else>
