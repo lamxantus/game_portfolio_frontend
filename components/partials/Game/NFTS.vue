@@ -72,7 +72,7 @@ export default {
         this.response = await this.$axios.$get("/nfts", {
           params: {
             game: this.game,
-            user: this.user.id,
+            user: this.user.id || this.user.pk,
             ...this.filter
           }
         });
