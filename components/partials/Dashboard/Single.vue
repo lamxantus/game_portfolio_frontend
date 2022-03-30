@@ -132,7 +132,7 @@
                 <div class="flex justify-between items-center">
                   <span class="text-xs text-gray-500">Last price</span>
                   <span v-if="item.current_price">{{ (item.current_price || 0).toLocaleString() }}eth</span>
-                  <span v-else>NA</span>
+                  <span v-else>N/A</span>
                 </div>
                 <hr class="my-2 border-gray-100">
                 <a
@@ -158,7 +158,7 @@
             <div class="p-1.5 px-4 inline-flex space-x-2 items-center cursor-pointer bg-[#0F43F9] rounded-xl text-white"
                  @click="logIn">
               <icon class="md" name="user" fill="#d6d3d1"/>
-              <span>{{ user ? getUserName : 'Connect Wallet' }}</span>
+              <span>{{ user ? getUserName : 'Login' }}</span>
             </div>
           </div>
           <div class="flex items-center justify-center space-x-4 flex-wrap">

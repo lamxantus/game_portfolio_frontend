@@ -128,8 +128,8 @@
               <h2>GameFi Players are using Oxalus</h2>
             </div>
             <div class="p-2 px-3 flex space-x-2 items-center cursor-pointer bg-white rounded-3xl" @click="logIn">
-              <img src="/icon/icon-blue-primary.png" alt="">
-              <span  style="font-weight: 700; color: #0F43F9">{{ user ? getUserName : 'Connect Wallet' }}</span>
+              <icon class="md" name="user" fill="#d6d3d1"/>
+              <span  style="font-weight: 700; color: #0F43F9">{{ user ? getUserName : 'Login' }}</span>
             </div>
           </div>
         </div>
