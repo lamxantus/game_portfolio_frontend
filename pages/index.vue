@@ -39,16 +39,13 @@
               </button>
             </div>
           </div>
-          <nuxt-link class="text-sm inline-flex items-center space-x-1"
-                     :to="`/dashboard/${user ? '': 'random'}`">
+          <nuxt-link class="text-sm inline-flex items-center space-x-1" :to="`/dashboard/${user ? '': 'random'}`">
             <span class="text-white">{{ user ? 'Dashboard' : 'View random wallet' }}</span>
             <icon name="chv-right" class="sm" fill="white"></icon>
           </nuxt-link>
         </div>
         <div class="my-6" v-if="user">
-
-          <nuxt-link class="text-sm inline-flex items-center space-x-1 bg-[#0F43F9] rounded-3xl p-2 px-3"
-                     to="/dashboard">
+          <nuxt-link class="text-sm inline-flex items-center space-x-1 bg-[#0F43F9] rounded-3xl p-2 px-3" to="/dashboard">
             <span class="text-white">View Dashboard</span>
             <icon name="chv-right" class="m" fill="white"></icon>
           </nuxt-link>
