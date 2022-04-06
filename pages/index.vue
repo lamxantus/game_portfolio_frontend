@@ -40,7 +40,7 @@
             </div>
           </div>
           <nuxt-link class="text-sm inline-flex items-center space-x-1"
-                     :to="`/dashboard/${user ? '': 'random?game=1'}`">
+                     :to="`/dashboard/${user ? '': 'random'}`">
             <span class="text-white">{{ user ? 'Dashboard' : 'View random wallet' }}</span>
             <icon name="chv-right" class="sm" fill="white"></icon>
           </nuxt-link>

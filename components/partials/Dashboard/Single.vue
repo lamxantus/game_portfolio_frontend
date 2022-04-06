@@ -232,7 +232,7 @@ export default {
         this.$route.params.wallet = "random"
       }
       this.fetchData({
-        wallet: "random", game_id: this.$route.query.game
+        wallet: "random", game_id: undefined
       });
     },
     trackWallet() {
