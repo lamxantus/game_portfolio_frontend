@@ -44,6 +44,7 @@ export default {
           ...state.wallet,
           ...data
         })
+        state.activeGame = data.game_id - 1
       }
     },
     ["SET_GAME_TX"](state, data) {

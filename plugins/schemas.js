@@ -1,4 +1,5 @@
 export const WALLET = {
+  "game_id": 1,
   "wallet": 0x00,
   "totalEarning": 0,
   "totalNFT": 0,

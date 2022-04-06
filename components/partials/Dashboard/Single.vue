@@ -257,9 +257,6 @@ export default {
       }
     }
   },
-  created() {
-    this.$store.commit('config/SET_ACTIVE_GAME', +this.$route.query.game - 1);
-  }
 }
 </script>
 

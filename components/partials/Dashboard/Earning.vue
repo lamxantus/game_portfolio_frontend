@@ -76,7 +76,7 @@ export default {
           params: {
             ...this.filter,
             wallet: this.data.wallet,
-            game: this.$route.query.game
+            game: this.data.game_id
           }
         }).catch(() => ({}))
       }
