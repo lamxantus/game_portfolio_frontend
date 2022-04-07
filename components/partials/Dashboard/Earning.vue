@@ -1,11 +1,11 @@
 <template>
-  <div class="rounded-2xl bg-white duration-300 hover:shadow-xl p-4">
+  <div class="rounded bg-white duration-300 hover:shadow-xl p-4">
     <div class="mb-4 flex justify-between">
       <div class="flex items-center space-x-2 mb-3">
         <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
           <img src="/icon/earning-large.png" alt="">
         </div>
-        <h2 class="font-bold text-lg">Daily earning</h2>
+        <h2 class="font-bold">Daily earning</h2>
         <div v-if="false">
           <img src="/icon/warning.png" alt="">
         </div>

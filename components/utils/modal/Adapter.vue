@@ -4,11 +4,13 @@
       class="fixed top-0 left-0 right-0 bottom-0 backdrop-blur bg-black/30"
       @click="$store.commit('config/SET_MODAL', null)"
     ></div>
-    <div class="mx-auto bg-white rounded-xl p-4 md:p-6 relative z-10 overflow-y-scroll" id="modal-container">
-      <form-watcher v-if="modal.type === 'add_wallet'"/>
-      <metamask-install v-else-if="modal.type === 'metamask_install'"/>
-      <login v-else-if="modal.type === 'login'"/>
-      <form-import v-else-if="modal.type === 'form_import'"/>
+    <div class="mx-auto bg-white rounded-xl p-4 md:p-6 relative z-10" id="modal-container">
+      <div class="overflow-y-auto">
+        <form-watcher v-if="modal.type === 'add_wallet'"/>
+        <metamask-install v-else-if="modal.type === 'metamask_install'"/>
+        <login v-else-if="modal.type === 'login'"/>
+        <form-import v-else-if="modal.type === 'form_import'"/>
+      </div>
     </div>
   </div>
 </template>
@@ -31,5 +33,7 @@ export default {
 </script>
 
 <style scoped>
-
+#modal-container .overflow-y-auto {
+  max-height: calc(100vh - 72px);
+}
 </style>

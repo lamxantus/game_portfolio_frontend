@@ -2,11 +2,11 @@
   <div class="bg-[#030C1F] px-4">
     <section class="text-white">
       <div class="container mb-10">
-        <div class="mb-4 flex justify-between">
+        <div class="my-4 flex justify-between">
           <div class="flex space-x-2 items-center">
             <div class="site-title" @click="$router.push('/')">
               <nuxt-link class="" to="/">
-                <img src="/logo/logo-white.svg" alt="Xantus Tracker">
+                <img class="w-32" src="/logo/logo-white.svg" alt="Xantus Tracker">
               </nuxt-link>
             </div>
           </div>

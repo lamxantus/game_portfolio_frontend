@@ -1,5 +1,5 @@
 <template>
-  <div style="min-width: 300px;">
+  <div style="min-width: 350px;">
     <h4 class="mb-4 text-xl font-bold">Login</h4>
     <p class="mb-4">Connect with social</p>
     <div class="mb-4 border rounded-xl">

@@ -154,7 +154,7 @@ export default {
 }
 
 .container {
-  @apply mx-auto px-6 md:px-0;
+  @apply mx-auto;
   max-width: 1010px;
 }
 

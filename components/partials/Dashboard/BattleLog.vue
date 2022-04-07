@@ -5,13 +5,13 @@
         <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
           <img src="/icon/battle-log.png" alt="">
         </div>
-        <h2 class="font-bold text-lg">Battle Log</h2>
+        <h2 class="font-bold">Battle Log</h2>
         <div v-if="false">
           <img src="/icon/warning.png" alt="">
         </div>
       </div>
     </div>
-    <div class="bg-white rounded-xl p-4 duration-300 hover:shadow-xl">
+    <div class="bg-white rounded p-4 duration-300 hover:shadow-xl">
       <div class="flex justify-between items-center mb-3">
         <div class="flex space-x-2 font-bold text-gray-400">
           <div
@@ -44,7 +44,7 @@
           </div>
         </div>
       </div>
-      <table v-if="response.results.length" id="battle_log" class="table-auto w-full" >
+      <table v-if="response.results.length" id="battle_log" class="table-auto w-full">
         <thead>
         <tr class="font-bold rounded">
           <td class="p-1 w-1/4 text-left">Date</td>
@@ -66,10 +66,7 @@
           <td v-if="activeGame.id_string === 'axie_infinity'" class="p-1">
             <div class="flex space-x-2">
               <div v-for="nft in item.token_items" :key="nft.id">
-                <img
-                  class="w-28"
-                  :src="nft.media_url"
-                  alt="">
+                <img class="w-28" :src="nft.media_url" alt="">
               </div>
             </div>
           </td>
@@ -78,7 +75,7 @@
               <div class="text-xs text-gray-500">Win</div>
               <div>
                 <div v-for="e in item.earn_token_items" :key="e.token_item.symbol">
-                  <span>+{{ e.value }} {{ e.token_item.symbol }}</span>
+                  <span class="text-xs">{{ e.value }} {{ e.token_item.symbol }}</span>
                 </div>
               </div>
             </div>
@@ -90,10 +87,7 @@
           <td class="p-1" v-if="filter.game_mode === 'pve'">
             <div class="flex space-x-2">
               <div v-for="nft in item.opponents" :key="nft.id">
-                <img
-                  class="w-28"
-                  :src="nft.media_url"
-                  alt="">
+                <img class="w-28" :src="nft.media_url" alt="">
               </div>
             </div>
           </td>

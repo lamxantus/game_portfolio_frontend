@@ -1,15 +1,13 @@
 <template>
-  <div class="my-4 px-3">
+  <div class="my-4">
     <p v-if="!data.wallet" class="mb-4 bg-green-300 p-3 border rounded">This wallet data on the road, please be
       patient!</p>
-    <div v-if="!user" class="w-full mb-6 md:inline-flex items-center space-y-2 md:space-y-0">
-      <span class="text-lg font-bold mr-4">Tracker for </span>
-      <label class="mr-4">
-        <input v-model="search" class="p-1.5 px-4 border border-[#DDE0F7] rounded-xl" type="text"
-               placeholder="Wallet Address">
+    <div v-if="!user" class="w-full mb-3 flex items-center">
+      <label class="mr-4 w-1/3">
+        <input v-model="search" class="w-full p-1.5 px-3 border border-[#DDE0F7] rounded" type="text" placeholder="Track for wallet Address">
       </label>
       <button
-        class="p-1.5 px-4 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded-xl"
+        class="p-1.5 px-3 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded"
         @click="trackWallet()"
       >Search
       </button>
@@ -22,40 +20,40 @@
       </div>
     </div>
     <div class="flex md:flex-row flex-col md:space-x-4">
-      <div class="mb-6 flex-1 rounded-xl">
-        <div class="md:mb-6 mb-4">
+      <div class="mb-4 flex-1 rounded">
+        <div class="mb-4">
           <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
             <div class="flex-1 flex flex-col">
               <div class="flex items-center space-x-2 mb-3">
                 <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
                   <img src="/icon/earning.png" alt="">
                 </div>
-                <h2 class="font-bold text-lg">Total Earning</h2>
+                <h2 class="font-bold">Total Earning</h2>
               </div>
               <div
-                class="hover:shadow-xl duration-300 bg-white rounded-2xl flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
+                class="hover:shadow-xl duration-300 bg-white rounded flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
                 <div class="p-4">
                   <h4 class="mb-2 text-[#0F43F9]">Unclaimed</h4>
-                  <div class="font-bold text-2xl">{{ Number(data.unclaimed || "0").toLocaleString() }}</div>
+                  <div class="font-bold text-4xl">{{ Number(data.unclaimed || "0").toLocaleString() }}</div>
                   <div>{{ activeGame.meta.token_in_game }}</div>
                   <span v-if="data.unclaimed"
                         class="text-gray-500">{{ (getCurrentPriceRate * data.unclaimed).toLocaleString() }}$</span>
                 </div>
                 <div class="border-l p-4 border-[#F7F8FF]">
                   <h4 class="mb-2 text-[#10CE00]">Claimed</h4>
-                  <div class="font-bold text-2xl">{{ (data.claimed_token || 0).toLocaleString() }}</div>
+                  <div class="font-bold text-4xl">{{ (data.claimed_token || 0).toLocaleString() }}</div>
                   <div>{{ activeGame.meta.token_in_game }}</div>
                   <span class="text-gray-500">{{ (getCurrentPriceRate * data.claimed_token).toLocaleString() }}$</span>
                 </div>
                 <div class="border-l p-4 border-[#F7F8FF]">
                   <h4 class="mb-2 text-[#FFA800]">Total Earning</h4>
-                  <div class="font-bold text-2xl">{{ Number(data.totalEarning || "0").toLocaleString() }}</div>
+                  <div class="font-bold text-4xl">{{ Number(data.totalEarning || "0").toLocaleString() }}</div>
                   <div>{{ activeGame.meta.token_in_game }}</div>
                   <span class="text-gray-500">{{ (getCurrentPriceRate * data.totalEarning).toLocaleString() }}$</span>
                 </div>
                 <div class="border-l p-4 border-[#F7F8FF]">
                   <h4 class="mb-2 text-[#00A3FF]">Next Claim</h4>
-                  <div class="font-bold text-2xl">
+                  <div class="font-bold text-4xl">
                     <span v-if="data.lastClaimedDate">{{ nextClaimDate }}</span>
                     <span v-else class="text-gray-300">Unknown</span>
                   </div>
@@ -223,7 +221,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions("w3_auth.js", ["logIn"]),
+    ...mapActions("w3_auth", ["logIn"]),
     ...mapActions('config', [
       'fetchData'
     ]),
