@@ -14,9 +14,7 @@
       </div>
     </div>
     <template v-if="false">
-      <p class="mb-4">
-        Connect with one of our available wallet info providers or create a new one.
-      </p>
+      <p class="mb-4">Connect with one of our available wallet info providers or create a new one.</p>
       <div class="border rounded-xl">
         <div
           class="p-4 border-b hover:shadow-md flex space-x-4 items-center cursor-pointer"

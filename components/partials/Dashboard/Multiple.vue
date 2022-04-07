@@ -42,7 +42,7 @@
         <div class="rounded-xl bg-white hover:shadow-xl duration-300 p-4">
           <div class="flex">
             <div class="flex-1">
-              <div class="text-2xl font-bold">{{ totalNFT }}</div>
+              <div class="text-4xl font-bold">{{ totalNFT }}</div>
               <div>NFT</div>
             </div>
             <div class="w-2/3">
@@ -63,7 +63,7 @@
           <hr class="border-gray-100 my-4">
           <div class="flex">
             <div class="flex-1">
-              <div class="text-2xl font-bold">{{ totalScholar }}</div>
+              <div class="text-4xl font-bold">{{ totalScholar }}</div>
               <div>Scholar</div>
             </div>
             <div class="w-2/3">

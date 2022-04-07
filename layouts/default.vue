@@ -99,7 +99,8 @@ export default {
         code: this.$route.query.code,
         client_id: process.env.GOOGLE_CLIENT_ID,
         redirect_uri: process.env.APP_URL,
-        grant_type: 'authorization_code'
+        grant_type: 'authorization_code',
+        callback: process.env.APP_URL
       }).then(res => {
         this.$w3_auth.bcConnect(res.token, res.user);
         this.$router.push('/dashboard');
