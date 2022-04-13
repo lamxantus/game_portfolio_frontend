@@ -11,21 +11,20 @@
     <div class="">
       <div class="flex justify-between">
         <h4 class="font-bold">ELO</h4>
-        <span class="font-bold">{{ Number(data.elo || "0").toLocaleString() }}</span>
+        <span class="font-bold">{{ oFormatter(data.point) }}</span>
       </div>
-      <div class="flex justify-between">
+      <div v-if="data.meta" class="flex justify-between">
         <h4 class="font-bold">Rank</h4>
-        <span class="font-bold">{{ Number(data.rank || "0").toLocaleString() }}</span>
+        <span class="font-bold">{{ oFormatter(data.meta.rank) }}</span>
       </div>
-      <hr v-if="false" class="my-4 border-gray-100"/>
-      <div v-if="data.energy">
+      <div v-if="data.meta && data.meta.energy">
         <div class="flex justify-between mb-2">
           <h4 class="font-bold">Energy</h4>
-          <span class="font-bold">{{ data.energy.balance - data.energy.spent }}/{{ data.energy.balance }}</span>
+          <span class="font-bold">{{ data.meta.energy.balance - data.meta.energy.spent }}/{{ data.meta.energy.balance }}</span>
         </div>
         <div class="w-full bg-gray-50 h-3 rounded-xl">
           <div class="bg-[#FFA800] h-3 rounded-xl" :style="{
-            width: `${data.energy.balance ? ((data.energy.balance - data.energy.spent) / data.energy.balance) * 100 : 0}%`
+            width: `${data.meta.energy.balance ? ((data.meta.energy.balance - data.meta.energy.spent) / data.meta.energy.balance) * 100 : 0}%`
           }"></div>
         </div>
       </div>
@@ -51,14 +50,14 @@
         </div>
       </div>
       <div class="flex items-center space-x-16">
-        <div v-if="data.win_rate" class="flex-1">
+        <div v-if="data.game_result" class="flex-1">
           <div class="flex justify-between">
             <span>Win</span>
-            <span>{{ data.win_rate.win.toLocaleString() }}</span>
+            <span>{{ data.game_result.win.toLocaleString() }}</span>
           </div>
           <div class="flex justify-between">
             <span>Lose</span>
-            <span>{{ (data.win_rate.lose).toLocaleString() }}</span>
+            <span>{{ (data.game_result.lose).toLocaleString() }}</span>
           </div>
         </div>
         <div class="w-1/3">
@@ -142,25 +141,19 @@ export default {
   computed: {
     data() {
       return this.$store.state.config.wallet || schemas.WALLET
-    },
-    win() {
-      if (this.data.battle_logs) {
-        return this.data.battle_logs.filter(x => x.is_winner).length
-      }
-      return 0
     }
   },
   methods: {
     draw() {
       if (chart) chart.destroy();
-      if (this.data.win_rate) {
+      if (this.data.game_result) {
         const data = {
           labels: [
             'Lose',
             'Win',
           ],
           datasets: [{
-            data: [this.data.win_rate.lose, this.data.win_rate.win],
+            data: [this.data.game_result.lose, this.data.game_result.win],
             backgroundColor: [
               'rgb(255, 99, 132)',
               'rgb(54, 162, 235)',
@@ -187,7 +180,7 @@ export default {
     ...mapActions('config', ['fetchGameRS']),
   },
   watch: {
-    "data.win_rate"() {
+    "data.game_result"() {
       this.draw()
     },
     filter: {

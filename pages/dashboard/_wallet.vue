@@ -2,12 +2,12 @@
   <div class="flex flex-col lg:flex-row px-3">
     <div class="flex-1">
       <div class="container my-4">
-        <div class="mb-4 flex justify-between">
+        <div class="my-4 flex justify-between">
           <template v-if="!user">
             <div class="flex space-x-2 items-center">
               <div class="site-title" @click="$router.push('/')">
                 <nuxt-link class="" to="/">
-                  <img class="w-48" src="/logo/logo-black.svg" alt="Xantus Tracker">
+                  <img class="w-32" src="/logo/logo-black.svg" alt="Xantus Tracker">
                 </nuxt-link>
               </div>
             </div>
