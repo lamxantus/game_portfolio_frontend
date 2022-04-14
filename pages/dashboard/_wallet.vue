@@ -30,7 +30,7 @@
         <dashboard-single v-else/>
       </div>
     </div>
-    <div v-if="data && data.wallet && data.watcher && isWallet" class="bg-[#DDE0F64D] w-full md:w-72 p-4 py-8">
+    <div v-if="data && data.wallet && data.watcher && isWallet" class="bg-[#DDE0F64D] w-full md:w-64 p-4 py-8">
       <div class="flex items-center space-x-3">
         <div class="text-4xl bg-[#ACB9FF] p-1.5 w-12 h-12 rounded-full">🤨</div>
         <div class="flex-1">

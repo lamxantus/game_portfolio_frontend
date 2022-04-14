@@ -11,23 +11,4 @@ export const WALLET = {
   "game_result": {"result": 0, "win": 0, "lose": 0}
 }
 
-export const DASHBOARD = [
-  {
-    "id": 0,
-    "name": "",
-    "options": {
-      "tableField": [{"name": "", "field": ""}],
-      "token_in_game": "STEP",
-    },
-    "scholarship": 0,
-    "wallets": [{
-      "name": "",
-      "totalEarning": 0,
-      "totalNFT": 0,
-      "rank": 0,
-      "elo": 0,
-      "unclaimed": 0,
-      "nextClaimDate": null,
-    }]
-  }
-]
+export const DASHBOARD = []

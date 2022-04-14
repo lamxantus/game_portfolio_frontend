@@ -4,10 +4,10 @@
     <div class="md:flex justify-between mb-4">
       <div v-if="!user" class="w-full mb-3 flex items-center flex-1">
         <label class="mr-4 w-1/3">
-          <input v-model="search" class="w-full p-1.5 px-3 border border-[#DDE0F7] rounded" type="text" placeholder="Track for wallet Address">
+          <input v-model="search" class="w-full p-1.5 px-3 border border-[#DDE0F7] rounded-xl" type="text" placeholder="Track for wallet Address">
         </label>
         <button
-          class="p-1.5 px-3 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded"
+          class="p-1.5 px-3 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded-xl"
           @click="trackWallet()"
         >Search
         </button>
@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="flex md:flex-row flex-col md:space-x-4">
-      <div class="mb-4 flex-1 rounded">
+      <div class="mb-4 flex-1 rounded-xl">
         <div class="mb-4">
           <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
             <div class="flex-1 flex flex-col">
@@ -29,7 +29,7 @@
                 <h2 class="font-bold">Total Earning</h2>
               </div>
               <div
-                class="hover:shadow-xl duration-300 bg-white rounded flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
+                class="hover:shadow-xl duration-300 bg-white rounded-xl flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
                 <div class="p-4">
                   <h4 class="mb-2 text-[#0F43F9]">Unclaimed</h4>
                   <div class="font-bold text-4xl">{{ oFormatter(data.token_claimable) }}</div>

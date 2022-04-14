@@ -11,17 +11,27 @@
         <div class="bg-[#0F43F9] rounded-xl grid grid-cols-2 text-white">
           <div class="p-4 flex flex-col">
             <div class="flex-1">
-              <div class="text-2xl font-bold ">${{ total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</div>
+              <div class="text-2xl font-bold ">${{
+                  total.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                  })
+                }}
+              </div>
               <span v-if="false" class="text-[#10CE00]">(+23 Today)</span>
             </div>
             <div>
               <div class="flex justify-between">
                 <span>Claimed</span>
-                <span>{{ claimed.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}$</span>
+                <span>{{
+                    claimed.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
+                  }}$</span>
               </div>
               <div class="flex justify-between my-2">
                 <span>Unclaimed</span>
-                <span>{{ unClaimed.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}$</span>
+                <span>{{
+                    unClaimed.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
+                  }}$</span>
               </div>
               <div class="flex justify-between">
                 <span>Next Claim</span>
@@ -32,7 +42,7 @@
           <general-report/>
         </div>
       </div>
-      <div class="md:w-1/3">
+      <div class="md:w-1/4">
         <div class="flex items-center space-x-2 mb-3">
           <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
             <img src="/icon/bookmark.png" alt="">
@@ -110,10 +120,7 @@ export default {
   },
   computed: {
     games() {
-      return this.$store.state.config.dashboard || []
-    },
-    rates() {
-      return this.$store.state.config.priceRates
+      return this.$store.state.config.games
     },
   },
   watch: {
@@ -143,31 +150,32 @@ export default {
       this.nftTotalValue = 0;
       this.nftHighestValue = 0;
       this.nftLowestValue = 0;
-
       for (let i = 0; i < this.games.length; i++) {
         let game = this.games[i];
         const rate = this.$store.getters["config/getPriceRate"](game.options["token_in_game"]);
         const rateValue = rate ? rate.price : 0;
-        for (let j = 0; j < game.wallets.length; j++) {
-          const wallet = game.wallets[j];
+        const wallets = this.$store.state.config.dashboard.filter(item => item.game === game.id_string);
+        wallets.forEach(wallet => {
           if (j === 0) {
             this.nftLowestValue = wallet.nftLowestValue || 0
           }
-          this.total = this.total + +wallet.totalEarning * rateValue;
-          this.claimed = this.claimed + +wallet.claimed * rateValue;
-          this.unClaimed = this.unClaimed + +wallet.unclaimed * rateValue;
-          this.totalNFT = this.totalNFT + +wallet.totalNFT;
-          if (wallet.nftTotalValue) {
-            this.nftTotalValue = this.nftTotalValue + wallet.nftTotalValue
+          this.total = this.total + +wallet.token_total * rateValue;
+          this.claimed = this.claimed + +wallet.token_claimed * rateValue;
+          this.unClaimed = this.unClaimed + +wallet.token_claimable * rateValue;
+          this.totalNFT = this.totalNFT + +wallet.meta["total_nft"];
+          if (wallet.meta["total_nft_value"]) {
+            this.nftTotalValue = this.nftTotalValue + wallet.meta["total_nft_value"]
           }
-          if (wallet.nftHighestValue && wallet.nftHighestValue > this.nftHighestValue) {
-            this.nftHighestValue = wallet.nftHighestValue
+          if (wallet.meta["high_nft_value"] && wallet.meta["high_nft_value"] > this.nftHighestValue) {
+            this.nftHighestValue = wallet.meta["high_nft_value"]
           }
-          if (wallet.nftLowestValue && wallet.nftLowestValue < this.nftLowestValue) {
-            this.nftLowestValue = wallet.nftLowestValue
+          if (wallet.meta["low_nft_value"] && wallet.meta["low_nft_value"] < this.nftLowestValue) {
+            this.nftLowestValue = wallet.meta["low_nft_value"]
           }
+        })
+        if (wallets.length) {
+          this.totalScholar = this.totalScholar + 1;
         }
-        this.totalScholar = this.totalScholar + game.wallets.length
       }
     },
   },
@@ -176,7 +184,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

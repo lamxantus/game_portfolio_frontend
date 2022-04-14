@@ -179,10 +179,9 @@ export default {
         await this.$router.replace(`/dashboard/${wallet}`);
         return
       }
-
       commit("SET_DATA", {
         wallet: wallet,
-        data: schemas.WALLET
+        data: wallet === "dashboard" ? [] : schemas.WALLET
       })
       wallet = wallet.replace("ronin:", "0x");
       const res = await this.$axios.$get(`/v2/${wallet}`, {
@@ -191,6 +190,7 @@ export default {
         }
       });
       if (res) {
+        console.log(res);
         commit("SET_DATA", {
           wallet: wallet,
           data: res

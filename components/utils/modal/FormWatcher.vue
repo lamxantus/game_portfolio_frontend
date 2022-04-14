@@ -22,7 +22,7 @@
               <h4 class="text-lg font-bold">{{ form.meta.name || "Unnamed" }}</h4>
               <p>{{ `${form.wallet.substr(0, 5)}...${form.wallet.substr(35, 42)}` }}</p>
             </div>
-<!--            <div class="border rounded p-1 px-2 text-xs cursor-pointer">Edit</div>-->
+            <!--            <div class="border rounded p-1 px-2 text-xs cursor-pointer">Edit</div>-->
           </div>
         </div>
         <label class="block">
@@ -168,7 +168,7 @@ export default {
 
           return;
         }
-        this.$axios.$post('/watch', {
+        this.$axios.$post('/v2/watch', {
           address: this.form.wallet,
           game: this.form.game
         }).then((res) => {
@@ -184,8 +184,8 @@ export default {
           this.required.manager = true;
           checkFalse = true;
         }
-        if(checkFalse) return
-        this.$axios.$post('/save-watcher', {...this.form, earn_ratio: this.form.earn_ratio/100 }).then(() => {
+        if (checkFalse) return
+        this.$axios.$post('/v2/save-watcher', {...this.form, earn_ratio: this.form.earn_ratio / 100}).then(() => {
           this.done = true;
           this.fetchData({
             wallet: "dashboard"
