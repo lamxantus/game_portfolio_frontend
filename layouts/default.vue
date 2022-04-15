@@ -103,6 +103,7 @@ export default {
         callback: process.env.APP_URL
       }).then(res => {
         this.$w3_auth.bcConnect(res.token, res.user);
+        this.$gtm.push({ event: 'Login_gmail' })
         this.$router.push('/dashboard');
       })
     }
