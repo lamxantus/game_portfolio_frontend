@@ -1,26 +1,24 @@
 <template>
   <div class="my-4">
-    <p v-if="!data.wallet" class="mb-4 bg-green-300 p-3 border rounded">This wallet data on the road, please be
-      patient!</p>
-    <div v-if="!user" class="w-full mb-3 flex items-center">
-      <label class="mr-4 w-1/3">
-        <input v-model="search" class="w-full p-1.5 px-3 border border-[#DDE0F7] rounded" type="text" placeholder="Track for wallet Address">
-      </label>
-      <button
-        class="p-1.5 px-3 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded"
-        @click="trackWallet()"
-      >Search
-      </button>
-      <div
-        class="text-sm inline-flex items-center space-x-2 cursor-pointer ml-auto"
-        @click="random"
-      >
+    <p v-if="!data.wallet" class="mb-4 bg-green-300 p-3 border rounded">This wallet data on the road, please be patient!</p>
+    <div class="md:flex justify-between mb-4">
+      <div v-if="!user" class="w-full mb-3 flex items-center flex-1">
+        <label class="mr-4 w-1/3">
+          <input v-model="search" class="w-full p-1.5 px-3 border border-[#DDE0F7] rounded-xl" type="text" placeholder="Track for wallet Address">
+        </label>
+        <button
+          class="p-1.5 px-3 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded-xl"
+          @click="trackWallet()"
+        >Search
+        </button>
+      </div>
+      <div class="text-sm inline-flex items-center space-x-2 cursor-pointer" @click="random">
         <span>View random wallet</span>
         <icon name="chv-right"></icon>
       </div>
     </div>
     <div class="flex md:flex-row flex-col md:space-x-4">
-      <div class="mb-4 flex-1 rounded">
+      <div class="mb-4 flex-1 rounded-xl">
         <div class="mb-4">
           <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
             <div class="flex-1 flex flex-col">
@@ -31,70 +29,32 @@
                 <h2 class="font-bold">Total Earning</h2>
               </div>
               <div
-                class="hover:shadow-xl duration-300 bg-white rounded flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
+                class="hover:shadow-xl duration-300 bg-white rounded-xl flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
                 <div class="p-4">
                   <h4 class="mb-2 text-[#0F43F9]">Unclaimed</h4>
-                  <div class="font-bold text-4xl">{{ Number(data.unclaimed || "0").toLocaleString() }}</div>
-                  <div>{{ activeGame.meta.token_in_game }}</div>
-                  <span v-if="data.unclaimed"
-                        class="text-gray-500">{{ (getCurrentPriceRate * data.unclaimed).toLocaleString() }}$</span>
+                  <div class="font-bold text-4xl">{{ oFormatter(data.token_claimable) }}</div>
+                  <div>{{ ag.meta.token_in_game }}</div>
+                  <span v-if="data.unclaimed" class="text-gray-500">{{ pFormatter(getCurrentPriceRate * data.token_claimable) }}</span>
                 </div>
                 <div class="border-l p-4 border-[#F7F8FF]">
                   <h4 class="mb-2 text-[#10CE00]">Claimed</h4>
-                  <div class="font-bold text-4xl">{{ (data.claimed_token || 0).toLocaleString() }}</div>
-                  <div>{{ activeGame.meta.token_in_game }}</div>
-                  <span class="text-gray-500">{{ (getCurrentPriceRate * data.claimed_token).toLocaleString() }}$</span>
+                  <div class="font-bold text-4xl">{{ oFormatter(data.token_claimed) }}</div>
+                  <div>{{ ag.meta.token_in_game }}</div>
+                  <span class="text-gray-500">{{ pFormatter(getCurrentPriceRate * data.token_claimed) }}</span>
                 </div>
                 <div class="border-l p-4 border-[#F7F8FF]">
                   <h4 class="mb-2 text-[#FFA800]">Total Earning</h4>
-                  <div class="font-bold text-4xl">{{ Number(data.totalEarning || "0").toLocaleString() }}</div>
-                  <div>{{ activeGame.meta.token_in_game }}</div>
-                  <span class="text-gray-500">{{ (getCurrentPriceRate * data.totalEarning).toLocaleString() }}$</span>
+                  <div class="font-bold text-4xl">{{ oFormatter(data.token_total) }}</div>
+                  <div>{{ ag.meta.token_in_game }}</div>
+                  <span class="text-gray-500">{{ pFormatter(getCurrentPriceRate * data.token_total) }}</span>
                 </div>
                 <div class="border-l p-4 border-[#F7F8FF]">
                   <h4 class="mb-2 text-[#00A3FF]">Next Claim</h4>
                   <div class="font-bold text-4xl">
-                    <span v-if="data.lastClaimedDate">{{ nextClaimDate }}</span>
+                    <span v-if="data.next_claim_date">{{ nextClaimDate }}</span>
                     <span v-else class="text-gray-300">Unknown</span>
                   </div>
-                  <div v-if="data.lastClaimedDate">{{ (new Date(data.lastClaimedDate)).toLocaleTimeString() }}</div>
-                </div>
-              </div>
-            </div>
-            <div v-if="false" class="flex-1 flex flex-col">
-              <div class="flex items-center space-x-2 mb-3">
-                <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
-                  <img src="/icon/wallet.png" alt="">
-                </div>
-                <h2 class="font-bold text-lg">Wallet Summary</h2>
-              </div>
-              <div class="flex-1 hover:shadow-xl duration-300 bg-white p-3 rounded-2xl">
-                <div class="flex justify-between items-center mb-1">
-                  <h4>Investment</h4>
-                  <div v-if="data.premium.lifetime_invest" class="font-bold">
-                    {{ data.premium.lifetime_invest.toLocaleString() }}$
-                  </div>
-                  <div v-else>_</div>
-                </div>
-                <div class="flex justify-between items-center">
-                  <h4>Expenses</h4>
-                  <div v-if="data.premium.lifetime_revenue" class="font-bold">
-                    {{ data.premium.lifetime_revenue.toLocaleString() }}$
-                  </div>
-                  <div v-else>_</div>
-                </div>
-                <hr class="my-2 border-gray-100">
-                <div class="flex justify-between items-center mb-1">
-                  <h4>Return</h4>
-                  <div v-if="data.premium.lifetime_profit" class="font-bold">
-                    {{ data.premium.lifetime_profit.toLocaleString() }}$
-                  </div>
-                  <div v-else>_</div>
-                </div>
-                <div v-if="false" class="flex justify-between items-center">
-                  <h4>ROI</h4>
-                  <div v-if="data.premium.roi" class="font-bold">{{ data.premium.roi }}$</div>
-                  <div v-else>_</div>
+                  <div v-if="data.next_claim_date">{{ (new Date(data.next_claim_date)).toLocaleTimeString() }}</div>
                 </div>
               </div>
             </div>
@@ -103,33 +63,37 @@
         <div class="md:mb-6 mb-4">
           <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
             <div class="md:w-2/3">
-              <earning/>
+              <client-only>
+                <earning/>
+              </client-only>
             </div>
             <div class="flex-1">
-              <statistic/>
+              <client-only>
+                <statistic/>
+              </client-only>
             </div>
           </div>
         </div>
         <div class="md:mb-6 mb-4">
           <battle-log/>
         </div>
-        <div class="md:mb-12 mb-6">
+        <div v-if="data.tokens" class="md:mb-12 mb-6">
           <div class="flex justify-between mb-4">
             <h2 class="font-bold">NFTs</h2>
             <div class="flex space-x-6">
               <span>Quantity:</span>
-              <span class="font-bold">{{ data.totalNFT }}</span>
+              <span class="font-bold">{{ data.tokens.length }}</span>
             </div>
           </div>
-          <template v-if="data.featured_nft.length">
+          <template v-if="data.tokens.length">
             <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-              <div v-for="(item, i) in data.featured_nft" :key="i"
+              <div v-for="(item, i) in data.tokens" :key="i"
                    class="bg-white rounded-lg duration-300 hover:shadow-xl p-3">
                 <img :src="item.media_url" alt="">
                 <h3 class="text-lg font-bold">{{ item.name }}</h3>
                 <div class="flex justify-between items-center">
                   <span class="text-xs text-gray-500">Last price</span>
-                  <span v-if="item.current_price">{{ (item.current_price || 0).toLocaleString() }}eth</span>
+                  <span v-if="item.price">{{ (item.price || 0).toLocaleString() }}eth</span>
                   <span v-else>N/A</span>
                 </div>
                 <hr class="my-2 border-gray-100">
@@ -200,24 +164,24 @@ export default {
     data() {
       return this.$store.state.config.wallet || schemas.WALLET
     },
-    ...mapGetters("w3_auth.js", ["getUserName"]),
+    ...mapGetters("w3_auth", ["getUserName"]),
     ...mapGetters("config", ["getCurrentPriceRate"]),
     nextClaimDate() {
       const now = new Date()
-      if (this.data.lastClaimedDate) {
-        const date = new Date(this.data.lastClaimedDate)
+      if (this.data.next_claim_date) {
+        const date = new Date(this.data.next_claim_date)
         date.setDate(date.getDate() + 7);
         if (date.getTime() <= now.getTime()) {
-          return "Immediately"
+          return "Now"
         } else {
           return date.toLocaleDateString()
         }
       }
       return "Unknown"
     },
-    activeGame() {
+    ag() {
       const cfStore = this.$store.state.config
-      return cfStore.games[cfStore.activeGame];
+      return cfStore.games[cfStore.activeGame || 'gunfire'];
     }
   },
   methods: {
