@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="mb-4 flex space-x-4 items-end justify-between" style="height: 208px">
-      <canvas class="w-full" style="height: 208px" id="myChartEarning"></canvas>
+      <canvas class="w-full" style="height: 208px" ref="myChartEarning"></canvas>
     </div>
     <div v-if="data.meta" class="mb-2 flex justify-between gap-4 md:gap-8">
       <div class="flex space-x-2">
@@ -85,7 +85,7 @@ export default {
     async draw() {
       let now = new Date();
       now = new Date(now.setDate(now.getDate() + 1));
-      const ctx = document.getElementById('myChartEarning').getContext('2d');
+      const ctx = this.$refs.myChartEarning.getContext('2d');
       if (this.chart) {
         this.chart.destroy();
       }

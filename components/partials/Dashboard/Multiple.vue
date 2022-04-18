@@ -124,7 +124,7 @@ export default {
     },
   },
   watch: {
-    games: {
+    "$store.state.config.dashboard": {
       deep: true,
       handler: function () {
         this.compute()
