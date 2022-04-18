@@ -24,7 +24,9 @@
       <div class="flex space-x-2">
         <h4 class="font-bold">Today:</h4>
         <div>
-          <div>{{ oFormatter(data.meta.today) }} (<span class="text-green-400">{{ oFormatter(data.meta.today - data.meta.yesterday) }}</span>)</div>
+          <div>{{ oFormatter(data.meta.today) }} (<span
+            class="text-green-400">{{ oFormatter(data.meta.today - data.meta.yesterday) }}</span>)
+          </div>
           <span> {{ nFormatter(getCurrentPriceRate * data.meta.today) }}</span>
         </div>
       </div>
@@ -73,7 +75,8 @@ export default {
           params: {
             ...this.filter,
             wallet: this.data.wallet,
-            game: this.data.game
+            game: this.data.game,
+            range: this.filter.date_unit === 'w' ? 7 : 14
           }
         }).catch(() => ({}))
       }

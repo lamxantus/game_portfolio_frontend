@@ -172,7 +172,7 @@ export default {
     }
   },
   actions: {
-    async fetchData({commit, state}, {wallet, game_id}) {
+    async fetchData({commit, state}, {wallet, game_id, force}) {
       if (wallet === "random") {
         const gi = Math.floor(Math.random() * 2)
         wallet = SAMPLE_RANDOM[gi][Math.floor(Math.random() * SAMPLE_RANDOM[gi].length)]
@@ -186,7 +186,8 @@ export default {
       wallet = wallet.replace("ronin:", "0x");
       const res = await this.$axios.$get(`/v2/${wallet}`, {
         params: {
-          game: game_id
+          game: game_id,
+          force: force
         }
       });
       if (res) {

@@ -167,7 +167,7 @@ export default {
         const x = this.wl.replace("ronin:", "0x")
         this.wl = x;
         if (Web3.utils.isAddress(x)) {
-          this.$router.push(`/dashboard/${x}?game=1`);
+          this.$router.push(`/dashboard/${x}`);
         } else {
           this.$store.commit('config/PUSH_NOTIFY', {
             msg: "Please input a valid address",
