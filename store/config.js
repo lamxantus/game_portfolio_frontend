@@ -191,7 +191,6 @@ export default {
         }
       });
       if (res) {
-        console.log(res);
         commit("SET_DATA", {
           wallet: wallet,
           data: res

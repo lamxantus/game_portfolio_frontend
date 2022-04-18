@@ -119,6 +119,7 @@ export default {
       },
       form: {
         id: null,
+        game: null,
         wallet: null,
         address: null,
         meta: {
@@ -165,7 +166,6 @@ export default {
         }
         if (!Web3.utils.isAddress(this.form.wallet)) {
           this.required.wallet = true;
-
           return;
         }
         this.$axios.$post('/v2/watch', {
@@ -199,7 +199,7 @@ export default {
     init() {
       const data = this.$store.state.config.modal.data;
       if (data) {
-        this.form.game = data.game.id;
+        this.form.game = data.game.id_string;
         if (data.watcher) {
           this.form.id = data.watcher.id;
           this.form.earn_ratio = data.watcher.earn_ratio * 100;

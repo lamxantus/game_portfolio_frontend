@@ -153,16 +153,16 @@ export default {
       for (let i = 0; i < this.games.length; i++) {
         let game = this.games[i];
         const rate = this.$store.getters["config/getPriceRate"](game.options["token_in_game"]);
-        const rateValue = rate ? rate.price : 0;
+        const rateValue = rate ? rate['price'] : 0;
         const wallets = this.$store.state.config.dashboard.filter(item => item.game === game.id_string);
-        wallets.forEach(wallet => {
+        wallets.forEach((wallet, j) => {
           if (j === 0) {
             this.nftLowestValue = wallet.nftLowestValue || 0
           }
           this.total = this.total + +wallet.token_total * rateValue;
-          this.claimed = this.claimed + +wallet.token_claimed * rateValue;
-          this.unClaimed = this.unClaimed + +wallet.token_claimable * rateValue;
-          this.totalNFT = this.totalNFT + +wallet.meta["total_nft"];
+          this.claimed = this.claimed + +wallet.report.token_claimed * rateValue;
+          this.unClaimed = this.unClaimed + +wallet.report.token_claimable * rateValue;
+          this.totalNFT = this.totalNFT + +wallet.report.meta["total_nft"];
           if (wallet.meta["total_nft_value"]) {
             this.nftTotalValue = this.nftTotalValue + wallet.meta["total_nft_value"]
           }
