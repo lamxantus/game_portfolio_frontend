@@ -20,7 +20,9 @@
       <div v-if="data.meta && data.meta.energy">
         <div class="flex justify-between mb-2">
           <h4 class="font-bold">Energy</h4>
-          <span class="font-bold">{{ data.meta.energy.balance - data.meta.energy.spent }}/{{ data.meta.energy.balance }}</span>
+          <span class="font-bold">{{ data.meta.energy.balance - data.meta.energy.spent }}/{{
+              data.meta.energy.balance
+            }}</span>
         </div>
         <div class="w-full bg-gray-50 h-3 rounded-xl">
           <div class="bg-[#FFA800] h-3 rounded-xl" :style="{
@@ -61,7 +63,7 @@
           </div>
         </div>
         <div class="w-1/3">
-          <canvas id="myChart"></canvas>
+          <canvas ref="myChart"></canvas>
         </div>
       </div>
     </div>
@@ -162,7 +164,7 @@ export default {
           }]
         };
         chart = new Chart(
-          document.getElementById('myChart'),
+          this.$refs.myChart,
           {
             type: 'doughnut',
             data: data,

@@ -102,6 +102,7 @@ export default {
         grant_type: 'authorization_code'
       }).then(res => {
         this.$w3_auth.bcConnect(res.token, res.user);
+        this.$gtm.push({ event: 'trackLoginGmail' })
         this.$router.push('/dashboard');
       })
     }

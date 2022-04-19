@@ -2,8 +2,8 @@
   <div class="my-6">
     <p v-if="!data.wallet" class="mb-4 bg-green-300 p-3 border rounded">This wallet data on the road, please be
       patient!</p>
-    <div class="md:flex justify-between mb-4">
-      <div v-if="!user" class="w-full mb-3 md:mb-0 flex items-center flex-1 space-x-4">
+    <div v-if="!user" class="md:flex justify-between mb-4">
+      <div class="w-full mb-3 md:mb-0 flex items-center flex-1 space-x-4">
         <label class="w-1/3">
           <input v-model="search" class="w-full p-2 px-3 border border-[#DDE0F7] rounded-xl" type="text"
                  placeholder="Track for wallet Address">

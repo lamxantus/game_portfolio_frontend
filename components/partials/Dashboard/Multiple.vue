@@ -124,13 +124,13 @@ export default {
     },
   },
   watch: {
-    games: {
+    "$store.state.config.dashboard": {
       deep: true,
       handler: function () {
         this.compute()
       }
     },
-    rates: {
+    "$store.state.config.priceRates": {
       deep: true,
       handler: function () {
         this.compute()
@@ -150,33 +150,32 @@ export default {
       this.nftTotalValue = 0;
       this.nftHighestValue = 0;
       this.nftLowestValue = 0;
-      for (let i = 0; i < this.games.length; i++) {
-        let game = this.games[i];
-        const rate = this.$store.getters["config/getPriceRate"](game.options["token_in_game"]);
-        const rateValue = rate ? rate['price'] : 0;
-        const wallets = this.$store.state.config.dashboard.filter(item => item.game === game.id_string);
-        wallets.forEach((wallet, j) => {
-          if (j === 0) {
-            this.nftLowestValue = wallet.nftLowestValue || 0
-          }
-          this.total = this.total + +wallet.token_total * rateValue;
-          this.claimed = this.claimed + +wallet.report.token_claimed * rateValue;
-          this.unClaimed = this.unClaimed + +wallet.report.token_claimable * rateValue;
-          this.totalNFT = this.totalNFT + +wallet.report.meta["total_nft"];
-          if (wallet.meta["total_nft_value"]) {
-            this.nftTotalValue = this.nftTotalValue + wallet.meta["total_nft_value"]
-          }
-          if (wallet.meta["high_nft_value"] && wallet.meta["high_nft_value"] > this.nftHighestValue) {
-            this.nftHighestValue = wallet.meta["high_nft_value"]
-          }
-          if (wallet.meta["low_nft_value"] && wallet.meta["low_nft_value"] < this.nftLowestValue) {
-            this.nftLowestValue = wallet.meta["low_nft_value"]
-          }
-        })
-        if (wallets.length) {
-          this.totalScholar = this.totalScholar + 1;
-        }
+      const rate = {};
+      for (let key in this.games) {
+        const game = this.games[key];
+        const token = game.meta["token_in_game"].toUpperCase();
+        const temp = this.$store.getters["config/getPriceRate"](token);
+        rate[game.id_string] = this.$store.getters["config/getPriceRate"](token);
+        rate[game.id_string] = temp ? temp['price'] : 0;
       }
+      this.$store.state.config.dashboard.forEach((wallet, i) => {
+        if (i === 0) {
+          this.nftLowestValue = wallet.nftLowestValue || 0
+        }
+        this.total = this.total + +wallet.report.token_total * rate[wallet.game];
+        this.claimed = this.claimed + +wallet.report.token_claimed * rate[wallet.game];
+        this.unClaimed = this.unClaimed + +wallet.report.token_claimable * rate[wallet.game];
+        this.totalNFT = this.totalNFT + +wallet.report.meta["total_nft"] || 0;
+        if (wallet.meta["total_nft_value"]) {
+          this.nftTotalValue = this.nftTotalValue + wallet.meta["total_nft_value"]
+        }
+        if (wallet.meta["high_nft_value"] && wallet.meta["high_nft_value"] > this.nftHighestValue) {
+          this.nftHighestValue = wallet.meta["high_nft_value"]
+        }
+        if (wallet.meta["low_nft_value"] && wallet.meta["low_nft_value"] < this.nftLowestValue) {
+          this.nftLowestValue = wallet.meta["low_nft_value"]
+        }
+      })
     },
   },
   mounted() {

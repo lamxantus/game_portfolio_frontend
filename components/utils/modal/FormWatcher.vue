@@ -173,7 +173,7 @@ export default {
           game: this.form.game
         }).then((res) => {
           this.form.id = res.id;
-          this.$gtm.push({ event: 'Add_wallet_axie' })
+          this.$gtm.push({ event: 'trackAddWallet' })
         })
       } else if (!this.done && this.form.id) {
         let checkFalse = false;

@@ -44,17 +44,18 @@
           </nuxt-link>
         </div>
         <div class="my-6" v-if="user">
-          <nuxt-link class="text-sm inline-flex items-center space-x-1 bg-[#0F43F9] rounded-3xl p-2 px-3" to="/dashboard">
+          <nuxt-link class="text-sm inline-flex items-center space-x-1 bg-[#0F43F9] rounded-3xl p-2 px-3"
+                     to="/dashboard">
             <span class="text-white">View Dashboard</span>
             <icon name="chv-right" class="m" fill="white"></icon>
           </nuxt-link>
         </div>
       </div>
-      <div class=" relative">
+      <div class="relative my-16">
         <div id="s1" class="absolute  top-0 left-0 right-0 bottom-1/2"></div>
         <div class="container">
           <div class="relative z-10">
-            <img class="mx-auto" src="/bg/macbook.png" alt="">
+            <img style="width: 80%;" class="mx-auto" src="/bg/macbook.png" alt="">
             <div class="absolute top-12 pb-6 left-0 right-0 text-center">
             </div>
           </div>
@@ -64,21 +65,21 @@
     <section>
       <div class="container">
         <div class="my-10 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6 -mx-4 md:mx-0">
-          <div class="p-4 bg-white rounded-2xl duration-300 hover:shadow-xl">
+          <div class="p-4 md:p-6 bg-white rounded-2xl duration-300 hover:shadow-xl">
             <h3 class="mb-2 text-xl font-bold flex space-x-2 items-center">
               <img src="/icon/bookmark.png" alt="">
               <span>Multi-game</span>
             </h3>
             <p>Supports not only one game but many top games of your interest with ease</p>
           </div>
-          <div class="p-4 bg-white rounded-2xl duration-30 hover:shadow-xl">
+          <div class="p-4 md:p-6 bg-white rounded-2xl duration-30 hover:shadow-xl">
             <h3 class="mb-2 text-xl font-bold flex space-x-2 items-center">
               <img src="/icon/bookmark.png" alt="">
               <span>Data-driven</span>
             </h3>
             <p>Provides useful indexes and tools to help manage your resources</p>
           </div>
-          <div class="p-4 bg-white rounded-2xl duration-300 hover:shadow-xl">
+          <div class="p-4 md:p-6 bg-white rounded-2xl duration-300 hover:shadow-xl">
             <h3 class="mb-2 text-xl font-bold flex space-x-2 items-center">
               <img src="/icon/bookmark.png" alt="">
               <span>Free-to-use</span>
@@ -87,19 +88,26 @@
           </div>
         </div>
         <div class="my-16">
-          <h2 class="mb-8 text-center text-3xl font-bold">You can now track multi-games</h2>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <h2 class="mb-8 text-center text-3xl font-bold text-white">Track all the games you love</h2>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div class="game-holder" v-for="game in games" :key="game.id">
               <div class="wrap">
-                <img class="object-cover w-full h-full rounded-xl" :src="`/bg/${game.id}.png`" alt="">
+                <img class="object-cover w-full h-full rounded-lg" :src="`/bg/${game.id}.png`" alt="">
               </div>
-              <div class="wrap flex flex-col items-center justify-center">
-                <img class="" :src="`/logo/${game.id}.png`" alt="">
+              <div class="absolute top-0 right-0 left-0 flex justify-center">
+                <div v-if="!game.date || game.date > now" class="time">
+                  <span v-if="game.date">{{ countDown(game.date - now) }}</span>
+                  <span v-else>Coming soon</span>
+                </div>
               </div>
-              <div v-if="!game.date || game.date > now" class="time">
-                <span v-if="game.date">{{ countDown(game.date - now) }}</span>
-                <span v-else>Coming soon</span>
-              </div>
+            </div>
+          </div>
+        </div>
+        <div class="my-16">
+          <h2 class="mb-8 text-center text-3xl font-bold text-white">Partnership with leading players</h2>
+          <div class="grid grid-cols-2 md:grid-cols-6 gap-4">
+            <div class="border p-4 text-center rounded-xl flex justify-center items-center" style="border-color: #3A4667;" v-for="item in partners" :key="item">
+              <img class="object-cover mx-auto rounded" :src="`/logo/${item}.png`" alt="">
             </div>
           </div>
         </div>
@@ -147,16 +155,43 @@ export default {
     return {
       wl: null,
       now: new Date().getTime(),
-      games: [{
-        id: "axie_infinity",
-        date: new Date().getTime()
-      }, {
-        id: "gunfire",
-        date: new Date("2022/03/14").getTime()
-      }, {
-        id: "mones",
-        date: null
-      }]
+      games: [
+        {
+          id: "axie_infinity",
+          date: new Date().getTime()
+        }, {
+          id: "gunfire",
+          date: new Date().getTime()
+        }, {
+          id: "mones",
+          date: null
+        }, {
+          id: "ninneko",
+          date: null
+        }, {
+          id: "metagear",
+          date: null
+        }, {
+          id: "thetan_arena",
+          date: null
+        }, {
+          id: "splinterlands",
+          date: null
+        }, {
+          id: "orbitau",
+          date: null
+        }, {
+          id: "defi_kingdoms",
+          date: null
+        }, {
+          id: "sandbox",
+          date: null
+        }, {
+          id: "cyball",
+          date: null
+        }
+      ],
+      partners: ['76', 'modgame', 'stephero', 'mones', 'acestarter', 'onepad']
     }
   },
   methods: {
@@ -247,6 +282,8 @@ export default {
 }
 
 .game-holder .time {
-  @apply absolute top-2 text-white right-2 p-0.5 px-2 bg-red-500 text-xs rounded;
+  @apply text-white p-0.5 px-2 bg-red-500 text-xs;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 </style>
