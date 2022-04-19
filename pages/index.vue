@@ -14,7 +14,7 @@
             <div class="p-2 px-3 flex space-x-2 items-center cursor-pointer  rounded text-white connect-wallet-btn"
                  @click="logIn">
               <icon class="md" name="user" fill="#d6d3d1"/>
-              <span style="font-weight: 700; color: #ACB9FF" >{{ user ? getUserName : 'Login' }}</span>
+              <span style="font-weight: 700; color: #ACB9FF">{{ user ? getUserName : 'Login' }}</span>
             </div>
           </div>
         </div>
@@ -28,14 +28,13 @@
           <h2 class="mb-4 font-bold text-lg">Enter your wallet address</h2>
           <div class="mb-4 flex justify-center" @keyup.enter="trackWallet">
             <div id="search-section" class="inline-flex items-center space-x-3">
-                <input
-                  v-model="wl"
-                  class="p-1.5 px-2 border text-black border-gray-200 rounded wallet-input" type="text" placeholder="Wallet Address"
-                >
-              <button
-                class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded justify-center flex-1"
-                @click="trackWallet"
-              >Get Started
+              <input
+                v-model="wl"
+                class="p-1.5 px-2 text-black bg-transparent wallet-input" type="text"
+                placeholder="Wallet Address"
+              >
+              <button class="p-2 cursor-pointer bg-[#0F43F9] rounded-full" @click="trackWallet">
+                <icon name="right" fill="#FFFFFF"></icon>
               </button>
             </div>
           </div>
@@ -62,7 +61,7 @@
         </div>
       </div>
     </section>
-    <section >
+    <section>
       <div class="container">
         <div class="my-10 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6 -mx-4 md:mx-0">
           <div class="p-4 bg-white rounded-2xl duration-300 hover:shadow-xl">
@@ -126,7 +125,7 @@
             </div>
             <div class="p-2 px-3 flex space-x-2 items-center cursor-pointer bg-white rounded-3xl" @click="logIn">
               <icon class="md" name="user" fill="#d6d3d1"/>
-              <span  style="font-weight: 700; color: #0F43F9">{{ user ? getUserName : 'Login' }}</span>
+              <span style="font-weight: 700; color: #0F43F9">{{ user ? getUserName : 'Login' }}</span>
             </div>
           </div>
         </div>
@@ -204,13 +203,20 @@ export default {
 <style>
 #s1 {
 }
+
 #search-section {
-
-  width: 60%;
-
+  @apply p-1;
+  background: #FFFFFF;
+  border-radius: 50px;
+  width: 50%;
 }
+
 .wallet-input {
-  width: calc(100% - 150px);
+  @apply flex-1;
+}
+
+.wallet-input:focus-visible {
+  outline: none;
 }
 
 #s1:before {
@@ -225,10 +231,12 @@ export default {
   background: #0F43F9;
 
 }
+
 .connect-wallet-btn {
   border: 1px solid #ACB9FF;
   border-radius: 20px;
 }
+
 .game-holder {
   @apply relative;
   padding-top: 50%;
