@@ -3,7 +3,9 @@
       <span class="title">
         Import Data
       </span>
-    <p class="description">You can import data from axie.management <a target="_blank" href="https://tracker.axie.management/config" style="color: #ACB9FF; text-decoration: underline">here</a>
+    <p class="description">You can import data from axie.management <a target="_blank"
+                                                                       href="https://tracker.axie.management/config"
+                                                                       style="color: #ACB9FF; text-decoration: underline">here</a>
       Please upload that (.csv) file to import data</p>
     <p class="mt-6 ml-2" style="width: 100%; font-weight: bold">File</p>
     <div class="input-file-wrapper">
@@ -26,13 +28,12 @@ export default {
     return {
       done: false,
       fileName: '',
-      data:  null,
+      data: null,
     }
   },
 
   methods: {
     ...mapActions('config', ['fetchData']),
-
     inputClick() {
       document.getElementById('input-file-hidden').click();
     },
@@ -54,8 +55,7 @@ export default {
     },
     submitImport() {
       const data = this.$store.state.config.modal.data;
-
-      this.$axios.$post(`/move?game=${data.game.id}`, {
+      this.$axios.$post(`/v2/move?game=${data.game.id}`, {
         rows: this.data
       }).then((res) => {
         this.$store.commit('config/SET_MODAL', null);
@@ -68,13 +68,12 @@ export default {
         console.log(event.target.result); // the CSV content as string
         const rs = this.csvToArray(event.target.result)
         const final = [];
-        for(const item of rs ) {
+        for (const item of rs) {
           const obj = {};
           obj.wallet = item.ronin.replace('ronin:', '0x');
-          obj.earn_ratio = item.manager/(item.total || 1);
+          obj.earn_ratio = item.manager / (item.total || 1);
           obj.meta = item;
           final.push(obj)
-
         }
         this.data = final;
       };

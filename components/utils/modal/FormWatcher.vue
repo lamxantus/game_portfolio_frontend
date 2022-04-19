@@ -22,7 +22,7 @@
               <h4 class="text-lg font-bold">{{ form.meta.name || "Unnamed" }}</h4>
               <p>{{ `${form.wallet.substr(0, 5)}...${form.wallet.substr(35, 42)}` }}</p>
             </div>
-<!--            <div class="border rounded p-1 px-2 text-xs cursor-pointer">Edit</div>-->
+            <!--            <div class="border rounded p-1 px-2 text-xs cursor-pointer">Edit</div>-->
           </div>
         </div>
         <label class="block">
@@ -119,6 +119,7 @@ export default {
       },
       form: {
         id: null,
+        game: null,
         wallet: null,
         address: null,
         meta: {
@@ -165,15 +166,14 @@ export default {
         }
         if (!Web3.utils.isAddress(this.form.wallet)) {
           this.required.wallet = true;
-
           return;
         }
-        this.$axios.$post('/watch', {
+        this.$axios.$post('/v2/watch', {
           address: this.form.wallet,
           game: this.form.game
         }).then((res) => {
           this.form.id = res.id;
-          this.$gtm.push({ event: 'Add_wallet_axie' })
+          this.$gtm.push({ event: 'trackAddWallet' })
         })
       } else if (!this.done && this.form.id) {
         let checkFalse = false;
@@ -185,8 +185,8 @@ export default {
           this.required.manager = true;
           checkFalse = true;
         }
-        if(checkFalse) return
-        this.$axios.$post('/save-watcher', {...this.form, earn_ratio: this.form.earn_ratio/100 }).then(() => {
+        if (checkFalse) return
+        this.$axios.$post('/v2/save-watcher', {...this.form, earn_ratio: this.form.earn_ratio / 100}).then(() => {
           this.done = true;
           this.fetchData({
             wallet: "dashboard"
@@ -199,7 +199,7 @@ export default {
     init() {
       const data = this.$store.state.config.modal.data;
       if (data) {
-        this.form.game = data.game.id;
+        this.form.game = data.game.id_string;
         if (data.watcher) {
           this.form.id = data.watcher.id;
           this.form.earn_ratio = data.watcher.earn_ratio * 100;

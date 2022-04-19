@@ -98,12 +98,11 @@ export default {
       this.$axios.$post('/auth/google', {
         code: this.$route.query.code,
         client_id: process.env.GOOGLE_CLIENT_ID,
-        redirect_uri: process.env.APP_URL,
-        grant_type: 'authorization_code',
-        callback: process.env.APP_URL
+        callback: process.env.APP_URL,
+        grant_type: 'authorization_code'
       }).then(res => {
         this.$w3_auth.bcConnect(res.token, res.user);
-        this.$gtm.push({ event: 'Login_gmail' })
+        this.$gtm.push({ event: 'trackLoginGmail' })
         this.$router.push('/dashboard');
       })
     }
@@ -124,7 +123,7 @@ export default {
 
 .sidebar {
   @apply bg-white h-screen hidden md:flex flex-col p-4 shadow;
-  width: 240px;
+  width: 220px;
 }
 
 .zoom-enter-active, .zoom-leave-active {
@@ -156,8 +155,8 @@ export default {
 }
 
 .container {
-  @apply mx-auto;
-  max-width: 1010px;
+  @apply mx-auto px-6 md:px-0;
+  max-width: 1100px;
 }
 
 .container.sm {

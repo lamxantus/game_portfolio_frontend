@@ -1,17 +1,16 @@
 <template>
-  <div v-if="value && value.options" class="mb-6">
+  <div v-if="value && value.meta" class="mb-6">
     <div class="mb-4">
       <div class="flex items-center justify-between  mb-3">
         <div class="flex items-center space-x-2">
           <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
             <img src="/icon/game.png" alt="">
           </div>
-          <h2 class="font-bold text-lg">{{ value.name }}</h2>
+          <h2 class="font-bold text-lg">{{ value.title }}</h2>
         </div>
         <div>
           <select id="select-options" @change="onSelectedItem">
             <option value="options" selected disabled>Options</option>
-
             <option value="add_wallet">Add wallet</option>
             <option value="import_data">Import Data</option>
             <option value="export_data">Export Data</option>
@@ -25,15 +24,19 @@
           <div class="bg" :style="{backgroundImage: `url(/bg/${value.id_string}.png)`}"></div>
           <div class="absolute top-0 left-0 right-0 bottom-0 p-4 flex flex-col">
             <div class="flex-1 flex justify-center items-center">
-              <img :src="`/logo/${value.id_string}.png`" alt="">
+              <img class="w-1/2 mx-auto" :src="`/logo/${value.id_string}.png`" alt="">
             </div>
             <div class="text-sm">
               <div class="shadow bg-white rounded-lg">
-                <div class="p-3">
-                  <span class="text-[#0F43F9]">Earning</span>
-                  <h4 class="font-extrabold text-xl mt-2">{{ analytic.earning.toLocaleString() }}</h4>
-                  <div class="font-bold">{{ value.options['token_in_game'] }}</div>
-                  <span class="text-gray-500">{{ (priceRate * analytic.earning).toLocaleString() }}$</span>
+                <div class="p-3 flex justify-between">
+                  <div>
+                    <span class="text-[#0F43F9]">Earning</span>
+                    <div class="font-bold">{{ value.meta['token_in_game'] }}</div>
+                  </div>
+                  <div>
+                    <h4 class="font-extrabold text-2xl mt-2">{{ analytic.earning.toLocaleString() }}</h4>
+                    <span class="text-gray-500">{{ (priceRate * analytic.earning).toLocaleString() }}$</span>
+                  </div>
                 </div>
                 <hr>
                 <div class="p-3 space-y-2">
@@ -41,7 +44,7 @@
                     <span>Manager</span>
                     <div class="space-y-2 text-right text-xs">
                       <div class="text-black font-bold">{{ analytic.manager.toLocaleString() }}
-                        {{ value.options['token_in_game'] }}
+                        {{ value.meta['token_in_game'] }}
                       </div>
                       <span>${{ (priceRate * analytic.manager).toLocaleString() }}</span>
                     </div>
@@ -50,7 +53,7 @@
                     <span>Scholar</span>
                     <div class="space-y-2 text-right text-xs">
                       <div class="text-black font-bold">{{ analytic.scholar.toLocaleString() }}
-                        {{ value.options['token_in_game'] }}
+                        {{ value.meta['token_in_game'] }}
                       </div>
                       <span>${{ (priceRate * analytic.scholar).toLocaleString() }}</span>
                     </div>
@@ -61,26 +64,26 @@
           </div>
         </div>
       </div>
-      <div class="bg-white flex-1 p-4 pt-0" style="position: relative; height: 375px; overflow-y: auto">
+      <div class="bg-white flex-1 p-4 pt-0" style="position: relative; height: 250px; overflow-y: auto">
         <table class="w-full table-auto text-sm table-game">
           <thead>
           <tr class="text-black font-bold uppercase text-xs leading-normal rounded">
             <th class="py-3 px-4 text-left">Name</th>
             <th class="py-3 px-4 text-left">
               <div>
-                <div>Scholar</div>
-                <span v-if="value.options" class="text-gray-400 capitalize">{{ value.options.token_in_game }}</span>
+                <b>Scholar</b>
+                <span v-if="value.meta" class="text-gray-400 capitalize">{{ value.meta.token_in_game }}</span>
               </div>
             </th>
             <th class="py-3 px-4 text-left">
               <div>
-                <div>Manager</div>
-                <span v-if="value.options" class="text-gray-400 capitalize">{{ value.options.token_in_game }}</span>
+                <b>Manager</b>
+                <span v-if="value.meta" class="text-gray-400 capitalize">{{ value.meta.token_in_game }}</span>
               </div>
             </th>
             <th class="py-3 px-4 text-left">
               <div>
-                <div>Share</div>
+                <b>Share</b>
                 <span class="text-gray-400 capitalize">Of Manager</span>
               </div>
             </th>
@@ -91,36 +94,36 @@
           </thead>
           <tbody>
           <template>
-            <tr v-for="(item, i) in value.wallets" :key="i" class="has-remove">
+            <tr v-for="(item, i) in wallets" :key="i" class="has-remove">
               <td class="py-3 px-4 text-left">
-                <nuxt-link class="text-[#0F43F9]" :to="`/dashboard/${item.address}?game=${value.id}`">
-                  {{ shortAddress(`${item.watcher.meta ? item.watcher.meta.name : 'Unnamed'}`) }}
+                <nuxt-link class="text-[#0F43F9]" :to="`/dashboard/${item.wallet}?game=${value.id_string}`">
+                  {{ shortAddress(`${item.meta ? item.meta.name : 'Unnamed'}`) }}
                 </nuxt-link>
               </td>
               <td class="py-3 px-4 text-left">{{
-                  (item.totalEarning * (1 - (item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100))).toLocaleString()
-
+                  (item.report.token_total * (1 - (item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100))).toLocaleString()
                 }}
               </td>
               <td class="py-3 px-4 text-left">{{
-                  (item.totalEarning * (item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100)).toLocaleString()
-
+                  (item.report.token_total * (item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100)).toLocaleString()
                 }}
               </td>
               <td class="py-3 px-4 text-left">
                 {{ Math.round((item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100) * 100) }}%
               </td>
-              <td class="py-3 px-4 text-left hidden md:table-cell">{{ item.elo.toLocaleString() }}</td>
-              <td class="py-3 px-4 text-left hidden md:table-cell">{{
-                  (item.win_rate.results * 100).toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                  })
-                }}%
+              <td class="py-3 px-4 text-left hidden md:table-cell">{{ item.report.point.toLocaleString() }}</td>
+              <td class="py-3 px-4 text-left hidden md:table-cell">
+                <span v-if="item.report.game_result">{{
+                    (item.report.game_result.result * 100).toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2
+                    })
+                  }}%</span>
+                <span v-else>_</span>
               </td>
               <td class="py-3 px-4 text-right">
-                <span>{{ item.totalNFT }}</span>
-                <div class="remove" @click="removeWatcher(item.watcher.id)">
+                <span>{{ item.report.meta.total_nft || 0 }}</span>
+                <div class="remove" @click="removeWatcher(item.id)">
                   <icon class="sm" fill="#FFF" name="remove"></icon>
                 </div>
               </td>
@@ -145,36 +148,33 @@ export default {
     }
   },
   computed: {
+    wallets() {
+      return this.$store.state.config.dashboard.filter(x => x.game === this.value.id_string);
+    },
     analytic() {
       let earning = 0;
       let unclaimed = 0;
       let totalNFT = 0;
-      let rv = 0;
-      let iv = 0;
       let manager = 0;
-      if (this.value.wallets) {
-        this.value.wallets.forEach(item => {
-          manager = manager + item.totalEarning * (1 - (item.earn_ratio || 1))
-          earning = +item.totalEarning + +earning;
-          unclaimed = +item.todayEarning + +unclaimed;
+      if (this.wallets) {
+        this.wallets.forEach(item => {
+          manager = manager + item.report.token_total * (1 - (item.earn_ratio || 1))
+          earning = +item.report.token_total + +earning;
+          unclaimed = +item.report.token_claimable + +unclaimed;
           totalNFT = totalNFT + item.totalNFT;
-          if (item.premium) {
-            rv = rv + item.premium.lifetime_profit;
-            iv = iv + item.premium.lifetime_invest;
-          }
         })
       }
       return {
         earning,
         unclaimed,
         totalNFT,
-        roi: iv ? rv / iv : 0,
+        roi: 0,
         manager,
         scholar: earning - manager
       }
     },
     priceRate() {
-      const obj = this.$store.getters["config/getPriceRate"](this.value.options["token_in_game"])
+      const obj = this.$store.getters["config/getPriceRate"](this.value.meta["token_in_game"])
       if (obj) {
         return obj.price
       }
@@ -200,15 +200,12 @@ export default {
       })
     },
     openFormExport() {
-
       const headers = ['Name', 'Scholar Address', 'Scholar SLP', 'Manager SLP', 'Manager Share', 'ELO', 'Win Rate', 'NFTs']
       const finalData = [];
-      this.$axios.$get(`/move?game=${this.value.id}`, ).then((res) => {
-        console.log("res", res)
+      this.$axios.$get(`/v2/move?game=${this.value.id}`, ).then((res) => {
         res.forEach((item, index) => {
           const arrayData = [item.meta ? item.meta.name : 'Unnamed', item.wallet, item.earn_scholar, item.earn_manager, `${Math.round((1 - (item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100))*100)}%`, item.elo,`${ Math.round(item.win_rate * 100*100)/100}%`, item.totalNFT || 0];
           finalData.push(arrayData.join(','));
-
         });
         let csvContent = "data:text/csv;charset=utf-8,";
         csvContent += headers.join(',');
@@ -219,7 +216,6 @@ export default {
         link.setAttribute("href", encodedUri);
         link.setAttribute("download", "tracker.csv");
         document.body.appendChild(link); // Required for FF
-
         link.click();
         setTimeout(() => {
           document.body.removeChild(link)
@@ -242,11 +238,11 @@ export default {
 <style scoped>
 .quick-report {
   @apply relative overflow-hidden;
-  padding-top: 150%;
+  padding-top: 130%;
 }
 
 #select-options {
-  padding: 8px;
+  @apply py-2 px-4 text-xs;
   background: none;
   border: 1px solid #ACB9FF;
   border-radius: 20px;

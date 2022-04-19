@@ -6,8 +6,10 @@ const wc_connector = new WalletConnect({
   bridge: "https://bridge.walletconnect.org",
   qrcodeModal: QRCodeModal,
 });
-const W3 = new Web3(window.ethereum);
-
+let W3 = null;
+if (process.client) {
+  W3 = new Web3(window.ethereum);
+}
 const CHAIN_MAPPING = {
   "56": "bsc_mainnet",
   "1": "eth_mainnet",

@@ -68,9 +68,8 @@ export default {
   methods: {
     async fetch() {
       if (this.user) {
-        this.response = await this.$axios.$get("/nfts", {
+        this.response = await this.$axios.$get("v2/tokens", {
           params: {
-            game: this.game,
             user: this.user.id || this.user.pk,
             ...this.filter
           }

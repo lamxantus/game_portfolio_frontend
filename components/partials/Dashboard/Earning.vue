@@ -1,14 +1,11 @@
 <template>
-  <div class="rounded bg-white duration-300 hover:shadow-xl p-4">
+  <div class="rounded-xl bg-white duration-300 hover:shadow-xl p-4">
     <div class="mb-4 flex justify-between">
       <div class="flex items-center space-x-2 mb-3">
         <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
           <img src="/icon/earning-large.png" alt="">
         </div>
         <h2 class="font-bold">Daily earning</h2>
-        <div v-if="false">
-          <img src="/icon/warning.png" alt="">
-        </div>
       </div>
       <div class="flex space-x-4 text-gray-300 font-bold">
         <div
@@ -21,21 +18,23 @@
       </div>
     </div>
     <div class="mb-4 flex space-x-4 items-end justify-between" style="height: 208px">
-      <canvas class="w-full" style="height: 208px" id="myChartEarning"></canvas>
+      <canvas class="w-full" style="height: 208px" ref="myChartEarning"></canvas>
     </div>
-    <div class="mb-2 flex justify-between gap-4 md:gap-8">
+    <div v-if="data.meta" class="mb-2 flex justify-between gap-4 md:gap-8">
       <div class="flex space-x-2">
         <h4 class="font-bold">Today:</h4>
         <div>
-          <div>{{ data.todayEarning.toLocaleString() }} (<span class="text-green-400">{{ data.todayEarning - data.yesterdayEarning }}</span>)</div>
-          <span> {{ (getCurrentPriceRate * data.todayEarning).toLocaleString() }}$</span>
+          <div>{{ oFormatter(data.meta.today) }} (<span
+            class="text-green-400">{{ oFormatter(data.meta.today - data.meta.yesterday) }}</span>)
+          </div>
+          <span> {{ nFormatter(getCurrentPriceRate * data.meta.today) }}</span>
         </div>
       </div>
       <div class="flex space-x-2">
         <h4 class="font-bold">Average:</h4>
         <div>
-          <div>{{ data.avg.toLocaleString() }}</div>
-          <span>{{ (data.avg * getCurrentPriceRate).toLocaleString() }}$</span>
+          <div>{{ data.meta.avg }}</div>
+          <span>{{ nFormatter(data.meta.avg * getCurrentPriceRate, 3) }}</span>
         </div>
       </div>
     </div>
@@ -72,11 +71,12 @@ export default {
   methods: {
     async loadData() {
       if (this.data.wallet) {
-        return await this.$axios.$get('/report', {
+        return await this.$axios.$get('v2/report', {
           params: {
             ...this.filter,
             wallet: this.data.wallet,
-            game: this.data.game_id
+            game: this.data.game,
+            range: this.filter.date_unit === 'w' ? 7 : 14
           }
         }).catch(() => ({}))
       }
@@ -85,7 +85,7 @@ export default {
     async draw() {
       let now = new Date();
       now = new Date(now.setDate(now.getDate() + 1));
-      const ctx = document.getElementById('myChartEarning').getContext('2d');
+      const ctx = this.$refs.myChartEarning.getContext('2d');
       if (this.chart) {
         this.chart.destroy();
       }

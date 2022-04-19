@@ -11,7 +11,7 @@
         </div>
       </div>
     </div>
-    <div class="bg-white rounded p-4 duration-300 hover:shadow-xl">
+    <div class="bg-white rounded-xl p-4 duration-300 hover:shadow-xl">
       <div class="flex justify-between items-center mb-3">
         <div class="flex space-x-2 font-bold text-gray-400">
           <div
@@ -65,29 +65,25 @@
           <td class="p-1 uppercase">{{ item.game_mode }}</td>
           <td v-if="activeGame.id_string === 'axie_infinity'" class="p-1">
             <div class="flex space-x-2">
-              <div v-for="nft in item.token_items" :key="nft.id">
-                <img class="w-28" :src="nft.media_url" alt="">
+              <div v-for="token in item.token_items" :key="token.id">
+                <img class="w-28" :src="token.media_url" alt="">
               </div>
             </div>
           </td>
           <td class="p-1 text-right">
             <div class="flex justify-between items-center">
               <div class="text-xs text-gray-500">Win</div>
-              <div>
-                <div v-for="e in item.earn_token_items" :key="e.token_item.symbol">
-                  <span class="text-xs">{{ e.value }} {{ e.token_item.symbol }}</span>
-                </div>
-              </div>
+              <span class="text-xs">{{ item.token }} {{ activeGame.meta.token_in_game }}</span>
             </div>
             <div class="flex justify-between items-center">
               <div class="text-xs text-gray-500">ELO</div>
-              <div>{{ item.earn_elo }}</div>
+              <div>{{ item.point }}</div>
             </div>
           </td>
           <td class="p-1" v-if="filter.game_mode === 'pve'">
             <div class="flex space-x-2">
-              <div v-for="nft in item.opponents" :key="nft.id">
-                <img class="w-28" :src="nft.media_url" alt="">
+              <div v-for="token in item.opponents" :key="token.id">
+                <img class="w-28" :src="token.media_url" alt="">
               </div>
             </div>
           </td>
@@ -137,15 +133,15 @@ export default {
       handler: function () {
         this.fetchGameTX({
           ...this.filter,
-          wallet: this.data.wallet,
+          wallet: this.$route.params.wallet,
           game: this.$route.query.game
         })
       }
     },
-    "data.wallet"() {
+    "$route.params.wallet"() {
       this.fetchGameTX({
         ...this.filter,
-        wallet: this.data.wallet,
+        wallet: this.$route.params.wallet,
         game: this.$route.query.game
       })
     }
@@ -161,6 +157,13 @@ export default {
         this.filter.page--
       }
     }
+  },
+  mounted() {
+    this.fetchGameTX({
+      ...this.filter,
+      wallet: this.$route.params.wallet,
+      game: this.$route.query.game
+    })
   }
 }
 </script>
