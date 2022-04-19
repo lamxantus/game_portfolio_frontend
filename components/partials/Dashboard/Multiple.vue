@@ -166,13 +166,13 @@ export default {
         this.claimed = this.claimed + +wallet.report.token_claimed * rate[wallet.game];
         this.unClaimed = this.unClaimed + +wallet.report.token_claimable * rate[wallet.game];
         this.totalNFT = this.totalNFT + +wallet.report.meta["total_nft"] || 0;
-        if (wallet.meta["total_nft_value"]) {
+        if (wallet.meta && wallet.meta["total_nft_value"]) {
           this.nftTotalValue = this.nftTotalValue + wallet.meta["total_nft_value"]
         }
-        if (wallet.meta["high_nft_value"] && wallet.meta["high_nft_value"] > this.nftHighestValue) {
+        if (wallet.meta && wallet.meta["high_nft_value"] && wallet.meta["high_nft_value"] > this.nftHighestValue) {
           this.nftHighestValue = wallet.meta["high_nft_value"]
         }
-        if (wallet.meta["low_nft_value"] && wallet.meta["low_nft_value"] < this.nftLowestValue) {
+        if (wallet.meta && wallet.meta["low_nft_value"] && wallet.meta["low_nft_value"] < this.nftLowestValue) {
           this.nftLowestValue = wallet.meta["low_nft_value"]
         }
       })

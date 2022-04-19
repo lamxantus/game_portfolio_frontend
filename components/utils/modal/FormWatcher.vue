@@ -1,18 +1,28 @@
 <template>
-  <div style="height: 100%" class="pb-2">
+  <div class="pb-2">
     <h1 class="text-xl mb-4 text-center font-bold">
       <span v-if="!form.id">Add Wallet</span>
       <span v-else-if="!done">Change Wallet Information</span>
     </h1>
     <div v-if="!done" class="space-y-3" style="width: 35%; min-width: 350px">
+      <label v-if="!$store.state.config.modal.data.game" class="block">
+        <span class="mx-2 block text-sm font-bold mb-2">Game</span>
+        <select v-model="form.game" class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl" type="text">
+          <option
+            v-for="item in Object.keys($store.state.config.games)"
+            :key="item" :value="item"
+          >{{ $store.state.config.games[item].title }}
+          </option>
+        </select>
+        <span class="mx-2 block text-sm mb-2 mt-1" style="color: red" v-if="required.game">Please select a game</span>
+      </label>
       <label v-if="!form.id" class="block">
         <span class="mx-2 block text-sm font-bold mb-2">Wallet address</span>
         <input
           v-model="form.wallet" class="w-full p-1.5 px-4 border border-[#DDE0F7] rounded-xl" type="text"
           @focus="inputFocus('wallet')"
           placeholder="Wallet Address">
-        <span class="mx-2 block text-sm mb-2 mt-1" style="color: red" v-if="this.required.wallet">This wallet address is invalid!</span>
-
+        <span class="mx-2 block text-sm mb-2 mt-1" style="color: red" v-if="required.wallet">This wallet address is invalid!</span>
       </label>
       <template v-else-if="!done">
         <div class="block ">
@@ -159,6 +169,9 @@ export default {
     },
     action() {
       if (!this.form.id) {
+        if (!this.form.game) {
+          return;
+        }
         if (!this.form.wallet) {
           return
         } else {
@@ -173,7 +186,7 @@ export default {
           game: this.form.game
         }).then((res) => {
           this.form.id = res.id;
-          this.$gtm.push({ event: 'trackAddWallet' })
+          this.$gtm.push({event: 'trackAddWallet'})
         })
       } else if (!this.done && this.form.id) {
         let checkFalse = false;
@@ -199,7 +212,9 @@ export default {
     init() {
       const data = this.$store.state.config.modal.data;
       if (data) {
-        this.form.game = data.game.id_string;
+        if (data.game) {
+          this.form.game = data.game.id_string;
+        }
         if (data.watcher) {
           this.form.id = data.watcher.id;
           this.form.earn_ratio = data.watcher.earn_ratio * 100;
@@ -221,9 +236,6 @@ export default {
   created() {
     this.init()
   },
-  mounted() {
-    document.getElementById('modal-container').style.height = '100%'
-  }
 }
 </script>
 

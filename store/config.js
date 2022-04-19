@@ -195,6 +195,14 @@ export default {
           wallet: wallet,
           data: res
         })
+        if (wallet === 'dashboard' && res.length === 0) {
+          commit('config/SET_MODAL', {
+            type: "add_wallet",
+            data: {
+              game: null
+            }
+          }, { root: true })
+        }
       }
     },
     async fetchGameTX({commit, state}, params) {
