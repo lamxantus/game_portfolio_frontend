@@ -191,7 +191,7 @@ export default {
           date: null
         }
       ],
-      partners: ['76', 'modgame', 'stephero', 'mones', 'acestarter', 'onepad']
+      partners: ['76', 'modgame', 'stephero', 'mones', 'acestarter', 'factory_chain']
     }
   },
   methods: {
