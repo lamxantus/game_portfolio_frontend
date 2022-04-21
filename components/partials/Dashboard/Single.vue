@@ -205,7 +205,9 @@ export default {
     },
     refresh() {
       this.fetchData({
-        wallet: this.data.wallet, game: this.data.game, force: true
+        wallet: this.data.wallet,
+        game_id: this.data.game,
+        force: true
       });
     },
     trackWallet() {

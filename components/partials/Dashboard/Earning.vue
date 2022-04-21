@@ -90,82 +90,81 @@ export default {
         this.chart.destroy();
       }
       const res = await this.loadData();
-      // START CALCULATE
-
-      // END CALCULATE
-      this.chart = new Chart(ctx, {
-        type: 'bar',
-        interaction: {
-          intersect: false,
-        },
-        data: {
-          labels: Object.keys(res).map((x, i) => {
-            const arr = x.split("-");
-            arr.shift();
-            if (i % 2) {
-              return ''
-            } else {
-              return arr.join("-")
-            }
-          }),
-          datasets: [{
-            barPercentage: 0.6,
-            label: 'SLPs',
-            data: Object.values(res).map(x => {
-              return x.token
+      if (Object.values(res).length) {
+        this.chart = new Chart(ctx, {
+          type: 'bar',
+          interaction: {
+            intersect: false,
+          },
+          data: {
+            labels: Object.keys(res).map((x, i) => {
+              const arr = x.split("-");
+              arr.shift();
+              if (i % 2) {
+                return ''
+              } else {
+                return arr.join("-")
+              }
             }),
-            backgroundColor: ['#DDDDDD'],
-            borderRadius: Number.MAX_VALUE,
-            borderSkipped: false,
-            order: 2
-          }, {
-            barPercentage: 0.6,
-            label: 'ELOs',
-            data: Object.values(res).map(x => {
-              return x.exp
-            }),
-            backgroundColor: ['#FFA800'],
-            borderColor: '#FFA800',
-            type: 'line',
-            order: 1,
-            lineTension: 0.5
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            x: {
-              grid: {
+            datasets: [{
+              barPercentage: 0.6,
+              label: 'SLPs',
+              data: Object.values(res).map(x => {
+                return x.token
+              }),
+              backgroundColor: ['#DDDDDD'],
+              borderRadius: Number.MAX_VALUE,
+              borderSkipped: false,
+              order: 2
+            }, {
+              barPercentage: 0.6,
+              label: 'ELOs',
+              data: Object.values(res).map(x => {
+                return x.exp
+              }),
+              backgroundColor: ['#FFA800'],
+              borderColor: '#FFA800',
+              type: 'line',
+              order: 1,
+              lineTension: 0.5
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: {
+                grid: {
+                  display: false,
+                  drawBorder: false,
+                  drawOnChartArea: false,
+                  drawTicks: false,
+                }
+              },
+              y: {
+                ticks: {
+                  display: false
+                },
+                beginAtZero: false,
+                grid: {
+                  display: false,
+                  drawBorder: false,
+                  drawOnChartArea: false,
+                  drawTicks: false,
+                },
+              },
+            },
+            plugins: {
+              legend: {
                 display: false,
-                drawBorder: false,
-                drawOnChartArea: false,
-                drawTicks: false,
+              },
+              title: {
+                display: false,
               }
             },
-            y: {
-              ticks: {
-                display: false
-              },
-              beginAtZero: false,
-              grid: {
-                display: false,
-                drawBorder: false,
-                drawOnChartArea: false,
-                drawTicks: false,
-              },
-            },
-          },
-          plugins: {
-            legend: {
-              display: false,
-            },
-            title: {
-              display: false,
-            }
-          },
-        }
-      });
+          }
+        });
+      }
     }
   },
   computed: {
