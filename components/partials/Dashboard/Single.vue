@@ -58,7 +58,7 @@
                   <h4 class="mb-2 text-[#00A3FF]">Next Claim</h4>
                   <div class="font-bold text-4xl">
                     <span v-if="data.next_claim_date">{{ nextClaimDate }}</span>
-                    <span v-else class="text-gray-300">Unknown</span>
+                    <span v-else class="text-gray-300">Now</span>
                   </div>
                   <div v-if="data.next_claim_date">{{ (new Date(data.next_claim_date)).toLocaleTimeString() }}</div>
                 </div>
@@ -176,14 +176,14 @@ export default {
       const now = new Date()
       if (this.data.next_claim_date) {
         const date = new Date(this.data.next_claim_date)
-        date.setDate(date.getDate() + 7);
+        date.setDate(date.getDate() + this.ag.meta.claimITV);
         if (date.getTime() <= now.getTime()) {
           return "Now"
         } else {
           return date.toLocaleDateString()
         }
       }
-      return "Unknown"
+      return "Now"
     },
     ag() {
       const cfStore = this.$store.state.config

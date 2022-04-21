@@ -111,7 +111,7 @@
               <td class="py-3 px-4 text-left">
                 {{ Math.round((item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100) * 100) }}%
               </td>
-              <td class="py-3 px-4 text-left hidden md:table-cell">{{ item.report.point.toLocaleString() }}</td>
+              <td class="py-3 px-4 text-left hidden md:table-cell">{{ (item.report.point || 0).toLocaleString() }}</td>
               <td class="py-3 px-4 text-left hidden md:table-cell">
                 <span v-if="item.report.game_result">{{
                     (item.report.game_result.result * 100).toLocaleString(undefined, {
@@ -122,7 +122,7 @@
                 <span v-else>_</span>
               </td>
               <td class="py-3 px-4 text-right">
-                <span>{{ item.report.meta.total_nft || 0 }}</span>
+                <span>{{ item.report.meta ? item.report.meta.total_nft || 0 : 0 }}</span>
                 <div class="remove" @click="removeWatcher(item.id)">
                   <icon class="sm" fill="#FFF" name="remove"></icon>
                 </div>

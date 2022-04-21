@@ -165,7 +165,9 @@ export default {
         this.total = this.total + +wallet.report.token_total * rate[wallet.game];
         this.claimed = this.claimed + +wallet.report.token_claimed * rate[wallet.game];
         this.unClaimed = this.unClaimed + +wallet.report.token_claimable * rate[wallet.game];
-        this.totalNFT = this.totalNFT + +wallet.report.meta["total_nft"] || 0;
+        if (wallet.report.meta && wallet.report.meta["total_nft"]) {
+          this.totalNFT = this.totalNFT + +wallet.report.meta["total_nft"] || 0;
+        }
         if (wallet.meta && wallet.meta["total_nft_value"]) {
           this.nftTotalValue = this.nftTotalValue + wallet.meta["total_nft_value"]
         }

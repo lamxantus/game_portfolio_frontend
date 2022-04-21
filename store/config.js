@@ -93,7 +93,8 @@ export default {
         title: "Axie Infinity",
         description: "Build up a collection and use them across an ever expanding universe of games! Axie Infinity uses cutting edge technology called Blockchain to reward players",
         meta: {
-          token_in_game: "SLP"
+          token_in_game: "SLP",
+          claimITV: 7
         },
         id_string: "axie_infinity"
       },
@@ -102,7 +103,8 @@ export default {
         title: "Gunfire Hero",
         description: "Gunfire Hero is the second blockchain game in the Step Hero Play-to-earn Multiverse.",
         meta: {
-          token_in_game: "STEP"
+          token_in_game: "STEP",
+          claimITV: 3
         },
         id_string: "gunfire"
       }

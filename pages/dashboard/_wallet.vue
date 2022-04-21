@@ -45,7 +45,7 @@
         <div class="mt-4">
           <div class="flex justify-between mb-2">
             <h4>Share</h4>
-            <span class="font-bold">{{ toBN( data.earn_ratio ) }}%</span>
+            <span class="font-bold">{{ toBN(watcher.earn_ratio) }}%</span>
           </div>
           <div class="w-full bg-[#0F43F9] h-2 rounded-xl">
             <div class="bg-[#FFA800] h-2 rounded-xl" :style="{width: `${(watcher.earn_ratio * 100) > 100 ? 100 : watcher.earn_ratio * 100}%`}"></div>
