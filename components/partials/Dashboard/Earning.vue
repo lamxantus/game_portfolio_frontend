@@ -108,7 +108,7 @@ export default {
             }),
             datasets: [{
               barPercentage: 0.6,
-              label: 'SLPs',
+              label: this.$store.state.config.games[this.$store.state.config.activeGame].meta.token_in_game,
               data: Object.values(res).map(x => {
                 return x.token
               }),
