@@ -86,11 +86,11 @@ export default {
       let now = new Date();
       now = new Date(now.setDate(now.getDate() + 1));
       const ctx = this.$refs.myChartEarning.getContext('2d');
-      if (this.chart) {
-        this.chart.destroy();
-      }
       const res = await this.loadData();
       if (Object.values(res).length) {
+        if (this.chart) {
+          this.chart.destroy();
+        }
         this.chart = new Chart(ctx, {
           type: 'bar',
           interaction: {
