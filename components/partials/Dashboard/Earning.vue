@@ -18,13 +18,15 @@
       </div>
     </div>
     <div class="mb-4 flex space-x-4 items-end justify-between" style="height: 208px">
-      <canvas class="w-full" style="height: 208px" id="myChartEarning"></canvas>
+      <canvas class="w-full" style="height: 208px" ref="myChartEarning"></canvas>
     </div>
     <div v-if="data.meta" class="mb-2 flex justify-between gap-4 md:gap-8">
       <div class="flex space-x-2">
         <h4 class="font-bold">Today:</h4>
         <div>
-          <div>{{ oFormatter(data.meta.today) }} (<span class="text-green-400">{{ oFormatter(data.meta.today - data.meta.yesterday) }}</span>)</div>
+          <div>{{ oFormatter(data.meta.today) }} (<span
+            class="text-green-400">{{ oFormatter(data.meta.today - data.meta.yesterday) }}</span>)
+          </div>
           <span> {{ nFormatter(getCurrentPriceRate * data.meta.today) }}</span>
         </div>
       </div>
@@ -73,7 +75,8 @@ export default {
           params: {
             ...this.filter,
             wallet: this.data.wallet,
-            game: this.data.game
+            game: this.data.game,
+            range: this.filter.date_unit === 'w' ? 7 : 14
           }
         }).catch(() => ({}))
       }
@@ -82,87 +85,86 @@ export default {
     async draw() {
       let now = new Date();
       now = new Date(now.setDate(now.getDate() + 1));
-      const ctx = document.getElementById('myChartEarning').getContext('2d');
-      if (this.chart) {
-        this.chart.destroy();
-      }
+      const ctx = this.$refs.myChartEarning.getContext('2d');
       const res = await this.loadData();
-      // START CALCULATE
-
-      // END CALCULATE
-      this.chart = new Chart(ctx, {
-        type: 'bar',
-        interaction: {
-          intersect: false,
-        },
-        data: {
-          labels: Object.keys(res).map((x, i) => {
-            const arr = x.split("-");
-            arr.shift();
-            if (i % 2) {
-              return ''
-            } else {
-              return arr.join("-")
-            }
-          }),
-          datasets: [{
-            barPercentage: 0.6,
-            label: 'SLPs',
-            data: Object.values(res).map(x => {
-              return x.token
+      if (Object.values(res).length) {
+        if (this.chart) {
+          this.chart.destroy();
+        }
+        this.chart = new Chart(ctx, {
+          type: 'bar',
+          interaction: {
+            intersect: false,
+          },
+          data: {
+            labels: Object.keys(res).map((x, i) => {
+              const arr = x.split("-");
+              arr.shift();
+              if (i % 2) {
+                return ''
+              } else {
+                return arr.join("-")
+              }
             }),
-            backgroundColor: ['#DDDDDD'],
-            borderRadius: Number.MAX_VALUE,
-            borderSkipped: false,
-            order: 2
-          }, {
-            barPercentage: 0.6,
-            label: 'ELOs',
-            data: Object.values(res).map(x => {
-              return x.exp
-            }),
-            backgroundColor: ['#FFA800'],
-            borderColor: '#FFA800',
-            type: 'line',
-            order: 1,
-            lineTension: 0.5
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            x: {
-              grid: {
+            datasets: [{
+              barPercentage: 0.6,
+              label: this.$store.state.config.games[this.$store.state.config.activeGame].meta.token_in_game,
+              data: Object.values(res).map(x => {
+                return x.token
+              }),
+              backgroundColor: ['#DDDDDD'],
+              borderRadius: Number.MAX_VALUE,
+              borderSkipped: false,
+              order: 2
+            }, {
+              barPercentage: 0.6,
+              label: 'ELOs',
+              data: Object.values(res).map(x => {
+                return x.exp
+              }),
+              backgroundColor: ['#FFA800'],
+              borderColor: '#FFA800',
+              type: 'line',
+              order: 1,
+              lineTension: 0.5
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: {
+                grid: {
+                  display: false,
+                  drawBorder: false,
+                  drawOnChartArea: false,
+                  drawTicks: false,
+                }
+              },
+              y: {
+                ticks: {
+                  display: false
+                },
+                beginAtZero: false,
+                grid: {
+                  display: false,
+                  drawBorder: false,
+                  drawOnChartArea: false,
+                  drawTicks: false,
+                },
+              },
+            },
+            plugins: {
+              legend: {
                 display: false,
-                drawBorder: false,
-                drawOnChartArea: false,
-                drawTicks: false,
+              },
+              title: {
+                display: false,
               }
             },
-            y: {
-              ticks: {
-                display: false
-              },
-              beginAtZero: false,
-              grid: {
-                display: false,
-                drawBorder: false,
-                drawOnChartArea: false,
-                drawTicks: false,
-              },
-            },
-          },
-          plugins: {
-            legend: {
-              display: false,
-            },
-            title: {
-              display: false,
-            }
-          },
-        }
-      });
+          }
+        });
+      }
     }
   },
   computed: {

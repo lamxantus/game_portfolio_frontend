@@ -1,11 +1,11 @@
 <template>
-  <div class="bg-white rounded-2xl duration-300 hover:shadow-xl p-4 h-full">
+  <div class="bg-white rounded-xl duration-300 hover:shadow-xl p-4 h-full">
     <div class="mb-4 flex justify-between">
       <div class="flex items-center space-x-2 mb-3">
         <div class="rounded-full w-8 h-8 shadow-lg bg-white p-2">
           <img src="/icon/statistic.png" alt="">
         </div>
-        <h2 class="font-bold text-lg">Today statistic</h2>
+        <h2 class="font-bold">Today statistic</h2>
       </div>
     </div>
     <div class="">
@@ -20,7 +20,9 @@
       <div v-if="data.meta && data.meta.energy">
         <div class="flex justify-between mb-2">
           <h4 class="font-bold">Energy</h4>
-          <span class="font-bold">{{ data.meta.energy.balance - data.meta.energy.spent }}/{{ data.meta.energy.balance }}</span>
+          <span class="font-bold">{{ data.meta.energy.balance - data.meta.energy.spent }}/{{
+              data.meta.energy.balance
+            }}</span>
         </div>
         <div class="w-full bg-gray-50 h-3 rounded-xl">
           <div class="bg-[#FFA800] h-3 rounded-xl" :style="{
@@ -61,7 +63,7 @@
           </div>
         </div>
         <div class="w-1/3">
-          <canvas id="myChart"></canvas>
+          <canvas ref="myChart"></canvas>
         </div>
       </div>
     </div>
@@ -162,7 +164,7 @@ export default {
           }]
         };
         chart = new Chart(
-          document.getElementById('myChart'),
+          this.$refs.myChart,
           {
             type: 'doughnut',
             data: data,

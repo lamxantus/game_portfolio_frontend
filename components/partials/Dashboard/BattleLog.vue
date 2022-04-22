@@ -49,9 +49,9 @@
         <tr class="font-bold rounded">
           <td class="p-1 w-1/4 text-left">Date</td>
           <td class="p-1">Mode</td>
-          <td v-if="activeGame.id_string === 'axie_infinity'" class="p-1 w-1/3">My Team</td>
+          <td v-if="false" class="p-1 w-1/3">My Team</td>
           <td class="p-1 w-1/5 text-right">Result</td>
-          <td class="p-1 w-1/3" v-if="filter.game_mode === 'pve'">Opponent</td>
+          <td class="p-1 w-1/3" v-if="false">Opponent</td>
         </tr>
         </thead>
         <tbody>
@@ -63,7 +63,7 @@
             </p>
           </td>
           <td class="p-1 uppercase">{{ item.game_mode }}</td>
-          <td v-if="activeGame.id_string === 'axie_infinity'" class="p-1">
+          <td v-if="false" class="p-1">
             <div class="flex space-x-2">
               <div v-for="token in item.token_items" :key="token.id">
                 <img class="w-28" :src="token.media_url" alt="">
@@ -80,7 +80,7 @@
               <div>{{ item.point }}</div>
             </div>
           </td>
-          <td class="p-1" v-if="filter.game_mode === 'pve'">
+          <td class="p-1" v-if="false">
             <div class="flex space-x-2">
               <div v-for="token in item.opponents" :key="token.id">
                 <img class="w-28" :src="token.media_url" alt="">

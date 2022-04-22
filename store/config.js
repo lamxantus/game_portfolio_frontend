@@ -93,7 +93,8 @@ export default {
         title: "Axie Infinity",
         description: "Build up a collection and use them across an ever expanding universe of games! Axie Infinity uses cutting edge technology called Blockchain to reward players",
         meta: {
-          token_in_game: "SLP"
+          token_in_game: "SLP",
+          claimITV: 7
         },
         id_string: "axie_infinity"
       },
@@ -102,7 +103,8 @@ export default {
         title: "Gunfire Hero",
         description: "Gunfire Hero is the second blockchain game in the Step Hero Play-to-earn Multiverse.",
         meta: {
-          token_in_game: "STEP"
+          token_in_game: "STEP",
+          claimITV: 3
         },
         id_string: "gunfire"
       }
@@ -172,7 +174,7 @@ export default {
     }
   },
   actions: {
-    async fetchData({commit, state}, {wallet, game_id}) {
+    async fetchData({commit, state}, {wallet, game_id, force}) {
       if (wallet === "random") {
         const gi = Math.floor(Math.random() * 2)
         wallet = SAMPLE_RANDOM[gi][Math.floor(Math.random() * SAMPLE_RANDOM[gi].length)]
@@ -186,15 +188,23 @@ export default {
       wallet = wallet.replace("ronin:", "0x");
       const res = await this.$axios.$get(`/v2/${wallet}`, {
         params: {
-          game: game_id
+          game: game_id,
+          force: force
         }
       });
       if (res) {
-        console.log(res);
         commit("SET_DATA", {
           wallet: wallet,
           data: res
         })
+        if (wallet === 'dashboard' && res.length === 0) {
+          commit('config/SET_MODAL', {
+            type: "add_wallet",
+            data: {
+              game: null
+            }
+          }, { root: true })
+        }
       }
     },
     async fetchGameTX({commit, state}, params) {
@@ -207,7 +217,7 @@ export default {
       commit('SET_GAME_TX', res);
     },
     async fetchGameRS({commit, state}, params) {
-      const res = await this.$axios.$get('/game-result', {
+      const res = await this.$axios.$get('/v2/game-result', {
         params: {
           ...params
         }

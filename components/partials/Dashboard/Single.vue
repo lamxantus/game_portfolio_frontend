@@ -1,16 +1,21 @@
 <template>
-  <div class="my-4">
-    <p v-if="!data.wallet" class="mb-4 bg-green-300 p-3 border rounded">This wallet data on the road, please be patient!</p>
-    <div class="md:flex justify-between mb-4">
-      <div v-if="!user" class="w-full mb-3 flex items-center flex-1">
-        <label class="mr-4 w-1/3">
-          <input v-model="search" class="w-full p-1.5 px-3 border border-[#DDE0F7] rounded-xl" type="text" placeholder="Track for wallet Address">
+  <div class="my-6">
+    <p v-if="!data.wallet" class="mb-4 bg-green-300 p-3 border rounded">This wallet data on the road, please be
+      patient!</p>
+    <div v-if="!user" class="md:flex justify-between mb-4">
+      <div class="w-full mb-3 md:mb-0 flex items-center flex-1 space-x-4">
+        <label class="w-1/3">
+          <input v-model="search" class="w-full p-2 px-3 border border-[#DDE0F7] rounded-xl" type="text"
+                 placeholder="Track for wallet Address">
         </label>
         <button
-          class="p-1.5 px-3 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded-xl"
+          class="p-2 px-3 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded-xl"
           @click="trackWallet()"
         >Search
         </button>
+        <div v-if="data.wallet" class="p-2.5 cursor-pointer border border rounded-xl" @click="refresh()">
+          <icon name="refresh"></icon>
+        </div>
       </div>
       <div class="text-sm inline-flex items-center space-x-2 cursor-pointer" @click="random">
         <span>View random wallet</span>
@@ -34,7 +39,8 @@
                   <h4 class="mb-2 text-[#0F43F9]">Unclaimed</h4>
                   <div class="font-bold text-4xl">{{ oFormatter(data.token_claimable) }}</div>
                   <div>{{ ag.meta.token_in_game }}</div>
-                  <span v-if="data.unclaimed" class="text-gray-500">{{ pFormatter(getCurrentPriceRate * data.token_claimable) }}</span>
+                  <span v-if="data.unclaimed"
+                        class="text-gray-500">{{ pFormatter(getCurrentPriceRate * data.token_claimable) }}</span>
                 </div>
                 <div class="border-l p-4 border-[#F7F8FF]">
                   <h4 class="mb-2 text-[#10CE00]">Claimed</h4>
@@ -52,7 +58,7 @@
                   <h4 class="mb-2 text-[#00A3FF]">Next Claim</h4>
                   <div class="font-bold text-4xl">
                     <span v-if="data.next_claim_date">{{ nextClaimDate }}</span>
-                    <span v-else class="text-gray-300">Unknown</span>
+                    <span v-else class="text-gray-300">Now</span>
                   </div>
                   <div v-if="data.next_claim_date">{{ (new Date(data.next_claim_date)).toLocaleTimeString() }}</div>
                 </div>
@@ -170,14 +176,14 @@ export default {
       const now = new Date()
       if (this.data.next_claim_date) {
         const date = new Date(this.data.next_claim_date)
-        date.setDate(date.getDate() + 7);
+        date.setDate(date.getDate() + this.ag.meta.claimITV);
         if (date.getTime() <= now.getTime()) {
           return "Now"
         } else {
           return date.toLocaleDateString()
         }
       }
-      return "Unknown"
+      return "Now"
     },
     ag() {
       const cfStore = this.$store.state.config
@@ -197,12 +203,19 @@ export default {
         wallet: "random", game_id: undefined
       });
     },
+    refresh() {
+      this.fetchData({
+        wallet: this.data.wallet,
+        game_id: this.data.game,
+        force: true
+      });
+    },
     trackWallet() {
       if (this.search) {
         const x = this.search.replace("ronin:", "0x");
         this.search = x;
         if (Web3.utils.isAddress(x)) {
-          this.$router.push(`/dashboard/${x}?game=1`);
+          this.$router.push(`/dashboard/${x}`);
         } else {
           this.$store.commit('config/PUSH_NOTIFY', {
             msg: "Please input a valid address",

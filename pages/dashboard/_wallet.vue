@@ -30,63 +30,67 @@
         <dashboard-single v-else/>
       </div>
     </div>
-    <div v-if="data && data.wallet && data.watcher && isWallet" class="bg-[#DDE0F64D] w-full md:w-64 p-4 py-8">
-      <div class="flex items-center space-x-3">
-        <div class="text-4xl bg-[#ACB9FF] p-1.5 w-12 h-12 rounded-full">🤨</div>
-        <div class="flex-1">
-          <h4 class="text-lg font-bold">{{ data.watcher.meta ? data.watcher.meta.name : "Unnamed" }}</h4>
-          <div class="address_section">
-            <p class="short_address" @copy="copyAddress" >{{ shortAddress(data.wallet) }}</p>
+    <div v-if="data && data.wallet && watcher && isWallet" class="bg-[#DDE0F64D] w-full md:w-64 p-4 py-8">
+      <template v-if="watcher">
+        <div class="flex items-center space-x-3">
+          <div class="text-4xl bg-[#ACB9FF] p-1.5 w-12 h-12 rounded-full">🤨</div>
+          <div class="flex-1">
+            <h4 class="text-lg font-bold">{{ data.meta ? data.meta.name : "Unnamed" }}</h4>
+            <div class="address_section">
+              <p class="short_address" @copy="copyAddress" >{{ shortAddress(data.wallet) }}</p>
+            </div>
+          </div>
+          <div class="border rounded p-1 px-2 text-xs cursor-pointer" @click="edit">Edit</div>
+        </div>
+        <div class="mt-4">
+          <div class="flex justify-between mb-2">
+            <h4>Share</h4>
+            <span class="font-bold">{{ toBN(watcher.earn_ratio) }}%</span>
+          </div>
+          <div class="w-full bg-[#0F43F9] h-2 rounded-xl">
+            <div class="bg-[#FFA800] h-2 rounded-xl" :style="{width: `${(watcher.earn_ratio * 100) > 100 ? 100 : watcher.earn_ratio * 100}%`}"></div>
           </div>
         </div>
-        <div class="border rounded p-1 px-2 text-xs cursor-pointer" @click="edit">Edit</div>
-      </div>
-      <div class="mt-4">
-        <div class="flex justify-between mb-2">
-          <h4>Share</h4>
-          <span class="font-bold">{{ toBN( data.watcher.earn_ratio ) }}%</span>
-        </div>
-        <div class="w-full bg-[#0F43F9] h-2 rounded-xl">
-          <div class="bg-[#FFA800] h-2 rounded-xl" :style="{width: `${(data.watcher.earn_ratio * 100) > 100 ? 100 : data.watcher.earn_ratio * 100}%`}"></div>
-        </div>
-      </div>
+      </template>
       <hr class="my-4 border-[#ACB9FF50]"/>
       <div >
-        <div class="flex justify-between items-center mb-2">
-          <h4>Name</h4>
-          <div v-if="data.watcher.meta" class="font-bold">{{ data.watcher.meta.name }}</div>
-        </div>
-        <div class="flex justify-between items-center mb-2">
-          <h4>Phone</h4>
-          <div v-if="data.watcher.meta" class="font-bold">{{ data.watcher.meta.phone }}</div>
-        </div>
-        <div class="flex justify-between items-center mb-2 space-x-6">
-          <h4>Address</h4>
-          <div v-if="data.watcher.meta" class="font-bold">{{ data.watcher.meta.address }}</div>
-        </div>
-        <div class="flex justify-between items-center mb-2">
-          <h4>Telegram</h4>
-          <div class="font-bold">0987654321</div>
-        </div>
-        <div class="flex justify-between items-center mb-2">
-          <h4>Payout Address</h4>
-          <div v-if="data.watcher.meta && data.watcher.meta.payout_address" class="font-bold">
-            {{
-              `${data.watcher.meta.payout_address.substr(0, 5)}...${data.watcher.meta.payout_address.substr(35, 42)}`
-            }}
+        <template v-if="watcher">
+          <div class="flex justify-between mb-2">
+            <h4>Name</h4>
+            <div v-if="watcher.meta" class="font-bold">{{ watcher.meta.name }}</div>
           </div>
-        </div>
-        <div>
-          <div class="flex justify-between items-center mb-2">
-            <h4>Note</h4>
+          <div class="flex justify-between mb-2">
+            <h4>Phone</h4>
+            <div v-if="watcher.meta" class="font-bold">{{ watcher.meta.phone }}</div>
           </div>
-          <div v-if="data.watcher.meta" class="h-32 italic text-sm">{{ data.watcher.meta.note }}</div>
-        </div>
+          <div class="flex justify-between mb-2 space-x-6">
+            <h4>Address</h4>
+            <div v-if="watcher.meta" class="font-bold">{{ watcher.meta.address }}</div>
+          </div>
+          <div v-if="watcher.meta" class="flex justify-between mb-2">
+            <h4>Telegram</h4>
+            <div class="font-bold">{{watcher.meta.telegram}}</div>
+          </div>
+          <div class="flex justify-between mb-2">
+            <h4>Payout Address</h4>
+            <div v-if="watcher.meta && watcher.meta.payout_address" class="font-bold">
+              {{
+                `${watcher.meta.payout_address.substr(0, 5)}...${watcher.meta.payout_address.substr(35, 42)}`
+              }}
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between mb-2">
+              <h4>Note</h4>
+            </div>
+            <div v-if="watcher.meta" class="h-32 italic text-sm">{{ watcher.meta.note }}</div>
+          </div>
+        </template>
         <hr class="my-4 border-[#ACB9FF50]"/>
-        <div class="grid grid-cols-3 gap-3">
-          <div v-for="item in data.related" :key="item.id" class="has-remove">
+        <div class="grid grid-cols-2 gap-3">
+          <div v-for="item in data.watchers" :key="item.id" class="has-remove">
             <nuxt-link
-              :to="`/dashboard/${item.wallet}?game=${$route.query.game}`"
+              :to="`/dashboard/${item.wallet}?game=${item.game}`"
               class="p-2 py-4 bg-white rounded-xl hover:shadow-xl cursor-pointer block"
             >
               <div class="text-4xl bg-[#ACB9FF] p-1.5 w-12 h-12 rounded-full mx-auto mb-3">🤨</div>
@@ -128,6 +132,12 @@ export default {
     },
     data() {
       return this.$store.state.config.wallet
+    },
+    watcher() {
+      if (this.data.watchers) {
+        return this.data.watchers.filter(x => x.wallet === this.data.wallet).pop()
+      }
+      return null
     }
   },
   fetch() {
@@ -148,9 +158,9 @@ export default {
       this.$store.commit('config/SET_MODAL', {
         type: "add_wallet",
         data: {
-          watcher: this.data.watcher,
+          watcher: this.watcher,
           game: {
-            id: this.$route.query.game
+            id: this.data.game
           }
         }
       })

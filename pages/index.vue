@@ -2,11 +2,11 @@
   <div class="bg-[#030C1F] px-4">
     <section class="text-white">
       <div class="container mb-10">
-        <div class="mb-4 flex justify-between">
+        <div class="my-4 flex justify-between">
           <div class="flex space-x-2 items-center">
             <div class="site-title" @click="$router.push('/')">
               <nuxt-link class="" to="/">
-                <img src="/logo/logo-white.svg" alt="Xantus Tracker">
+                <img class="w-32" src="/logo/logo-white.svg" alt="Xantus Tracker">
               </nuxt-link>
             </div>
           </div>
@@ -14,7 +14,7 @@
             <div class="p-2 px-3 flex space-x-2 items-center cursor-pointer  rounded text-white connect-wallet-btn"
                  @click="logIn">
               <icon class="md" name="user" fill="#d6d3d1"/>
-              <span style="font-weight: 700; color: #ACB9FF" >{{ user ? getUserName : 'Login' }}</span>
+              <span style="font-weight: 700; color: #ACB9FF">{{ user ? getUserName : 'Login' }}</span>
             </div>
           </div>
         </div>
@@ -28,25 +28,22 @@
           <h2 class="mb-4 font-bold text-lg">Enter your wallet address</h2>
           <div class="mb-4 flex justify-center" @keyup.enter="trackWallet">
             <div id="search-section" class="inline-flex items-center space-x-3">
-                <input
-                  v-model="wl"
-                  class="p-1.5 px-2 border text-black border-gray-200 rounded wallet-input" type="text" placeholder="Wallet Address"
-                >
-              <button
-                class="p-1.5 px-2 flex space-x-2 items-center cursor-pointer bg-[#0F43F9] text-white rounded justify-center flex-1"
-                @click="trackWallet"
-              >Get Started
+              <input
+                v-model="wl"
+                class="p-1.5 px-2 text-black bg-transparent wallet-input" type="text"
+                placeholder="Wallet Address"
+              >
+              <button class="p-2 cursor-pointer bg-[#0F43F9] rounded-full" @click="trackWallet">
+                <icon name="right" fill="#FFFFFF"></icon>
               </button>
             </div>
           </div>
-          <nuxt-link class="text-sm inline-flex items-center space-x-1"
-                     :to="`/dashboard/${user ? '': 'random?game=1'}`">
+          <nuxt-link class="text-sm inline-flex items-center space-x-1" :to="`/dashboard/${user ? '': 'random'}`">
             <span class="text-white">{{ user ? 'Dashboard' : 'View random wallet' }}</span>
             <icon name="chv-right" class="sm" fill="white"></icon>
           </nuxt-link>
         </div>
         <div class="my-6" v-if="user">
-
           <nuxt-link class="text-sm inline-flex items-center space-x-1 bg-[#0F43F9] rounded-3xl p-2 px-3"
                      to="/dashboard">
             <span class="text-white">View Dashboard</span>
@@ -54,35 +51,35 @@
           </nuxt-link>
         </div>
       </div>
-      <div class=" relative">
+      <div class="relative my-16">
         <div id="s1" class="absolute  top-0 left-0 right-0 bottom-1/2"></div>
         <div class="container">
           <div class="relative z-10">
-            <img class="mx-auto" src="/bg/macbook.png" alt="">
+            <img style="width: 80%;" class="mx-auto" src="/bg/macbook.png" alt="">
             <div class="absolute top-12 pb-6 left-0 right-0 text-center">
             </div>
           </div>
         </div>
       </div>
     </section>
-    <section >
+    <section>
       <div class="container">
         <div class="my-10 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6 -mx-4 md:mx-0">
-          <div class="p-4 bg-white rounded-2xl duration-300 hover:shadow-xl">
+          <div class="p-4 md:p-6 bg-white rounded-2xl duration-300 hover:shadow-xl">
             <h3 class="mb-2 text-xl font-bold flex space-x-2 items-center">
               <img src="/icon/bookmark.png" alt="">
               <span>Multi-game</span>
             </h3>
             <p>Supports not only one game but many top games of your interest with ease</p>
           </div>
-          <div class="p-4 bg-white rounded-2xl duration-30 hover:shadow-xl">
+          <div class="p-4 md:p-6 bg-white rounded-2xl duration-30 hover:shadow-xl">
             <h3 class="mb-2 text-xl font-bold flex space-x-2 items-center">
               <img src="/icon/bookmark.png" alt="">
               <span>Data-driven</span>
             </h3>
             <p>Provides useful indexes and tools to help manage your resources</p>
           </div>
-          <div class="p-4 bg-white rounded-2xl duration-300 hover:shadow-xl">
+          <div class="p-4 md:p-6 bg-white rounded-2xl duration-300 hover:shadow-xl">
             <h3 class="mb-2 text-xl font-bold flex space-x-2 items-center">
               <img src="/icon/bookmark.png" alt="">
               <span>Free-to-use</span>
@@ -91,19 +88,26 @@
           </div>
         </div>
         <div class="my-16">
-          <h2 class="mb-8 text-center text-3xl font-bold">You can now track multi-games</h2>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <h2 class="mb-8 text-center text-3xl font-bold text-white">Track all the games you love</h2>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div class="game-holder" v-for="game in games" :key="game.id">
               <div class="wrap">
-                <img class="object-cover w-full h-full rounded-xl" :src="`/bg/${game.id}.png`" alt="">
+                <img class="object-cover w-full h-full rounded-lg" :src="`/bg/${game.id}.png`" alt="">
               </div>
-              <div class="wrap flex flex-col items-center justify-center">
-                <img class="" :src="`/logo/${game.id}.png`" alt="">
+              <div class="absolute top-0 right-0 left-0 flex justify-center">
+                <div v-if="!game.date || game.date > now" class="time">
+                  <span v-if="game.date">{{ countDown(game.date - now) }}</span>
+                  <span v-else>Coming soon</span>
+                </div>
               </div>
-              <div v-if="!game.date || game.date > now" class="time">
-                <span v-if="game.date">{{ countDown(game.date - now) }}</span>
-                <span v-else>Coming soon</span>
-              </div>
+            </div>
+          </div>
+        </div>
+        <div class="my-16">
+          <h2 class="mb-8 text-center text-3xl font-bold text-white">Partnership with leading players</h2>
+          <div class="grid grid-cols-2 md:grid-cols-6 gap-4">
+            <div class="border p-4 text-center rounded-xl flex justify-center items-center" style="border-color: #3A4667;" v-for="item in partners" :key="item">
+              <img class="object-cover mx-auto rounded" :src="`/logo/${item}.png`" alt="">
             </div>
           </div>
         </div>
@@ -129,7 +133,7 @@
             </div>
             <div class="p-2 px-3 flex space-x-2 items-center cursor-pointer bg-white rounded-3xl" @click="logIn">
               <icon class="md" name="user" fill="#d6d3d1"/>
-              <span  style="font-weight: 700; color: #0F43F9">{{ user ? getUserName : 'Login' }}</span>
+              <span style="font-weight: 700; color: #0F43F9">{{ user ? getUserName : 'Login' }}</span>
             </div>
           </div>
         </div>
@@ -151,16 +155,43 @@ export default {
     return {
       wl: null,
       now: new Date().getTime(),
-      games: [{
-        id: "axie_infinity",
-        date: new Date().getTime()
-      }, {
-        id: "gunfire",
-        date: new Date("2022/03/14").getTime()
-      }, {
-        id: "mones",
-        date: null
-      }]
+      games: [
+        {
+          id: "axie_infinity",
+          date: new Date().getTime()
+        }, {
+          id: "gunfire",
+          date: new Date().getTime()
+        }, {
+          id: "mones",
+          date: null
+        }, {
+          id: "ninneko",
+          date: null
+        }, {
+          id: "metagear",
+          date: null
+        }, {
+          id: "thetan_arena",
+          date: null
+        }, {
+          id: "splinterlands",
+          date: null
+        }, {
+          id: "orbitau",
+          date: null
+        }, {
+          id: "defi_kingdoms",
+          date: null
+        }, {
+          id: "sandbox",
+          date: null
+        }, {
+          id: "cyball",
+          date: null
+        }
+      ],
+      partners: ['76', 'modgame', 'stephero', 'mones', 'acestarter', 'factory_chain']
     }
   },
   methods: {
@@ -170,7 +201,7 @@ export default {
         const x = this.wl.replace("ronin:", "0x")
         this.wl = x;
         if (Web3.utils.isAddress(x)) {
-          this.$router.push(`/dashboard/${x}?game=1`);
+          this.$router.push(`/dashboard/${x}`);
         } else {
           this.$store.commit('config/PUSH_NOTIFY', {
             msg: "Please input a valid address",
@@ -207,13 +238,20 @@ export default {
 <style>
 #s1 {
 }
+
 #search-section {
-
-  width: 60%;
-
+  @apply p-1;
+  background: #FFFFFF;
+  border-radius: 50px;
+  width: 50%;
 }
+
 .wallet-input {
-  width: calc(100% - 150px);
+  @apply flex-1;
+}
+
+.wallet-input:focus-visible {
+  outline: none;
 }
 
 #s1:before {
@@ -228,10 +266,12 @@ export default {
   background: #0F43F9;
 
 }
+
 .connect-wallet-btn {
   border: 1px solid #ACB9FF;
   border-radius: 20px;
 }
+
 .game-holder {
   @apply relative;
   padding-top: 50%;
@@ -242,6 +282,8 @@ export default {
 }
 
 .game-holder .time {
-  @apply absolute top-2 text-white right-2 p-0.5 px-2 bg-red-500 text-xs rounded;
+  @apply text-white p-0.5 px-2 bg-red-500 text-xs;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 </style>

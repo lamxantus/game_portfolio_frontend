@@ -94,36 +94,36 @@
           </thead>
           <tbody>
           <template>
-            <tr v-for="(item, i) in value.wallets" :key="i" class="has-remove">
+            <tr v-for="(item, i) in wallets" :key="i" class="has-remove">
               <td class="py-3 px-4 text-left">
-                <nuxt-link class="text-[#0F43F9]" :to="`/dashboard/${item.address}?game=${value.id}`">
-                  {{ shortAddress(`${item.watcher.meta ? item.watcher.meta.name : 'Unnamed'}`) }}
+                <nuxt-link class="text-[#0F43F9]" :to="`/dashboard/${item.wallet}?game=${value.id_string}`">
+                  {{ shortAddress(`${item.meta ? item.meta.name : 'Unnamed'}`) }}
                 </nuxt-link>
               </td>
               <td class="py-3 px-4 text-left">{{
-                  (item.totalEarning * (1 - (item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100))).toLocaleString()
-
+                  (item.report.token_total * (1 - (item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100))).toLocaleString()
                 }}
               </td>
               <td class="py-3 px-4 text-left">{{
-                  (item.totalEarning * (item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100)).toLocaleString()
-
+                  (item.report.token_total * (item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100)).toLocaleString()
                 }}
               </td>
               <td class="py-3 px-4 text-left">
                 {{ Math.round((item.earn_ratio <= 1 ? item.earn_ratio : item.earn_ratio / 100) * 100) }}%
               </td>
-              <td class="py-3 px-4 text-left hidden md:table-cell">{{ item.elo.toLocaleString() }}</td>
-              <td class="py-3 px-4 text-left hidden md:table-cell">{{
-                  (item.game_result.results * 100).toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                  })
-                }}%
+              <td class="py-3 px-4 text-left hidden md:table-cell">{{ (item.report.point || 0).toLocaleString() }}</td>
+              <td class="py-3 px-4 text-left hidden md:table-cell">
+                <span v-if="item.report.game_result">{{
+                    (item.report.game_result.result * 100).toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2
+                    })
+                  }}%</span>
+                <span v-else>_</span>
               </td>
               <td class="py-3 px-4 text-right">
-                <span>{{ item.totalNFT }}</span>
-                <div class="remove" @click="removeWatcher(item.watcher.id)">
+                <span>{{ item.report.meta ? item.report.meta.total_nft || 0 : 0 }}</span>
+                <div class="remove" @click="removeWatcher(item.id)">
                   <icon class="sm" fill="#FFF" name="remove"></icon>
                 </div>
               </td>
@@ -158,9 +158,9 @@ export default {
       let manager = 0;
       if (this.wallets) {
         this.wallets.forEach(item => {
-          manager = manager + item.totalEarning * (1 - (item.earn_ratio || 1))
-          earning = +item.totalEarning + +earning;
-          unclaimed = +item.todayEarning + +unclaimed;
+          manager = manager + item.report.token_total * (1 - (item.earn_ratio || 1))
+          earning = +item.report.token_total + +earning;
+          unclaimed = +item.report.token_claimable + +unclaimed;
           totalNFT = totalNFT + item.totalNFT;
         })
       }
