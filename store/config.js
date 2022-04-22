@@ -217,7 +217,7 @@ export default {
       commit('SET_GAME_TX', res);
     },
     async fetchGameRS({commit, state}, params) {
-      const res = await this.$axios.$get('/game-result', {
+      const res = await this.$axios.$get('/v2/game-result', {
         params: {
           ...params
         }
