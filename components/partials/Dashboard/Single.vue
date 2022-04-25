@@ -195,7 +195,7 @@ export default {
     ...mapGetters("w3_auth", ["getUserName"]),
     ...mapGetters("config", ["getCurrentPriceRate"]),
     nextClaimDate() {
-      const now = this.clock;
+      const now = new Date(this.clock.getTime());
       const tz = now.getTimezoneOffset();
       now.setMinutes(now.getMinutes() + tz);
       let next;
@@ -225,7 +225,7 @@ export default {
         if (next.getTime() <= now.getTime()) {
           return 0
         } else {
-          return lastDate - now
+          return next - now
         }
       }
     },
