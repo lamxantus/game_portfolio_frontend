@@ -57,10 +57,8 @@
                 <div class="border-l p-4 border-[#F7F8FF]">
                   <h4 class="mb-2 text-[#00A3FF]">Next Claim</h4>
                   <div class="font-bold text-4xl">
-                    <span v-if="data.next_claim_date">{{ nextClaimDate }}</span>
-                    <span v-else class="text-gray-300">Now</span>
+                    <span>{{ countDown() }}</span>
                   </div>
-                  <div v-if="data.next_claim_date">{{ (new Date(data.next_claim_date)).toLocaleTimeString() }}</div>
                 </div>
               </div>
             </div>
@@ -156,14 +154,38 @@ import {mapActions, mapGetters} from "vuex";
 import Statistic from "./Statistic";
 import BattleLog from "./BattleLog";
 import Web3 from "web3";
-
 const schemas = require("/plugins/schemas");
+
+let itv;
+const setWeekDay = function (date, day2Set) {
+  const temp = new Date(date.getTime())
+  const currentDay = temp.getDay();
+  const distance = day2Set - currentDay;
+  temp.setDate(temp.getDate() + distance);
+  temp.setHours(0);
+  temp.setMinutes(0);
+  temp.setSeconds(0);
+  return temp
+}
+const makeDateRange = function (date) {
+  const out = [];
+  [1, 5].forEach(d => {
+    const dw = setWeekDay(date, d);
+    out.push([
+      new Date(dw.getTime()).setMinutes(dw.getMinutes() + 210),
+      new Date(dw.getTime()).setMinutes(dw.getMinutes() + 240)
+    ])
+  })
+  return out
+}
+
 export default {
   name: "DashboardSingle",
   components: {BattleLog, Statistic, Ranking, Earning},
   data() {
     return {
-      search: null
+      search: null,
+      clock: new Date()
     }
   },
   computed: {
@@ -173,17 +195,39 @@ export default {
     ...mapGetters("w3_auth", ["getUserName"]),
     ...mapGetters("config", ["getCurrentPriceRate"]),
     nextClaimDate() {
-      const now = new Date()
+      const now = this.clock;
+      const tz = now.getTimezoneOffset();
+      now.setMinutes(now.getMinutes() + tz);
+      let next;
       if (this.data.next_claim_date) {
-        const date = new Date(this.data.next_claim_date)
-        date.setDate(date.getDate() + this.ag.meta.claimITV);
-        if (date.getTime() <= now.getTime()) {
-          return "Now"
+        const str = this.data.next_claim_date.replace(" ", "T")
+        next = new Date(str);
+        next.setDate(next.getDate() + this.ag.meta.claimITV);
+      } else {
+        next = now;
+      }
+      if (this.ag.id_string === "gunfire") {
+        next = now;
+        const times = makeDateRange(now);
+        if (next < times[0][0]) {
+          next = times[0][0]
+        } else if (times[0][1] < next && next < times[1][0]) {
+          next = times[1][0]
+        } else if (times[1][1] > next) {
+          next = times[1][0].setDate(times[1][0].getDate() + 3)
+        }
+        if (next - now.getTime() > 0) {
+          return next - now.getTime()
         } else {
-          return date.toLocaleDateString()
+          return 0
+        }
+      } else {
+        if (next.getTime() <= now.getTime()) {
+          return 0
+        } else {
+          return lastDate - now
         }
       }
-      return "Now"
     },
     ag() {
       const cfStore = this.$store.state.config
@@ -223,15 +267,50 @@ export default {
           })
         }
       }
+    },
+    countDown() {
+      const seconds = this.nextClaimDate / 1000;
+      if (seconds <= 0) {
+        return "Claim now"
+      }
+      let interval = seconds / 31536000;
+      if (interval > 1) {
+        return Math.floor(interval) + " years left";
+      }
+      interval = seconds / 2592000;
+      if (interval > 1) {
+        return Math.floor(interval) + " months left";
+      }
+      interval = seconds / 86400;
+      if (interval > 1) {
+        return Math.floor(interval) + " days left";
+      }
+      interval = seconds / 3600;
+      if (interval > 1) {
+        return Math.floor(interval) + " hours left";
+      }
+      interval = seconds / 60;
+      if (interval > 1) {
+        return Math.floor(interval) + " minutes left";
+      }
+      return Math.floor(seconds) + " seconds left";
     }
   },
   watch: {
     data() {
       if (this.data) {
-        this.search = this.data.wallet
+        this.search = this.data.wallet;
       }
     }
   },
+  mounted() {
+    itv = setInterval(function () {
+      this.clock = new Date();
+    }, 1000);
+  },
+  beforeDestroy() {
+    clearInterval(itv);
+  }
 }
 </script>
 
