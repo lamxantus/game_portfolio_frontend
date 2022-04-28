@@ -154,19 +154,15 @@ export default {
       }
     },
     ["REMOVE_WATCHER"](state, watcherId) {
-      if (state.wallet.related.length) {
-        const index = state.wallet.related.map(x => x.id).indexOf(watcherId);
+      if (state.wallet && state.wallet.watchers && state.wallet.watchers.length) {
+        const index = state.wallet.watchers.map(x => x.id).indexOf(watcherId);
         if (index >= 0) {
-          state.wallet.related.splice(index, 1)
+          state.wallet.watchers.splice(index, 1);
         }
       }
-      for (let i = 0; i < state.dashboard.length; i++) {
-        if (state.dashboard[i].wallets.length) {
-          const index = state.dashboard[i].wallets.map(x => x.watcher.id).indexOf(watcherId)
-          if (index >= 0) {
-            state.dashboard[i].wallets.splice(index, 1)
-          }
-        }
+      const index = state.dashboard.map(x => x.id).indexOf(watcherId);
+      if (index >= 0) {
+        state.dashboard.splice(index, 1);
       }
     },
     ["SET_ACTIVE_GAME"](state, gameIndex) {
@@ -203,7 +199,7 @@ export default {
             data: {
               game: null
             }
-          }, { root: true })
+          }, {root: true})
         }
       }
     },
@@ -224,23 +220,24 @@ export default {
       });
       commit('SET_GAME_RS', res);
     },
-    removeWatcher({commit, state}, watcherId) {
-      this.$axios.$delete('/v2/watch', {
+    async removeWatcher({commit, state}, watcherId) {
+      const res = await this.$axios.delete('/v2/watch', {
         params: {
           id: watcherId
         }
-      }).then(() => {
+      })
+      if (res.status === 204) {
         commit('REMOVE_WATCHER', watcherId)
-        commit('REMOVE_NOTIFY', {
+        commit('PUSH_NOTIFY', {
           msg: "Stopped watch a wallet!",
           type: "success"
         })
-      }).catch(() => {
-        commit('REMOVE_NOTIFY', {
+      } else {
+        commit('PUSH_NOTIFY', {
           msg: "Something wrong!",
           type: "error"
         })
-      })
+      }
     }
   },
   getters: {
