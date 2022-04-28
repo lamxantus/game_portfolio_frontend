@@ -225,7 +225,7 @@ export default {
       commit('SET_GAME_RS', res);
     },
     removeWatcher({commit, state}, watcherId) {
-      this.$axios.$delete('/watch', {
+      this.$axios.$delete('/v2/watch', {
         params: {
           id: watcherId
         }
