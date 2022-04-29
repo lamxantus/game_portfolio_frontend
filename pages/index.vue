@@ -169,9 +169,6 @@ export default {
           id: "ninneko",
           date: null
         }, {
-          id: "metagear",
-          date: null
-        }, {
           id: "thetan_arena",
           date: null
         }, {
@@ -189,9 +186,15 @@ export default {
         }, {
           id: "cyball",
           date: null
+        }, {
+          id: "elpis_battle",
+          date: null
+        }, {
+          id: "the_parallel",
+          date: null
         }
       ],
-      partners: ['76', 'modgame', 'stephero', 'mones', 'acestarter', 'factory_chain']
+      partners: ['76', 'modgame', 'stephero', 'mones', 'acestarter', 'factory_chain', 'elpis_battle', 'the_parallel']
     }
   },
   methods: {
