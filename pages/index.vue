@@ -22,7 +22,7 @@
       <div class="container relative z-20 text-center">
         <div class="md:w-3/5 mx-auto text-5xl font-bold leading-10">
           <div class="mb-3">Easily Track your</div>
-          <div>GameFi Portfolio</div>
+          <div>NFT Game Portfolio</div>
         </div>
         <div class="my-6" v-if="!user">
           <h2 class="mb-4 font-bold text-lg">Enter your wallet address</h2>
@@ -129,7 +129,7 @@
             </div>
             <div class="flex-1 text-2xl font-bold">
               <h2 style="font-size: 34px"><span class="text-[#FFA800]">150,000+</span></h2>
-              <h2>GameFi Players are using Oxalus</h2>
+              <h2>NFT Game Players are using Oxalus</h2>
             </div>
             <div class="p-2 px-3 flex space-x-2 items-center cursor-pointer bg-white rounded-3xl" @click="logIn">
               <icon class="md" name="user" fill="#d6d3d1"/>
